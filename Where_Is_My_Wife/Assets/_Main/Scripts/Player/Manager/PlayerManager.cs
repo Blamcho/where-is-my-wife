@@ -15,10 +15,6 @@ namespace WhereIsMyWife.Managers
         [Inject] private IRunningMethods _runningMethods;
         [Inject] private IJumpingMethods _jumpingMethods;
         
-        // Movement
-        private float _accelerationRate = 0;
-        private float _targetSpeed = 0;
-        
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
