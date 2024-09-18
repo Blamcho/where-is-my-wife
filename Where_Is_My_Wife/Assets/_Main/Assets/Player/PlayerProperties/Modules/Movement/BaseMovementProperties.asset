@@ -17,5 +17,6 @@ MonoBehaviour:
   <RunDecelerationRate>k__BackingField: 25
   <AirAccelerationMultiplier>k__BackingField: 0.4
   <AirDecelerationMultiplier>k__BackingField: 0.75
-  <WallSlideMaxVelocity>k__BackingField: 1
+  <WallSlideMaxVelocity>k__BackingField: 2
   <WallSlideTimeToMaxVelocity>k__BackingField: 5
+  <WallSlideFastVelocity>k__BackingField: 5
