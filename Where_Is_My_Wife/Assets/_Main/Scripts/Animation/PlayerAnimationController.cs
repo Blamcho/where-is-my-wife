@@ -1,4 +1,3 @@
-using System;
 using UniRx;
 using UnityEngine;
 using WhereIsMyWife.Managers;
@@ -60,12 +59,10 @@ namespace WhereIsMyWife.Controllers
                 {
                     PlayAnimationState(FALL_ANIMATION_STATE);
                 }
-                
                 else if (_stateIndicator.IsAccelerating)
                 {
                     PlayAnimationState(RUN_ANIMATION_STATE);
                 }
-                
                 else
                 {
                     if (_stateIndicator.IsLookingDown)
@@ -77,7 +74,6 @@ namespace WhereIsMyWife.Controllers
                         PlayAnimationState(IDLE_ANIMATION_STATE);
                     }
                 }
-                
             }
         }
 
@@ -96,6 +92,3 @@ namespace WhereIsMyWife.Controllers
         }
     }
 }
-
-
-
