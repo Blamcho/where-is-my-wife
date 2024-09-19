@@ -9,25 +9,15 @@ namespace WhereIsMyWife.Managers
 {
     public partial class InputEventManager : IPlayerInputEvent
     {
-        private readonly Subject<Unit> _jumpStartSubject = new Subject<Unit>();
-        private readonly Subject<Unit> _jumpEndSubject = new Subject<Unit>();
-        private readonly Subject<float> _runSubject = new Subject<float>();
-        private readonly Subject<Vector2> _dashSubject = new Subject<Vector2>();
-        private readonly Subject<Vector2> _useItemSubject = new Subject<Vector2>();
-        private readonly Subject<Unit> _hookStartSubject = new Subject<Unit>();
-        private readonly Subject<Unit> _hookEndSubject = new Subject<Unit>();
-        private readonly Subject<Unit> _lookUpSubject = new Subject<Unit>();
-        private readonly Subject<bool> _lookDownSubject = new Subject<bool>();
-
-        public IObservable<Unit> JumpStartAction => _jumpStartSubject.AsObservable();
-        public IObservable<Unit> JumpEndAction => _jumpEndSubject.AsObservable();
-        public IObservable<float> RunAction => _runSubject.AsObservable();
-        public IObservable<Vector2> DashAction => _dashSubject.AsObservable();
-        public IObservable<Vector2> UseItemAction => _useItemSubject.AsObservable();
-        public IObservable<Unit> HookStartAction => _hookStartSubject.AsObservable();
-        public IObservable<Unit> HookEndAction => _hookEndSubject.AsObservable();
-        public IObservable<Unit> LookUpAction => _lookUpSubject.AsObservable();
-        public IObservable<bool> LookDownAction => _lookDownSubject.AsObservable();
+        public Action JumpStartAction { get; set; }
+        public Action JumpEndAction { get; set; }
+        public Action<float> RunAction { get; set; }
+        public Action<Vector2> DashAction { get; set; }
+        public Action<Vector2> UseItemAction { get; set; }
+        public Action HookStartAction { get; set; }
+        public Action HookEndAction { get; set; }
+        public Action LookUpAction { get; set; }
+        public Action<bool> LookDownAction { get; set; }
     }
 
     public partial class InputEventManager : IInitializable
@@ -57,12 +47,12 @@ namespace WhereIsMyWife.Managers
 
         private void OnJumpPerform(InputAction.CallbackContext context)
         {
-            _jumpStartSubject.OnNext();
+            JumpStartAction?.Invoke();
         }
 
         private void OnJumpCancel(InputAction.CallbackContext context)
         {
-            _jumpEndSubject.OnNext();
+            JumpEndAction?.Invoke();
         }
 
         private void OnMovePerform(InputAction.CallbackContext context)
@@ -72,15 +62,7 @@ namespace WhereIsMyWife.Managers
             ApplyHorizontalDeadZone();
             NormalizeHorizontalAxis();
             
-            if (_moveVector.y < 0)
-            {
-                _lookDownSubject.OnNext(true);
-            }
-
-            else
-            {
-                _lookDownSubject.OnNext(false);
-            }
+            LookDownAction?.Invoke(_moveVector.y < 0);
         }
 
         private void ApplyHorizontalDeadZone()
@@ -101,12 +83,12 @@ namespace WhereIsMyWife.Managers
         private void OnMoveCancel(InputAction.CallbackContext context)
         {
             _moveVector = Vector2.zero;
-            _lookDownSubject.OnNext(false);
+            LookDownAction?.Invoke(false);
         }
 
         private void OnDash(InputAction.CallbackContext context)
         {
-            _dashSubject.OnNext(_moveVector.normalized); 
+            DashAction?.Invoke(_moveVector.normalized);
         }
     }
 
@@ -124,7 +106,7 @@ namespace WhereIsMyWife.Managers
         {
             CheckForControllerTypeChange();
             
-            _runSubject.OnNext(_moveVector.x);
+            RunAction?.Invoke(_moveVector.x);
         }
 
         // TODO: Change the way it detects the input was from a different controller type

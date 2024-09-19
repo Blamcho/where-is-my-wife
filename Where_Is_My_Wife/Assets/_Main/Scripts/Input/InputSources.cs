@@ -6,15 +6,15 @@ namespace WhereIsMyWife.Managers
 {
     public interface IPlayerInputEvent
     {
-        IObservable<Unit> JumpStartAction { get; }
-        IObservable<Unit> JumpEndAction { get; }
-        IObservable<float> RunAction { get; }
-        IObservable<Vector2> DashAction { get; }
-        IObservable<Vector2> UseItemAction { get; }
-        IObservable<Unit> HookStartAction { get; }
-        IObservable<Unit> HookEndAction { get; }
-        IObservable<Unit> LookUpAction { get; }
-        IObservable<bool> LookDownAction { get; }
+        Action JumpStartAction { get; set; }
+        Action JumpEndAction { get; set; }
+        Action<float> RunAction { get; set; }
+        Action<Vector2> DashAction { get; set; }
+        Action<Vector2> UseItemAction { get; set; }
+        Action HookStartAction { get; set; }
+        Action HookEndAction { get; set; }
+        Action LookUpAction { get; set; }
+        Action<bool> LookDownAction { get; set; }
     }
     
     public enum ControllerType
