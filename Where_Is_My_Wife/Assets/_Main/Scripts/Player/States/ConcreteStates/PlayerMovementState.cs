@@ -1,5 +1,4 @@
 using System;
-using UniRx;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Player.StateMachine;
@@ -10,43 +9,31 @@ namespace WhereIsMyWife.Player.State
     {
         public PlayerMovementState() : base(PlayerStateMachine.PlayerState.Movement) { }
         
-        private Subject<float> _jumpStartSubject = new Subject<float>();
-        private Subject<float> _runSubject = new Subject<float>();
-        private Subject<float> _gravityScaleSubject = new Subject<float>();
-        private Subject<float> _fallSpeedCapSubject = new Subject<float>();
-
-        public IObservable<float> JumpStart => _jumpStartSubject.AsObservable();
-        public IObservable<float> Run => _runSubject.AsObservable();
-        public IObservable<float> GravityScale => _gravityScaleSubject.AsObservable();
-        public IObservable<float> FallSpeedCap => _fallSpeedCapSubject.AsObservable();
-        
-        private IDisposable _jumpStartSubscription;
-        private IDisposable _runSubscription;
-        private IDisposable _gravityScaleSubscription;
-        private IDisposable _fallSpeedCapSubscription;
-        private IDisposable _wallHangStartSubscription;
-        private IDisposable _dashStartSubscription;
+        public Action<float> JumpStart { get; set; }
+        public Action<float> Run { get; set; }
+        public Action<float> GravityScale { get; set; }
+        public Action<float> FallSpeedCap { get; set; }
         
         private float _runAcceleration;
         
         protected override void SubscribeToObservables()
         {
-            _jumpStartSubscription = _playerStateInput.JumpStart.Subscribe(_jumpStartSubject.OnNext);
-            _runSubscription = _playerStateInput.Run.Subscribe(_runSubject.OnNext);
-            _gravityScaleSubscription = _playerStateInput.GravityScale.Subscribe(_gravityScaleSubject.OnNext);
-            _fallSpeedCapSubscription = _playerStateInput.FallSpeedCap.Subscribe(_fallSpeedCapSubject.OnNext);
-            _wallHangStartSubscription = _playerStateInput.WallHangStart.Subscribe(WallHang);
-            _dashStartSubscription = _playerStateInput.DashStart.AsUnitObservable().Subscribe(Dash);
+            _playerStateInput.JumpStart += InvokeJumpStart;
+            _playerStateInput.Run += InvokeRun;
+            _playerStateInput.GravityScale += InvokeGravityScale;
+            _playerStateInput.FallSpeedCap += InvokeFallSpeedCap;
+            _playerStateInput.WallHangStart += WallHang;
+            _playerStateInput.DashStart += _ => Dash();
         }
 
         protected override void UnsubscribeToObservables()
         {
-            _jumpStartSubscription?.Dispose();
-            _runSubscription?.Dispose();
-            _gravityScaleSubscription?.Dispose();
-            _fallSpeedCapSubscription?.Dispose();
-            _wallHangStartSubscription?.Dispose();
-            _dashStartSubscription?.Dispose();
+            _playerStateInput.JumpStart -= InvokeJumpStart;
+            _playerStateInput.Run -= InvokeRun;
+            _playerStateInput.GravityScale -= InvokeGravityScale;
+            _playerStateInput.FallSpeedCap -= InvokeFallSpeedCap;
+            _playerStateInput.WallHangStart -= WallHang;
+            _playerStateInput.DashStart -= _ => Dash();
         }
 
         private void Dash()
@@ -57,6 +44,26 @@ namespace WhereIsMyWife.Player.State
         private void WallHang()
         {
             NextState = PlayerStateMachine.PlayerState.WallHang;
+        }
+
+        private void InvokeJumpStart(float jumpForce)
+        {
+            JumpStart?.Invoke(jumpForce);
+        }
+
+        private void InvokeRun(float runAcceleration)
+        {
+            Run?.Invoke(runAcceleration);
+        }
+
+        private void InvokeGravityScale(float gravityScale)
+        {
+            GravityScale?.Invoke(gravityScale);
+        }
+
+        private void InvokeFallSpeedCap(float fallSpeedCap)
+        {
+            FallSpeedCap?.Invoke(fallSpeedCap);
         }
     }
 }

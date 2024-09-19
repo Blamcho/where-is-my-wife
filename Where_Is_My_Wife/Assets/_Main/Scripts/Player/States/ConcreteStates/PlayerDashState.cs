@@ -1,5 +1,4 @@
 using System;
-using UniRx;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
@@ -11,11 +10,7 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
 {
     public PlayerDashState() : base(PlayerStateMachine.PlayerState.Dash) { }
 
-    private ISubject<Vector2> _dashSubject = new Subject<Vector2>();
-    
-    public IObservable<Vector2> Dash { get; }
-
-    private IDisposable _dashSubscription;
+    public Action<Vector2> Dash { get; set; }
 
     [Inject] private IPlayerDashProperties _properties;
     
@@ -23,12 +18,17 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
     
     protected override void SubscribeToObservables()
     {
-        _dashSubscription = _playerStateInput.DashStart.Subscribe(_dashSubject.OnNext);
+        _playerStateInput.DashStart += InvokeDash;
     }
-
+    
     protected override void UnsubscribeToObservables()
     {
-        _dashSubscription?.Dispose();
+        _playerStateInput.DashStart -= InvokeDash;
+    }
+
+    private void InvokeDash(Vector2 dashVector)
+    {
+        Dash?.Invoke(dashVector);
     }
 
     public override void EnterState()

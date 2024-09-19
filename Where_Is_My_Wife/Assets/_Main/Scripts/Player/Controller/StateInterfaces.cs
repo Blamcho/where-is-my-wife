@@ -6,15 +6,15 @@ namespace WhereIsMyWife.Controllers
 {
     public interface IMovementStateEvents
     {
-        IObservable<float> JumpStart { get; }
-        IObservable<float> Run { get; }
-        IObservable<float> GravityScale { get; }
-        IObservable<float> FallSpeedCap { get; }
+        Action<float> JumpStart { get; set; }
+        Action<float> Run { get; set; }
+        Action<float> GravityScale { get; set; }
+        Action<float> FallSpeedCap { get; set; }
     }
 
     public interface IDashStateEvents
     {
-        IObservable<Vector2> Dash { get; }
+        Action<Vector2> Dash { get; set; }
     }
 
     public interface IHookStateEvents
@@ -24,16 +24,16 @@ namespace WhereIsMyWife.Controllers
 
     public interface IWallHangStateEvents
     {
-        IObservable<Unit> StartWallHang { get; }
-        IObservable<float> WallHangVelocity { get; }
-        IObservable<float> WallJumpStart { get; }
-        IObservable<Unit> Turn { get; }
+        Action StartWallHang { get; set; }
+        Action<float> WallHangVelocity { get; set; }
+        Action<float> WallJumpStart { get; set; }
+        Action Turn { get; set; }
     }
     
     public interface IWallJumpStateEvents
     {
-        IObservable<float> WallJumpVelocity { get; }
-        IObservable<float> GravityScale { get; }
-        IObservable<float> FallSpeedCap { get; }
+        Action<float> WallJumpVelocity { get; set; }
+        Action<float> GravityScale { get; set; }
+        Action<float> FallSpeedCap { get; set; }
     }
 }

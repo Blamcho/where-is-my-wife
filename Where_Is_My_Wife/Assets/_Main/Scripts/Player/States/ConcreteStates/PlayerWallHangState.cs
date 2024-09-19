@@ -1,6 +1,5 @@
 using System;
 using DG.Tweening;
-using UniRx;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers;
@@ -14,19 +13,10 @@ namespace WhereIsMyWife.Player.State
     {
         public PlayerWallHangState() : base(PlayerStateMachine.PlayerState.WallHang) { }
         
-        private Subject<Unit> _startWallHang = new Subject<Unit>();
-        private Subject<float> _wallHangGravitySubject = new Subject<float>();
-        private Subject<Unit> _turnSubject = new Subject<Unit>();
-        private Subject<float> _wallJumpStartSubject = new Subject<float>();
-        public IObservable<Unit> StartWallHang => _startWallHang.AsObservable();
-        public IObservable<float> WallHangVelocity => _wallHangGravitySubject.AsObservable();
-        public IObservable<float> WallJumpStart => _wallJumpStartSubject.AsObservable();
-        public IObservable<Unit> Turn => _turnSubject.AsObservable();
-
-        private IDisposable _dashStartSubscription;
-        private IDisposable _landSubscription;
-        private IDisposable _wallHangEndSubscription;
-        private IDisposable _wallJumpStartSubscription;
+        public Action StartWallHang { get; set; }
+        public Action<float> WallHangVelocity { get; set; }
+        public Action<float> WallJumpStart { get; set; }
+        public Action Turn { get; set; }
         
         [Inject] private IPlayerMovementProperties _movementProperties;
         [Inject] private IPlayerStateIndicator _stateIndicator;
@@ -38,18 +28,18 @@ namespace WhereIsMyWife.Player.State
         
         protected override void SubscribeToObservables()
         {
-            _dashStartSubscription = _playerStateInput.DashStart.AsUnitObservable().Subscribe(Dash);
-            _wallJumpStartSubscription = _playerStateInput.JumpStart.Subscribe(Jump);
-            _landSubscription = _playerStateInput.Land.Subscribe(TurnAndCancelWallHang);
-            _wallHangEndSubscription = _playerStateInput.WallHangEnd.Subscribe(TurnAndCancelWallHang);
+            _playerStateInput.DashStart += _ => Dash();
+            _playerStateInput.JumpStart += Jump;
+            _playerStateInput.Land += TurnAndCancelWallHang;
+            _playerStateInput.WallHangEnd += TurnAndCancelWallHang;
         }
 
         protected override void UnsubscribeToObservables()
         {
-            _dashStartSubscription?.Dispose();
-            _wallJumpStartSubscription?.Dispose();
-            _landSubscription?.Dispose();
-            _wallHangEndSubscription?.Dispose();
+            _playerStateInput.DashStart -= _ => Dash();
+            _playerStateInput.JumpStart -= Jump;
+            _playerStateInput.Land -= TurnAndCancelWallHang;
+            _playerStateInput.WallHangEnd -= TurnAndCancelWallHang;
         }
 
         public override void EnterState()
@@ -57,7 +47,7 @@ namespace WhereIsMyWife.Player.State
             base.EnterState();
             
             _isLookingRightAtStart = _stateIndicator.IsLookingRight;
-            _startWallHang.OnNext();
+            StartWallHang?.Invoke();
             
             StartSlideSpeedCurve();
         }
@@ -94,7 +84,7 @@ namespace WhereIsMyWife.Player.State
                 TurnAndCancelWallHang();
             }
             
-            _wallHangGravitySubject.OnNext(GetSlideSpeed());
+            WallHangVelocity?.Invoke(GetSlideSpeed());
         }
 
         private float GetSlideSpeed()
@@ -119,7 +109,7 @@ namespace WhereIsMyWife.Player.State
 
         private void TurnAndCancelWallHang()
         {
-            _turnSubject.OnNext();
+            Turn?.Invoke();
             CancelWallHang();
         }
 
@@ -130,14 +120,14 @@ namespace WhereIsMyWife.Player.State
 
         private void Dash()
         {
-            _turnSubject.OnNext();
+            Turn?.Invoke();
             NextState = PlayerStateMachine.PlayerState.Dash;
         }
 
         private void Jump(float jumpForce)
         {
-            _turnSubject.OnNext();
-            _wallJumpStartSubject.OnNext(jumpForce / 1.5f);
+            Turn?.Invoke();
+            WallJumpStart?.Invoke(jumpForce / 1.5f);
             NextState = PlayerStateMachine.PlayerState.WallJump;
         }
     }
