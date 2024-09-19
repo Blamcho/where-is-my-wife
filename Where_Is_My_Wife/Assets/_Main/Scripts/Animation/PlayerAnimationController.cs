@@ -6,7 +6,7 @@ using Zenject;
 
 namespace WhereIsMyWife.Controllers
 {
-    public class AnimationController : MonoBehaviour
+    public class PlayerAnimationController : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
 
