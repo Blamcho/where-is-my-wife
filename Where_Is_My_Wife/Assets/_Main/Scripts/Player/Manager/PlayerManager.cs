@@ -8,155 +8,29 @@ using Zenject;
 
 namespace WhereIsMyWife.Managers
 {
-    public partial class PlayerManager 
+    public partial class PlayerManager : Singleton<PlayerManager>
     {
         [Inject] private IPlayerProperties _properties;
 
+        private IPlayerInputEvent _playerInputEvent;
+        
         [Inject] private IRunningMethods _runningMethods;
         [Inject] private IJumpingMethods _jumpingMethods;
         
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
-    }
-    
-    public partial class PlayerManager : IPlayerStateIndicator
-    {
-        public bool IsDead { get; private set; } = false;
-        public bool IsAccelerating => _runningMethods.GetIsAccelerating();
-        public bool IsRunningRight { get; private set; } = true;
-        public bool IsLookingRight => _controllerData.HorizontalScale > 0;
-        public bool IsLookingDown { get; private set; }
-        public bool IsJumping { get; private set; } = false;
-        public bool IsJumpCut { get; private set; } = false;
-        public bool IsJumpFalling { get; private set; } = false;
-        public bool IsOnWallHang { get; private set; } = false;
-        public bool IsRunFalling { get; private set; } = false;
-
-        public bool IsOnJumpInputBuffer()
-        {
-            return _lastPressedJumpTime >= 0;
-        }
-
-        public bool IsOnGround()
-        {
-            return _lastOnGroundTime >= 0;
-        }
-
-        public bool IsFastFalling()
-        {
-            return _controllerData.RigidbodyVelocity.y < 0 && IsLookingDown;
-        }
         
-        public bool IsInJumpHang()
-        {
-            return (IsJumping || IsJumpFalling) 
-                   && Mathf.Abs(_controllerData.RigidbodyVelocity.y) < _properties.Jump.HangTimeThreshold;
-        }
-
-        public bool IsIdling()
-        {
-            return (Mathf.Abs(_controllerData.RigidbodyVelocity.x) < 0.1f 
-                    && Mathf.Abs(_controllerData.RigidbodyVelocity.y) < 0.1f);
-        }
-
-        public bool CanJump()
-        {
-            return (_lastOnGroundTime > 0 && !IsJumping) || IsOnWallHang;
-        }
-
-        public bool CanJumpCut()
-        {
-            return IsJumping && _controllerData.RigidbodyVelocity.y > 0;
-        }
-    }
-    
-    public partial class PlayerManager : IPlayerStateInput
-    {
-        [Inject] private IPlayerInputEvent _playerInputEvent;
-
-        private Subject<float> _jumpStartSubject = new Subject<float>();
-        private Subject<Unit> _jumpEndSubject = new Subject<Unit>();
-        private Subject<float> _runSubject = new Subject<float>();
-        private Subject<Vector2> _dashStartSubject = new Subject<Vector2>();
-        private Subject<Unit> _wallHangStartSubject = new Subject<Unit>();
-        private Subject<Unit> _wallHangEndSubject = new Subject<Unit>();
-        private Subject<float> _gravityScaleSubject = new Subject<float>();
-        private Subject<float> _fallSpeedCapSubject = new Subject<float>();
-        private Subject<Unit> _landSubject = new Subject<Unit>();
-
-        public IObservable<float> JumpStart => _jumpStartSubject.AsObservable();
-        public IObservable<Unit> JumpEnd => _jumpEndSubject.AsObservable();
-        public IObservable<float> Run => _runSubject.AsObservable();
-        public IObservable<Unit> WallHangStart => _wallHangStartSubject.AsObservable();
-        public IObservable<Unit> WallHangEnd => _wallHangEndSubject.AsObservable();
-        public IObservable<Vector2> DashStart => _dashStartSubject.AsObservable();
-        public IObservable<float> GravityScale => _gravityScaleSubject.AsObservable();
-        public IObservable<float> FallSpeedCap => _fallSpeedCapSubject.AsObservable();
-        public IObservable<Unit> Land => _landSubject.AsUnitObservable();
-
-        private void ExecuteJumpStartEvent()
-        {
-            _lastPressedJumpTime = _properties.Jump.InputBufferTime;
-        }
-
-        private void ExecuteJumpEndEvent()
-        {
-            if (CanJumpCut())
-            {
-                IsJumpCut = true;
-            }
-        }
-        
-        private void ExecuteRunEvent(float runDirection)
-        {
-            UpdateIsRunningRight(runDirection);
-            _runSubject.OnNext(_runningMethods.GetRunAcceleration(runDirection, _controllerData.RigidbodyVelocity.x));
-        }
-
-        private void ExecuteDashStartEvent(Vector2 dashDirection)
-        {
-            _dashStartSubject.OnNext(dashDirection * _properties.Dash.Speed);
-        }
-
-        private void ExecuteLookDownEvent(bool isLookingDown)
-        {
-            IsLookingDown = isLookingDown;
-        }
-    }
-
-    public partial class PlayerManager : IPlayerControllerEvent
-    {
-        private IPlayerControllerData _controllerData;
-        
-        public void SetPlayerControllerData(IPlayerControllerData playerControllerData)
-        {
-            _controllerData = playerControllerData;
-        }
-    }
-
-    public partial class PlayerManager : IInitializable
-    {
-        public void Initialize()
+        public void Start()
         {
             SubscribeToObservables();
 
+            _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
+            
             _gravityScaleSubject.OnNext(_properties.Gravity.Scale);
         }
 
-        private void SubscribeToObservables()
-        {
-            _playerInputEvent.JumpStartAction.Subscribe(ExecuteJumpStartEvent);
-            _playerInputEvent.JumpEndAction.Subscribe(ExecuteJumpEndEvent);
-            _playerInputEvent.RunAction.Subscribe(ExecuteRunEvent);
-            _playerInputEvent.DashAction.Subscribe(ExecuteDashStartEvent);
-            _playerInputEvent.LookDownAction.Subscribe(ExecuteLookDownEvent);
-        }
-    }
-
-    public partial class PlayerManager : ITickable
-    {
-        public void Tick()
+         public void Update()
         {
             TickTimers();
             GroundCheck();
@@ -325,6 +199,128 @@ namespace WhereIsMyWife.Managers
         private void SetGravityScale(float gravityScale)
         {
             _gravityScaleSubject.OnNext(gravityScale);
+        }
+        
+        private void SubscribeToObservables()
+        {
+            _playerInputEvent.JumpStartAction += ExecuteJumpStartEvent;
+            _playerInputEvent.JumpEndAction += ExecuteJumpEndEvent;
+            _playerInputEvent.RunAction += ExecuteRunEvent;
+            _playerInputEvent.DashAction += ExecuteDashStartEvent;
+            _playerInputEvent.LookDownAction += ExecuteLookDownEvent;
+        }
+    }
+    
+    public partial class PlayerManager : IPlayerStateIndicator
+    {
+        public bool IsDead { get; private set; } = false;
+        public bool IsAccelerating => _runningMethods.GetIsAccelerating();
+        public bool IsRunningRight { get; private set; } = true;
+        public bool IsLookingRight => _controllerData.HorizontalScale > 0;
+        public bool IsLookingDown { get; private set; }
+        public bool IsJumping { get; private set; } = false;
+        public bool IsJumpCut { get; private set; } = false;
+        public bool IsJumpFalling { get; private set; } = false;
+        public bool IsOnWallHang { get; private set; } = false;
+        public bool IsRunFalling { get; private set; } = false;
+
+        public bool IsOnJumpInputBuffer()
+        {
+            return _lastPressedJumpTime >= 0;
+        }
+
+        public bool IsOnGround()
+        {
+            return _lastOnGroundTime >= 0;
+        }
+
+        public bool IsFastFalling()
+        {
+            return _controllerData.RigidbodyVelocity.y < 0 && IsLookingDown;
+        }
+        
+        public bool IsInJumpHang()
+        {
+            return (IsJumping || IsJumpFalling) 
+                   && Mathf.Abs(_controllerData.RigidbodyVelocity.y) < _properties.Jump.HangTimeThreshold;
+        }
+
+        public bool IsIdling()
+        {
+            return (Mathf.Abs(_controllerData.RigidbodyVelocity.x) < 0.1f 
+                    && Mathf.Abs(_controllerData.RigidbodyVelocity.y) < 0.1f);
+        }
+
+        public bool CanJump()
+        {
+            return (_lastOnGroundTime > 0 && !IsJumping) || IsOnWallHang;
+        }
+
+        public bool CanJumpCut()
+        {
+            return IsJumping && _controllerData.RigidbodyVelocity.y > 0;
+        }
+    }
+    
+    public partial class PlayerManager : IPlayerStateInput
+    {
+        private Subject<float> _jumpStartSubject = new Subject<float>();
+        private Subject<Unit> _jumpEndSubject = new Subject<Unit>();
+        private Subject<float> _runSubject = new Subject<float>();
+        private Subject<Vector2> _dashStartSubject = new Subject<Vector2>();
+        private Subject<Unit> _wallHangStartSubject = new Subject<Unit>();
+        private Subject<Unit> _wallHangEndSubject = new Subject<Unit>();
+        private Subject<float> _gravityScaleSubject = new Subject<float>();
+        private Subject<float> _fallSpeedCapSubject = new Subject<float>();
+        private Subject<Unit> _landSubject = new Subject<Unit>();
+
+        public IObservable<float> JumpStart => _jumpStartSubject.AsObservable();
+        public IObservable<Unit> JumpEnd => _jumpEndSubject.AsObservable();
+        public IObservable<float> Run => _runSubject.AsObservable();
+        public IObservable<Unit> WallHangStart => _wallHangStartSubject.AsObservable();
+        public IObservable<Unit> WallHangEnd => _wallHangEndSubject.AsObservable();
+        public IObservable<Vector2> DashStart => _dashStartSubject.AsObservable();
+        public IObservable<float> GravityScale => _gravityScaleSubject.AsObservable();
+        public IObservable<float> FallSpeedCap => _fallSpeedCapSubject.AsObservable();
+        public IObservable<Unit> Land => _landSubject.AsUnitObservable();
+
+        private void ExecuteJumpStartEvent()
+        {
+            _lastPressedJumpTime = _properties.Jump.InputBufferTime;
+        }
+
+        private void ExecuteJumpEndEvent()
+        {
+            if (CanJumpCut())
+            {
+                IsJumpCut = true;
+            }
+        }
+        
+        private void ExecuteRunEvent(float runDirection)
+        {
+            UpdateIsRunningRight(runDirection);
+            _runSubject.OnNext(_runningMethods.GetRunAcceleration(runDirection, _controllerData.RigidbodyVelocity.x));
+        }
+
+        private void ExecuteDashStartEvent(Vector2 dashDirection)
+        {
+            _dashStartSubject.OnNext(dashDirection * _properties.Dash.Speed);
+        }
+
+        private void ExecuteLookDownEvent(bool isLookingDown)
+        {
+            IsLookingDown = isLookingDown;
+        }
+    }
+
+    public partial class PlayerManager : IPlayerControllerEvent
+    {
+        private IPlayerControllerData _controllerData;
+        
+        public void SetPlayerControllerData(IPlayerControllerData playerControllerData)
+        {
+            _controllerData = playerControllerData;
         }
     }
     

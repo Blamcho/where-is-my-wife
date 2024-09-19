@@ -7,6 +7,8 @@ namespace WhereIsMyWife.Managers
 {
     public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent
     {
+        public IPlayerInputEvent PlayerInputEvent => this;
+        
         public Action JumpStartAction { get; set; }
         public Action JumpEndAction { get; set; }
         public Action<float> RunAction { get; set; }
