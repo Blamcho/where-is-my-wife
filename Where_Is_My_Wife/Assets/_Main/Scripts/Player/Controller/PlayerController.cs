@@ -1,25 +1,17 @@
-using System;
-using Cysharp.Threading.Tasks;
-using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 using WhereIsMyWife.Managers;
-using WhereIsMyWife.Player.State;
 using Zenject;
 
 namespace WhereIsMyWife.Controllers
 {
-    public partial class PlayerController : IPlayerControllerData
+    public class PlayerController : MonoBehaviour, IPlayerControllerData
     {
         public Vector2 RigidbodyVelocity => _rigidbody2D.velocity;
         public Vector2 GroundCheckPosition => _groundCheckTransform.position;
         public Vector2 WallHangCheckUpPosition => _wallHangCheckUpTransform.position;
         public Vector2 WallHangCheckDownPosition => _wallHangCheckDownTransform.position;
         public float HorizontalScale => transform.localScale.x;
-    }
     
-    public partial class PlayerController : MonoBehaviour
-    {
         [Inject] private IMovementStateEvents _movementStateEvents;
         [Inject] private IWallHangStateEvents _wallHangStateEvents;
         [Inject] private IWallJumpStateEvents _wallJumpStateEvents;
@@ -40,27 +32,45 @@ namespace WhereIsMyWife.Controllers
             SubscribeToObservables();
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            
+            UnsubscribeToObservables();
         }
 
         private void SubscribeToObservables()
         {
-            _movementStateEvents.Run.Subscribe(Run).AddTo(this); 
-            _movementStateEvents.JumpStart.Subscribe(JumpStart).AddTo(this);
-            _movementStateEvents.GravityScale.Subscribe(SetGravityScale).AddTo(this);
-            _movementStateEvents.FallSpeedCap.Subscribe(SetFallSpeedCap).AddTo(this);
+            _movementStateEvents.Run += Run; 
+            _movementStateEvents.JumpStart += JumpStart;
+            _movementStateEvents.GravityScale += SetGravityScale;
+            _movementStateEvents.FallSpeedCap += SetFallSpeedCap;
 
-            _wallHangStateEvents.WallHangVelocity.Subscribe(WallHangVelocity).AddTo(this);
-            _wallHangStateEvents.Turn.Subscribe(Turn).AddTo(this);
-            _wallHangStateEvents.WallJumpStart.Subscribe(JumpStart).AddTo(this);
+            _wallHangStateEvents.WallHangVelocity += WallHangVelocity;
+            _wallHangStateEvents.Turn += Turn;
+            _wallHangStateEvents.WallJumpStart += JumpStart;
 
-            _wallJumpStateEvents.WallJumpVelocity.Subscribe(SetHorizontalSpeed).AddTo(this);
-            _wallJumpStateEvents.GravityScale.Subscribe(SetGravityScale).AddTo(this);
-            _wallJumpStateEvents.FallSpeedCap.Subscribe(SetFallSpeedCap).AddTo(this);
+            _wallJumpStateEvents.WallJumpVelocity += SetHorizontalSpeed;
+            _wallJumpStateEvents.GravityScale += SetGravityScale;
+            _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
             
-            _respawn.RespawnAction.Subscribe(Respawn).AddTo(this);
+            _respawn.RespawnAction += Respawn;
+        }
+
+        private void UnsubscribeToObservables()
+        {
+            _movementStateEvents.Run -= Run; 
+            _movementStateEvents.JumpStart -= JumpStart;
+            _movementStateEvents.GravityScale -= SetGravityScale;
+            _movementStateEvents.FallSpeedCap -= SetFallSpeedCap;
+
+            _wallHangStateEvents.WallHangVelocity -= WallHangVelocity;
+            _wallHangStateEvents.Turn -= Turn;
+            _wallHangStateEvents.WallJumpStart -= JumpStart;
+
+            _wallJumpStateEvents.WallJumpVelocity -= SetHorizontalSpeed;
+            _wallJumpStateEvents.GravityScale -= SetGravityScale;
+            _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
+            
+            _respawn.RespawnAction -= Respawn;
         }
 
         private void JumpStart(float jumpForce)
