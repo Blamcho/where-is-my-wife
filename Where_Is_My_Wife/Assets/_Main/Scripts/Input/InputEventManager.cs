@@ -1,13 +1,11 @@
 using System;
-using UniRx;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using WIMW.Input;
-using Zenject;
 
 namespace WhereIsMyWife.Managers
 {
-    public partial class InputEventManager : IPlayerInputEvent
+    public class InputEventManager : MonoBehaviour, IPlayerInputEvent
     {
         public Action JumpStartAction { get; set; }
         public Action JumpEndAction { get; set; }
@@ -18,24 +16,33 @@ namespace WhereIsMyWife.Managers
         public Action HookEndAction { get; set; }
         public Action LookUpAction { get; set; }
         public Action<bool> LookDownAction { get; set; }
-    }
-
-    public partial class InputEventManager : IInitializable
-    {
+    
+        ControllerType _currentControllerType;
+        private string[] controllers;
+    
         private PlayerInputActions _playerInputActions = new PlayerInputActions();
         
         private Vector2 _moveVector = Vector2.zero;
         
         private float _horizontalDeadZone = 0.5f;
         
-        public void Initialize()
+        public void Awake()
         {
             _playerInputActions.Enable();
             SubscribeToInputActions();
-            
             CheckForCurrentController();
         }
 
+        private void OnDestroy()
+        {
+            UnsubscribeToInputActions();
+        }
+
+        public void Update()
+        {
+            CheckForControllerTypeChange();
+        }
+        
         private void SubscribeToInputActions()
         {
             _playerInputActions.Normal.Jump.performed += OnJumpPerform;
@@ -44,7 +51,17 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.canceled += OnMoveCancel;
             _playerInputActions.Normal.Dash.performed += OnDash;
         }
+        
+        private void UnsubscribeToInputActions()
+        {
+            _playerInputActions.Normal.Jump.performed -= OnJumpPerform;
+            _playerInputActions.Normal.Jump.canceled -= OnJumpCancel;
+            _playerInputActions.Normal.Move.performed -= OnMovePerform;
+            _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
+            _playerInputActions.Normal.Dash.performed -= OnDash;
+        }
 
+        
         private void OnJumpPerform(InputAction.CallbackContext context)
         {
             JumpStartAction?.Invoke();
@@ -62,6 +79,7 @@ namespace WhereIsMyWife.Managers
             ApplyHorizontalDeadZone();
             NormalizeHorizontalAxis();
             
+            RunAction?.Invoke(_moveVector.x);
             LookDownAction?.Invoke(_moveVector.y < 0);
         }
 
@@ -83,6 +101,8 @@ namespace WhereIsMyWife.Managers
         private void OnMoveCancel(InputAction.CallbackContext context)
         {
             _moveVector = Vector2.zero;
+            
+            RunAction?.Invoke(_moveVector.x);
             LookDownAction?.Invoke(false);
         }
 
@@ -90,23 +110,10 @@ namespace WhereIsMyWife.Managers
         {
             DashAction?.Invoke(_moveVector.normalized);
         }
-    }
-
-    public partial class InputEventManager : IDisposable
-    {
+    
         public void Dispose()
         {
             _playerInputActions.Disable();
-        }
-    }
-    
-    public partial class InputEventManager : ITickable
-    {
-        public void Tick()
-        {
-            CheckForControllerTypeChange();
-            
-            RunAction?.Invoke(_moveVector.x);
         }
 
         // TODO: Change the way it detects the input was from a different controller type
@@ -141,12 +148,6 @@ namespace WhereIsMyWife.Managers
             
             return false;
         }
-    }
-
-    public partial class InputEventManager
-    {
-        ControllerType _currentControllerType;
-        private string[] controllers;
         
         private void CheckForCurrentController()
         {
