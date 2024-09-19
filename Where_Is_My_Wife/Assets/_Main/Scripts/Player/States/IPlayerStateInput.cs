@@ -6,13 +6,13 @@ namespace WhereIsMyWife.Player.State
 {
     public interface IPlayerStateInput
     {
-        IObservable<float> JumpStart { get; }
-        IObservable<float> Run { get; }
-        IObservable<Unit> WallHangStart { get; }
-        IObservable<Unit> WallHangEnd { get; }
-        IObservable<Vector2> DashStart { get; }
-        IObservable<float> GravityScale { get; }
-        IObservable<float> FallSpeedCap { get; }
-        IObservable<Unit> Land { get; }
+        Action<float> JumpStart { get; set; }
+        Action<float> Run { get; set; }
+        Action WallHangStart { get; set; }
+        Action WallHangEnd { get; set; }
+        Action<Vector2> DashStart { get; set; }
+        Action<float> GravityScale { get; set; }
+        Action<float> FallSpeedCap { get; set; }
+        Action Land { get; set; }
     }
 }

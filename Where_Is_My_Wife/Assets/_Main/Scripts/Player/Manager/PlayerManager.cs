@@ -1,5 +1,4 @@
 using System;
-using UniRx;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
@@ -27,7 +26,7 @@ namespace WhereIsMyWife.Managers
 
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
             
-            _gravityScaleSubject.OnNext(_properties.Gravity.Scale);
+            GravityScale?.Invoke(_properties.Gravity.Scale);
         }
 
          public void Update()
@@ -84,14 +83,14 @@ namespace WhereIsMyWife.Managers
                 if ((IsJumping || IsRunFalling))
                 {
                     IsOnWallHang = true;
-                    _wallHangStartSubject.OnNext();
+                    WallHangStart();
                 }
             }
 
             else
             {
                 IsOnWallHang = false;
-                _wallHangEndSubject.OnNext();
+                WallHangEnd?.Invoke();
             }
         }
 
@@ -138,7 +137,7 @@ namespace WhereIsMyWife.Managers
             {
                 IsJumpCut = false;
                 IsJumpFalling = false;
-                _landSubject.OnNext();
+                Land?.Invoke();
             }
         }
         
@@ -146,7 +145,7 @@ namespace WhereIsMyWife.Managers
         {
             ResetJumpTimers();
             
-            _jumpStartSubject.OnNext(_jumpingMethods.GetJumpForce(_controllerData.RigidbodyVelocity.y));
+            JumpStart?.Invoke(_jumpingMethods.GetJumpForce(_controllerData.RigidbodyVelocity.y));
         }
 
         private void ResetJumpTimers()
@@ -193,12 +192,12 @@ namespace WhereIsMyWife.Managers
 
         private void SetFallSpeedCap(float fallSpeedCap)
         {
-            _fallSpeedCapSubject.OnNext(fallSpeedCap);
+            FallSpeedCap?.Invoke(fallSpeedCap);
         }
 
         private void SetGravityScale(float gravityScale)
         {
-            _gravityScaleSubject.OnNext(gravityScale);
+            GravityScale?.Invoke(gravityScale);
         }
         
         private void SubscribeToObservables()
@@ -264,25 +263,14 @@ namespace WhereIsMyWife.Managers
     
     public partial class PlayerManager : IPlayerStateInput
     {
-        private Subject<float> _jumpStartSubject = new Subject<float>();
-        private Subject<Unit> _jumpEndSubject = new Subject<Unit>();
-        private Subject<float> _runSubject = new Subject<float>();
-        private Subject<Vector2> _dashStartSubject = new Subject<Vector2>();
-        private Subject<Unit> _wallHangStartSubject = new Subject<Unit>();
-        private Subject<Unit> _wallHangEndSubject = new Subject<Unit>();
-        private Subject<float> _gravityScaleSubject = new Subject<float>();
-        private Subject<float> _fallSpeedCapSubject = new Subject<float>();
-        private Subject<Unit> _landSubject = new Subject<Unit>();
-
-        public IObservable<float> JumpStart => _jumpStartSubject.AsObservable();
-        public IObservable<Unit> JumpEnd => _jumpEndSubject.AsObservable();
-        public IObservable<float> Run => _runSubject.AsObservable();
-        public IObservable<Unit> WallHangStart => _wallHangStartSubject.AsObservable();
-        public IObservable<Unit> WallHangEnd => _wallHangEndSubject.AsObservable();
-        public IObservable<Vector2> DashStart => _dashStartSubject.AsObservable();
-        public IObservable<float> GravityScale => _gravityScaleSubject.AsObservable();
-        public IObservable<float> FallSpeedCap => _fallSpeedCapSubject.AsObservable();
-        public IObservable<Unit> Land => _landSubject.AsUnitObservable();
+        public Action<float> JumpStart { get; set; }
+        public Action<float> Run { get; set; }
+        public Action WallHangStart { get; set; }
+        public Action WallHangEnd { get; set; }
+        public Action<Vector2> DashStart { get; set; }
+        public Action<float> GravityScale { get; set; }
+        public Action<float> FallSpeedCap { get; set; }
+        public Action Land { get; set; }
 
         private void ExecuteJumpStartEvent()
         {
@@ -300,12 +288,12 @@ namespace WhereIsMyWife.Managers
         private void ExecuteRunEvent(float runDirection)
         {
             UpdateIsRunningRight(runDirection);
-            _runSubject.OnNext(_runningMethods.GetRunAcceleration(runDirection, _controllerData.RigidbodyVelocity.x));
+            Run?.Invoke(_runningMethods.GetRunAcceleration(runDirection, _controllerData.RigidbodyVelocity.x));
         }
 
         private void ExecuteDashStartEvent(Vector2 dashDirection)
         {
-            _dashStartSubject.OnNext(dashDirection * _properties.Dash.Speed);
+            DashStart?.Invoke(dashDirection * _properties.Dash.Speed);
         }
 
         private void ExecuteLookDownEvent(bool isLookingDown)
@@ -328,9 +316,7 @@ namespace WhereIsMyWife.Managers
     {
         private Vector3 _respawnPoint;
      
-        private ISubject<Vector3> _respawnSubject = new Subject<Vector3>();
-        
-        public IObservable<Vector3> RespawnAction => _respawnSubject.AsObservable();
+        public Action<Vector3> RespawnAction { get; set; }
         
         public void SetRespawnPoint(Vector3 respawnPoint)
         {
@@ -339,7 +325,8 @@ namespace WhereIsMyWife.Managers
 
         public void TriggerRespawn()
         {
-           _respawnSubject.OnNext(_respawnPoint);
+           RespawnAction?.Invoke(_respawnPoint);
         }
+
     }
 }
