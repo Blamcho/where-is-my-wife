@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
 {
@@ -23,7 +22,6 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
         {
             CurrentState.UpdateState();
         }
-
         else if (!IsTransitioningState)
         {
             TransitionToState(nextStateKey);
@@ -38,7 +36,6 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
         {
             CurrentState.FixedUpdateState();
         }
-
         else if (!IsTransitioningState)
         {
             TransitionToState(nextStateKey);
