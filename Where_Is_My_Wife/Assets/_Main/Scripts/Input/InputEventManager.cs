@@ -28,8 +28,9 @@ namespace WhereIsMyWife.Managers
         
         private float _horizontalDeadZone = 0.5f;
         
-        public void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _playerInputActions.Enable();
             SubscribeToInputActions();
             CheckForCurrentController();
@@ -40,7 +41,7 @@ namespace WhereIsMyWife.Managers
             UnsubscribeToInputActions();
         }
 
-        public void Update()
+        private void Update()
         {
             CheckForControllerTypeChange();
         }

@@ -20,7 +20,7 @@ namespace WhereIsMyWife.Managers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
         
-        public void Start()
+        private void Start()
         {
             SubscribeToObservables();
 
@@ -29,7 +29,7 @@ namespace WhereIsMyWife.Managers
             GravityScale?.Invoke(_properties.Gravity.Scale);
         }
 
-         public void Update()
+        private void Update()
         {
             TickTimers();
             GroundCheck();
