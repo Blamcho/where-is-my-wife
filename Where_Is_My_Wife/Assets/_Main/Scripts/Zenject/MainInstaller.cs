@@ -15,15 +15,8 @@ namespace WhereIsMyWife
         public override void InstallBindings()
         {
             InstallScriptableObjectBindings();
-            InstallManagerBindings();
             InstallActionMethods();
             InstallPlayerStates();
-        }
-
-        private void InstallManagerBindings()
-        {
-            Container.BindInterfacesTo<PlayerManager>().AsSingle();
-            Container.BindInterfacesTo<InputEventManager>().AsSingle();
         }
 
         private void InstallScriptableObjectBindings()
