@@ -5,7 +5,7 @@ using WIMW.Input;
 
 namespace WhereIsMyWife.Managers
 {
-    public class InputEventManager : MonoBehaviour, IPlayerInputEvent
+    public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent
     {
         public Action JumpStartAction { get; set; }
         public Action JumpEndAction { get; set; }
