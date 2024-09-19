@@ -1,4 +1,3 @@
-using UniRx;
 using UnityEngine;
 using WhereIsMyWife.Managers;
 using Zenject;
@@ -34,11 +33,20 @@ namespace WhereIsMyWife.Controllers
 
         private void Start()
         {
-            _movementStateEvents.JumpStart.AsUnitObservable().Subscribe(Jump);
-            _movementStateEvents.Run.AsUnitObservable().Subscribe(Run);
+            _movementStateEvents.JumpStart += _ => Jump();
+            _movementStateEvents.Run+= _ => Run();
 
-            _wallHangStateEvents.StartWallHang.Subscribe(StartWallHang);
-            _wallHangStateEvents.WallJumpStart.AsUnitObservable().Subscribe(Fall);
+            _wallHangStateEvents.StartWallHang += StartWallHang;
+            _wallHangStateEvents.WallJumpStart += _ => Fall();
+        }
+
+        private void OnDestroy()
+        {
+            _movementStateEvents.JumpStart -= _ => Jump();
+            _movementStateEvents.Run -= _ => Run();
+
+            _wallHangStateEvents.StartWallHang -= StartWallHang;
+            _wallHangStateEvents.WallJumpStart -= _ => Fall();
         }
 
         private void Jump()
