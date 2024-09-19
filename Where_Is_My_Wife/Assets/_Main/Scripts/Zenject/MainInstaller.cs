@@ -1,6 +1,5 @@
 using UnityEngine;
 using WhereIsMyWife.Controllers;
-using WhereIsMyWife.Databases;
 using WhereIsMyWife.Managers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
@@ -16,7 +15,6 @@ namespace WhereIsMyWife
         public override void InstallBindings()
         {
             InstallScriptableObjectBindings();
-            InstallDatabaseBindings();
             InstallManagerBindings();
             InstallActionMethods();
             InstallPlayerStates();
@@ -26,13 +24,6 @@ namespace WhereIsMyWife
         {
             Container.BindInterfacesTo<PlayerManager>().AsSingle();
             Container.BindInterfacesTo<InputEventManager>().AsSingle();
-        }
-
-        private void InstallDatabaseBindings()
-        {
-            Container.BindInterfacesTo<OptionsDatabase>().AsSingle();
-            Container.BindInterfacesTo<PlayerProgressionDatabase>().AsSingle();
-            Container.BindInterfacesTo<StatsDatabase>().AsSingle();
         }
 
         private void InstallScriptableObjectBindings()
