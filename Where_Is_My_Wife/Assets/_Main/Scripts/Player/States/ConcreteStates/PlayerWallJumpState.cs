@@ -17,10 +17,6 @@ namespace WhereIsMyWife.Player.State
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         
-        [Inject] private IPlayerMovementProperties _movementProperties;
-        [Inject] private IPlayerWallJumpProperties _wallJumpProperties;
-        [Inject] private IPlayerStateIndicator _stateIndicator;
-        
         private Tween _horizontalSpeedTween;
         
         private float _horizontalSpeed = 0;
@@ -74,11 +70,11 @@ namespace WhereIsMyWife.Player.State
 
         private void StartJumpSpeedCurve()
         {
-            _horizontalSpeed = _wallJumpProperties.WallJumpSpeed * _directionMultiplier;
+            _horizontalSpeed = _properties.WallJump.Speed * _directionMultiplier;
 
             _horizontalSpeedTween = DOTween.To(() => _horizontalSpeed, x => _horizontalSpeed = x, 
-                    _movementProperties.RunMaxSpeed * _directionMultiplier, 
-                    _wallJumpProperties.TimeToNormalSpeed)
+                    _properties.Movement.RunMaxSpeed * _directionMultiplier, 
+                    _properties.WallJump.TimeToNormalSpeed)
                 .SetEase(Ease.InOutSine)
                 .OnComplete(StartDecelerationCurve);
         }
@@ -88,7 +84,7 @@ namespace WhereIsMyWife.Player.State
             _minTimeHasPassed = true;
             _horizontalSpeedTween = DOTween.To(() => _horizontalSpeed, x => _horizontalSpeed = x, 
                     0, 
-                    _wallJumpProperties.TimeToZeroSpeed)
+                    _properties.WallJump.TimeToZeroSpeed)
                 .SetEase(Ease.InSine)
                 .OnComplete(StartDecelerationCurve);
         }

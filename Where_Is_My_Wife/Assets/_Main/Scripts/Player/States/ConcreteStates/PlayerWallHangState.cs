@@ -18,9 +18,6 @@ namespace WhereIsMyWife.Player.State
         public Action<float> WallJumpStart { get; set; }
         public Action Turn { get; set; }
         
-        [Inject] private IPlayerMovementProperties _movementProperties;
-        [Inject] private IPlayerStateIndicator _stateIndicator;
-        
         private Tween _slideTween;
         
         private float _slideTweenSpeed = 0;
@@ -57,8 +54,8 @@ namespace WhereIsMyWife.Player.State
             _slideTweenSpeed = 0;
             
             _slideTween = DOTween.To(() => _slideTweenSpeed, x => _slideTweenSpeed = x, 
-                    -_movementProperties.WallSlideMaxVelocity, 
-                    _movementProperties.WallSlideTimeToMaxVelocity)
+                    -_properties.Movement.WallSlideMaxVelocity, 
+                    _properties.Movement.WallSlideTimeToMaxVelocity)
                 .SetEase(Ease.InOutSine);
         }
 
@@ -91,7 +88,7 @@ namespace WhereIsMyWife.Player.State
         {
             if (_stateIndicator.IsLookingDown)
             {
-                return -_movementProperties.WallSlideFastVelocity;
+                return -_properties.Movement.WallSlideFastVelocity;
             }
 
             return _slideTweenSpeed;

@@ -11,8 +11,6 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
     public PlayerDashState() : base(PlayerStateMachine.PlayerState.Dash) { }
 
     public Action<Vector2> Dash { get; set; }
-
-    [Inject] private IPlayerDashProperties _properties;
     
     private float _timer;
     
@@ -41,7 +39,7 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
     {
         _timer += Time.fixedDeltaTime;
 
-        if (_timer >= _properties.Duration)
+        if (_timer >= _properties.Dash.Duration)
         {
             NextState = PlayerStateMachine.PlayerState.Movement;
         }

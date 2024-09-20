@@ -13,6 +13,8 @@ namespace WhereIsMyWife.Managers.Properties
         fileName = "CheckProperties")]
     public class PlayerCheckProperties : ScriptableObject, IPlayerCheckProperties
     {
+        public IPlayerCheckProperties CheckProperties => this;
+        
         [field:SerializeField] public Vector2 GroundCheckSize { get; private set; }
         [field:SerializeField] public Vector2 WallHangCheckSize { get; private set; }
         [field:SerializeField] public LayerMask GroundLayer { get; private set; }

@@ -16,6 +16,8 @@ namespace WhereIsMyWife.Managers.Properties
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/Modules/GravityProperties", fileName = "GravityProperties")]
     public class PlayerGravityProperties : ScriptableObject, IPlayerGravityProperties
     {
+        public IPlayerGravityProperties GravityProperties => this;
+        
         [field:SerializeField] public float Scale { get; private set; }
         [field:SerializeField] public float MaxBaseFallSpeed { get; private set; }
         [field:SerializeField] public float MaxFastFallSpeed { get; private set; }

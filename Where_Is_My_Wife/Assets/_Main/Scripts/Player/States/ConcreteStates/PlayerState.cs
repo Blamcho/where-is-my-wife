@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using WhereIsMyWife.Managers;
+using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.StateMachine;
 using Zenject;
 
@@ -14,7 +16,10 @@ namespace WhereIsMyWife.Player.State
         }
         
         [Inject] protected IPlayerStateInput _playerStateInput;
-
+        [Inject] protected IPlayerStateIndicator _stateIndicator;
+        
+        protected IPlayerProperties _properties => PlayerManager.Instance.Properties;
+        
         protected virtual void SubscribeToObservables()
         {
             throw new NotImplementedException();

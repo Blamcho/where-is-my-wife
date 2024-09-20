@@ -9,8 +9,9 @@ namespace WhereIsMyWife.Managers
 {
     public partial class PlayerManager : Singleton<PlayerManager>
     {
-        [Inject] private IPlayerProperties _properties;
-
+        [SerializeField] private PlayerProperties _propertiesSO;
+        public IPlayerProperties Properties => _propertiesSO.Properties;
+        
         private IPlayerInputEvent _playerInputEvent;
         
         [Inject] private IRunningMethods _runningMethods;
@@ -26,7 +27,7 @@ namespace WhereIsMyWife.Managers
 
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
             
-            GravityScale?.Invoke(_properties.Gravity.Scale);
+            GravityScale?.Invoke(Properties.Gravity.Scale);
         }
 
         private void Update()
@@ -60,11 +61,11 @@ namespace WhereIsMyWife.Managers
         {
             if (GetGroundCheckOverlapBox() && !IsJumping)
             {
-                _lastOnGroundTime = _properties.Jump.CoyoteTime;
+                _lastOnGroundTime = Properties.Jump.CoyoteTime;
                 IsRunFalling = false;
             }
 
-            if (!IsJumping && _lastOnGroundTime < _properties.Jump.CoyoteTime)
+            if (!IsJumping && _lastOnGroundTime < Properties.Jump.CoyoteTime)
             {
                 IsRunFalling = true;
             }
@@ -72,8 +73,8 @@ namespace WhereIsMyWife.Managers
 
         private Collider2D GetGroundCheckOverlapBox()
         {
-            return Physics2D.OverlapBox(_controllerData.GroundCheckPosition, _properties.Check.GroundCheckSize, 0,
-                _properties.Check.GroundLayer);
+            return Physics2D.OverlapBox(_controllerData.GroundCheckPosition, Properties.Check.GroundCheckSize, 0,
+                Properties.Check.GroundLayer);
         }
 
         private void WallCheck()
@@ -96,11 +97,11 @@ namespace WhereIsMyWife.Managers
 
         private bool GetWallHangCheck()
         {
-            return (Physics2D.OverlapBox(_controllerData.WallHangCheckUpPosition, _properties.Check.WallHangCheckSize,
-                0, _properties.Check.GroundLayer)
+            return (Physics2D.OverlapBox(_controllerData.WallHangCheckUpPosition, Properties.Check.WallHangCheckSize,
+                0, Properties.Check.GroundLayer)
                 &&
-                Physics2D.OverlapBox(_controllerData.WallHangCheckDownPosition, _properties.Check.WallHangCheckSize,
-                    0, _properties.Check.GroundLayer)
+                Physics2D.OverlapBox(_controllerData.WallHangCheckDownPosition, Properties.Check.WallHangCheckSize,
+                    0, Properties.Check.GroundLayer)
                 &&
                 IsAccelerating
                 );
@@ -159,34 +160,34 @@ namespace WhereIsMyWife.Managers
             // Make player fall faster if holding down 
             if (IsFastFalling())
             {
-                SetGravityScale(_properties.Gravity.Scale * _properties.Gravity.FastFallMultiplier);
-                SetFallSpeedCap(_properties.Gravity.MaxFastFallSpeed);
+                SetGravityScale(Properties.Gravity.Scale * Properties.Gravity.FastFallMultiplier);
+                SetFallSpeedCap(Properties.Gravity.MaxFastFallSpeed);
             }
             
             // Scale gravity up if jump button released
             else if (IsJumpCut)
             {
-                SetGravityScale(_properties.Gravity.Scale  * _properties.Gravity.JumpCutMultiplier);
-                SetFallSpeedCap(_properties.Gravity.MaxBaseFallSpeed);
+                SetGravityScale(Properties.Gravity.Scale  * Properties.Gravity.JumpCutMultiplier);
+                SetFallSpeedCap(Properties.Gravity.MaxBaseFallSpeed);
             }
 
             // Higher gravity when near jump height apex
             else if (IsInJumpHang())
             {
-                SetGravityScale(_properties.Gravity.Scale  * _properties.Gravity.JumpHangMultiplier);
+                SetGravityScale(Properties.Gravity.Scale  * Properties.Gravity.JumpHangMultiplier);
             }
 
             // Higher gravity if falling
             else if (IsJumpFalling)
             {
-                SetGravityScale(_properties.Gravity.Scale  * _properties.Gravity.BaseFallMultiplier);
-                SetFallSpeedCap(_properties.Gravity.MaxBaseFallSpeed);
+                SetGravityScale(Properties.Gravity.Scale  * Properties.Gravity.BaseFallMultiplier);
+                SetFallSpeedCap(Properties.Gravity.MaxBaseFallSpeed);
             }
 
             // Reset gravity
             else
             {
-                SetGravityScale(_properties.Gravity.Scale);
+                SetGravityScale(Properties.Gravity.Scale);
             }
         }
 
@@ -241,7 +242,7 @@ namespace WhereIsMyWife.Managers
         public bool IsInJumpHang()
         {
             return (IsJumping || IsJumpFalling) 
-                   && Mathf.Abs(_controllerData.RigidbodyVelocity.y) < _properties.Jump.HangTimeThreshold;
+                   && Mathf.Abs(_controllerData.RigidbodyVelocity.y) < Properties.Jump.HangTimeThreshold;
         }
 
         public bool IsIdling()
@@ -274,7 +275,7 @@ namespace WhereIsMyWife.Managers
 
         private void ExecuteJumpStartEvent()
         {
-            _lastPressedJumpTime = _properties.Jump.InputBufferTime;
+            _lastPressedJumpTime = Properties.Jump.InputBufferTime;
         }
 
         private void ExecuteJumpEndEvent()
@@ -293,7 +294,7 @@ namespace WhereIsMyWife.Managers
 
         private void ExecuteDashStartEvent(Vector2 dashDirection)
         {
-            DashStart?.Invoke(dashDirection * _properties.Dash.Speed);
+            DashStart?.Invoke(dashDirection * Properties.Dash.Speed);
         }
 
         private void ExecuteLookDownEvent(bool isLookingDown)

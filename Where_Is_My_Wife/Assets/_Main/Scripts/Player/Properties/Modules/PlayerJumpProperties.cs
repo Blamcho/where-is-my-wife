@@ -16,6 +16,8 @@ namespace WhereIsMyWife.Managers.Properties
         fileName = "JumpProperties")]
     public class PlayerJumpProperties : ScriptableObject, IPlayerJumpProperties
     {
+        public IPlayerJumpProperties JumpProperties => this;
+        
         [field:SerializeField] public float ForceMagnitude { get; private set; }
         [field:SerializeField] public float CoyoteTime { get; private set; }
         [field:SerializeField] public float InputBufferTime { get; private set; }

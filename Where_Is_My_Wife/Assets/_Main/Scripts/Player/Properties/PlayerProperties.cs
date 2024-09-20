@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace WhereIsMyWife.Managers.Properties
@@ -16,18 +17,20 @@ namespace WhereIsMyWife.Managers.Properties
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/PlayerProperties", fileName = "PlayerProperties")]
     public class PlayerProperties : ScriptableObject, IPlayerProperties
     {
-        [Inject] public IPlayerMovementProperties Movement { get; private set; }
-        [Inject] public IPlayerJumpProperties Jump { get; private set; }
-        [Inject] public IPlayerDashProperties Dash { get; private set; }
-        [Inject] public IPlayerGravityProperties Gravity { get; private set; }
-        [Inject] public IPlayerCheckProperties Check { get; private set; }
-        [Inject] public IPlayerWallJumpProperties WallJump { get; private set; }
+        public IPlayerProperties Properties => this;
         
-        [field:SerializeField] public PlayerMovementProperties MovementProperties { get; private set; }
-        [field:SerializeField] public PlayerJumpProperties JumpProperties { get; private set; }
-        [field:SerializeField] public PlayerDashProperties DashProperties { get; private set; }
-        [field:SerializeField] public PlayerGravityProperties GravityProperties { get; private set; }
-        [field:SerializeField] public PlayerCheckProperties CheckProperties { get; private set; }
-        [field:SerializeField] public PlayerWallJumpProperties WallJumpProperties { get; private set; }
+        public IPlayerMovementProperties Movement => _movementPropertiesSO.MovementProperties;
+        public IPlayerJumpProperties Jump => _jumpPropertiesSO.JumpProperties;
+        public IPlayerDashProperties Dash => _dashPropertiesSO.DashProperties;
+        public IPlayerGravityProperties Gravity => _gravityPropertiesSO.GravityProperties;
+        public IPlayerCheckProperties Check => _checkPropertiesSO.CheckProperties;
+        public IPlayerWallJumpProperties WallJump => _wallJumpPropertiesSO.WallJumpProperties;
+
+        [field: SerializeField] private PlayerMovementProperties _movementPropertiesSO;
+        [field: SerializeField] private PlayerJumpProperties _jumpPropertiesSO;
+        [field: SerializeField] private PlayerDashProperties _dashPropertiesSO;
+        [field: SerializeField] private PlayerGravityProperties _gravityPropertiesSO;
+        [field: SerializeField] private PlayerCheckProperties _checkPropertiesSO;
+        [field: SerializeField] private PlayerWallJumpProperties _wallJumpPropertiesSO;
     }
 }

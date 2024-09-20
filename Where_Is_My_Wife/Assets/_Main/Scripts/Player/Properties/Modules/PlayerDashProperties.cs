@@ -13,6 +13,8 @@ namespace WhereIsMyWife.Managers.Properties
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/Modules/DashProperties", fileName = "DashProperties")]
     public class PlayerDashProperties : ScriptableObject, IPlayerDashProperties
     {
+        public IPlayerDashProperties DashProperties => this;
+        
         [field:SerializeField] public float Speed { get; private set; }
         [field:SerializeField] public float Duration { get; private set; }
         [field:SerializeField] public float HangTime { get; private set; }

@@ -17,6 +17,8 @@ namespace WhereIsMyWife.Managers.Properties
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/Modules/MovementProperties", fileName = "MovementProperties")]
     public class PlayerMovementProperties : ScriptableObject, IPlayerMovementProperties
     {
+        public IPlayerMovementProperties MovementProperties => this;
+        
         [field: SerializeField] public float RunMaxSpeed { get; private set; }
         [field: SerializeField] public float RunAccelerationRate { get; private set; }
         [field: SerializeField] public float RunDecelerationRate { get; private set; }
