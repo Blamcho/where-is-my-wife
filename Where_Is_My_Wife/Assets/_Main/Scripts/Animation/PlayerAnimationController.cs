@@ -8,10 +8,11 @@ namespace WhereIsMyWife.Controllers
     {
         [SerializeField] private Animator _animator;
 
-        [Inject] private IMovementStateEvents _movementStateEvents;
-        [Inject] private IWallHangStateEvents _wallHangStateEvents;
-        [Inject] private IDashStateEvents _dashStateEvents;
-        [Inject] private IPlayerStateIndicator _stateIndicator;
+        private IMovementStateEvents _movementStateEvents;
+        private IWallHangStateEvents _wallHangStateEvents;
+        private IDashStateEvents _dashStateEvents;
+        
+        private IPlayerStateIndicator _playerStateIndicator;
 
         private Rigidbody2D _rigidbody2D;
         
@@ -33,6 +34,12 @@ namespace WhereIsMyWife.Controllers
 
         private void Start()
         {
+            _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
+            
+            _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
+            _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
+            _dashStateEvents = PlayerManager.Instance.DashStateEvents;
+            
             _movementStateEvents.JumpStart += _ => Jump();
             _movementStateEvents.Run+= _ => Run();
 
@@ -61,19 +68,19 @@ namespace WhereIsMyWife.Controllers
         
         private void Run()
         {
-            if (!_stateIndicator.IsJumping)
+            if (!_playerStateIndicator.IsJumping)
             {
-                if (_stateIndicator.IsRunFalling)
+                if (_playerStateIndicator.IsRunFalling)
                 {
                     PlayAnimationState(FALL_ANIMATION_STATE);
                 }
-                else if (_stateIndicator.IsAccelerating)
+                else if (_playerStateIndicator.IsAccelerating)
                 {
                     PlayAnimationState(RUN_ANIMATION_STATE);
                 }
                 else
                 {
-                    if (_stateIndicator.IsLookingDown)
+                    if (_playerStateIndicator.IsLookingDown)
                     {
                         PlayAnimationState(CROUCH_ANIMATION_STATE);
                     }

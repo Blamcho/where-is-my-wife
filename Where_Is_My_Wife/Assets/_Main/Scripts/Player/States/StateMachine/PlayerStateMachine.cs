@@ -13,12 +13,12 @@ namespace WhereIsMyWife.Player.StateMachine
             WallHang,
             WallJump,
         }
-        [Inject] private IMovementState _movementState;
-        [Inject] private IDashState _dashState;
-        [Inject] private IWallHangState _wallHangState;
-        [Inject] private IWallJumpState _wallJumpState;
-        
-        private void Awake()
+        private IMovementState _movementState;
+        private IDashState _dashState;
+        private IWallHangState _wallHangState;
+        private IWallJumpState _wallJumpState;
+
+        protected override void Start()
         {
             States[PlayerState.Movement] = _movementState;
             States[PlayerState.Dash] = _dashState;
@@ -26,6 +26,8 @@ namespace WhereIsMyWife.Player.StateMachine
             States[PlayerState.WallJump] = _wallJumpState;
             
             CurrentState = States[PlayerState.Movement];
+            
+            base.Start();
         }
     }
 }

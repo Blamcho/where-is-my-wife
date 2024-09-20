@@ -8,6 +8,9 @@ namespace WhereIsMyWife.Player.State
     public class PlayerMovementState : PlayerState, IMovementState, IMovementStateEvents
     {
         public PlayerMovementState() : base(PlayerStateMachine.PlayerState.Movement) { }
+
+        public IMovementStateEvents MovementStateEvents => this;
+        public IMovementState MovementState => this;
         
         public Action<float> JumpStart { get; set; }
         public Action<float> Run { get; set; }

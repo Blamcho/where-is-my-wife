@@ -9,7 +9,7 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
     
     protected bool IsTransitioningState = false;
 
-    private void Start()
+    protected virtual void Start()
     {
         CurrentState.EnterState();
     }

@@ -17,10 +17,39 @@ namespace WhereIsMyWife.Managers
         private IRunningMethods _runningMethods = new RunningMethods().Methods;
         private IJumpingMethods _jumpingMethods = new JumpingMethods().Methods;
         
+        private PlayerDashState _playerDashState = new PlayerDashState();
+        private PlayerMovementState _playerMovementState = new PlayerMovementState();
+        private PlayerWallHangState _playerWallHangState = new PlayerWallHangState();
+        private PlayerWallJumpState _playerWallJumpState = new PlayerWallJumpState();
+        
+        public IDashState DashState { get; private set; } 
+        public IDashStateEvents DashStateEvents { get; private set; }
+        public IMovementState MovementState { get; private set; }
+        public IMovementStateEvents MovementStateEvents { get; private set; }
+        public IWallHangState WallHangState { get; private set; }
+        public IWallHangStateEvents WallHangStateEvents { get; private set; }
+        public IWallJumpState WallJumpState { get; private set; }
+        public IWallJumpStateEvents WallJumpStateEvents { get; private set; }
+            
+        
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            DashState = _playerDashState.DashState;
+            DashStateEvents = _playerDashState.DashStateEvents;
+            MovementState = _playerMovementState.MovementState;
+            MovementStateEvents = _playerMovementState.MovementStateEvents;
+            WallHangState = _playerWallHangState.WallHangState;
+            WallHangStateEvents = _playerWallHangState.WallHangStateEvents;
+            WallJumpState = _playerWallJumpState.WallJumpState;
+            WallJumpStateEvents = _playerWallJumpState.WallJumpStateEvents;
+        }
+
         private void Start()
         {
             SubscribeToObservables();
@@ -213,6 +242,8 @@ namespace WhereIsMyWife.Managers
     
     public partial class PlayerManager : IPlayerStateIndicator
     {
+        public IPlayerStateIndicator PlayerStateIndicator => this;
+        
         public bool IsDead { get; private set; } = false;
         public bool IsAccelerating => _runningMethods.GetIsAccelerating();
         public bool IsRunningRight { get; private set; } = true;
@@ -264,6 +295,8 @@ namespace WhereIsMyWife.Managers
     
     public partial class PlayerManager : IPlayerStateInput
     {
+        public IPlayerStateInput PlayerStateInput => this;
+        
         public Action<float> JumpStart { get; set; }
         public Action<float> Run { get; set; }
         public Action WallHangStart { get; set; }
@@ -305,6 +338,8 @@ namespace WhereIsMyWife.Managers
 
     public partial class PlayerManager : IPlayerControllerEvent
     {
+        public IPlayerControllerEvent PlayerControllerEvent => this;
+        
         private IPlayerControllerData _controllerData;
         
         public void SetPlayerControllerData(IPlayerControllerData playerControllerData)
@@ -315,6 +350,8 @@ namespace WhereIsMyWife.Managers
     
     public partial class PlayerManager : IRespawn
     {
+        public IRespawn Respawn => this;
+        
         private Vector3 _respawnPoint;
      
         public Action<Vector3> RespawnAction { get; set; }

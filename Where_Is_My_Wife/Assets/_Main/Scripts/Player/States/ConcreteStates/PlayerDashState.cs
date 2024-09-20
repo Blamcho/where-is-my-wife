@@ -10,6 +10,9 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
 {
     public PlayerDashState() : base(PlayerStateMachine.PlayerState.Dash) { }
 
+    public IDashStateEvents DashStateEvents => this;
+    public IDashState DashState => this;
+    
     public Action<Vector2> Dash { get; set; }
     
     private float _timer;
