@@ -22,7 +22,7 @@ namespace WhereIsMyWife.Managers
         ControllerType _currentControllerType;
         private string[] controllers;
     
-        private PlayerInputActions _playerInputActions = new PlayerInputActions();
+        private PlayerInputActions _playerInputActions;
         
         private Vector2 _moveVector = Vector2.zero;
         
@@ -31,6 +31,7 @@ namespace WhereIsMyWife.Managers
         protected override void Awake()
         {
             base.Awake();
+            _playerInputActions = new PlayerInputActions();
             _playerInputActions.Enable();
             SubscribeToInputActions();
             CheckForCurrentController();
