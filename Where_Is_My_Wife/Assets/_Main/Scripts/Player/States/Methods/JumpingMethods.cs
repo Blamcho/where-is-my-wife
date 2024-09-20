@@ -10,6 +10,8 @@ public interface IJumpingMethods
 
 public class JumpingMethods : IJumpingMethods
 {
+    public IJumpingMethods Methods => this;
+    
     [Inject] private IPlayerStateIndicator _stateIndicator;
     
     [Inject] private IPlayerJumpProperties _jumpProperties;

@@ -14,8 +14,8 @@ namespace WhereIsMyWife.Managers
         
         private IPlayerInputEvent _playerInputEvent;
         
-        [Inject] private IRunningMethods _runningMethods;
-        [Inject] private IJumpingMethods _jumpingMethods;
+        private IRunningMethods _runningMethods = new RunningMethods().Methods;
+        private IJumpingMethods _jumpingMethods = new JumpingMethods().Methods;
         
         // Timers
         private float _lastOnGroundTime = 0;

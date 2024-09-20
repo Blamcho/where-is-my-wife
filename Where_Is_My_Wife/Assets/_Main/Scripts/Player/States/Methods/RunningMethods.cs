@@ -12,6 +12,8 @@ public interface IRunningMethods
 
 public class RunningMethods : IRunningMethods
 {
+    public IRunningMethods Methods => this;
+    
     [Inject] private IPlayerStateIndicator _stateIndicator;
     
     [Inject] private IPlayerMovementProperties _movementProperties;
