@@ -12,13 +12,13 @@ namespace WhereIsMyWife.Controllers
         public Vector2 WallHangCheckDownPosition => _wallHangCheckDownTransform.position;
         public float HorizontalScale => transform.localScale.x;
     
-        [Inject] private IMovementStateEvents _movementStateEvents;
-        [Inject] private IWallHangStateEvents _wallHangStateEvents;
-        [Inject] private IWallJumpStateEvents _wallJumpStateEvents;
+        private IMovementStateEvents _movementStateEvents;
+        private IWallHangStateEvents _wallHangStateEvents;
+        private IWallJumpStateEvents _wallJumpStateEvents;
         
-        [Inject] private IPlayerStateIndicator _playerStateIndicator;
-        [Inject] private IPlayerControllerEvent _playerControllerEvent;
-        [Inject] private IRespawn _respawn;
+        private IPlayerStateIndicator _playerStateIndicator;
+        private IPlayerControllerEvent _playerControllerEvent;
+        private IRespawn _respawn;
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _groundCheckTransform = null;
@@ -27,8 +27,16 @@ namespace WhereIsMyWife.Controllers
         
         private void Start()
         {
-            _playerControllerEvent.SetPlayerControllerData(this);
+            _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
+            _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
+            _wallJumpStateEvents = PlayerManager.Instance.WallJumpStateEvents;
 
+            _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
+            _playerControllerEvent = PlayerManager.Instance.PlayerControllerEvent;
+            _respawn = PlayerManager.Instance.Respawn;
+            
+            _playerControllerEvent.SetPlayerControllerData(this);
+            
             SubscribeToObservables();
         }
 

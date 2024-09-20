@@ -46,7 +46,7 @@ namespace WhereIsMyWife.Player.State
         {
             base.EnterState();
             
-            _isLookingRightAtStart = _stateIndicator.IsLookingRight;
+            _isLookingRightAtStart = _playerStateIndicator.IsLookingRight;
             StartWallHang?.Invoke();
             
             StartSlideSpeedCurve();
@@ -89,7 +89,7 @@ namespace WhereIsMyWife.Player.State
 
         private float GetSlideSpeed()
         {
-            if (_stateIndicator.IsLookingDown)
+            if (_playerStateIndicator.IsLookingDown)
             {
                 return -_properties.Movement.WallSlideFastVelocity;
             }
@@ -99,12 +99,12 @@ namespace WhereIsMyWife.Player.State
         
         private bool PlayerIsGoingOppositeDirectionOfWall()
         {
-            if (!_stateIndicator.IsAccelerating)
+            if (!_playerStateIndicator.IsAccelerating)
             {
                 return false;
             }
             
-            return _isLookingRightAtStart != _stateIndicator.IsRunningRight;
+            return _isLookingRightAtStart != _playerStateIndicator.IsRunningRight;
         }
 
         private void TurnAndCancelWallHang()

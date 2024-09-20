@@ -45,6 +45,7 @@ namespace WhereIsMyWife.Managers
         private void Update()
         {
             CheckForControllerTypeChange();
+            RunAction?.Invoke(_moveVector.x);
         }
         
         private void SubscribeToInputActions()
@@ -83,7 +84,6 @@ namespace WhereIsMyWife.Managers
             ApplyHorizontalDeadZone();
             NormalizeHorizontalAxis();
             
-            RunAction?.Invoke(_moveVector.x);
             LookDownAction?.Invoke(_moveVector.y < 0);
         }
 
@@ -106,7 +106,6 @@ namespace WhereIsMyWife.Managers
         {
             _moveVector = Vector2.zero;
             
-            RunAction?.Invoke(_moveVector.x);
             LookDownAction?.Invoke(false);
         }
 

@@ -1,3 +1,4 @@
+using WhereIsMyWife.Managers;
 using WhereIsMyWife.Player.State;
 using Zenject;
 
@@ -20,6 +21,11 @@ namespace WhereIsMyWife.Player.StateMachine
 
         protected override void Start()
         {
+            _movementState = PlayerManager.Instance.MovementState;
+            _dashState = PlayerManager.Instance.DashState;
+            _wallHangState = PlayerManager.Instance.WallHangState;
+            _wallJumpState = PlayerManager.Instance.WallJumpState;
+            
             States[PlayerState.Movement] = _movementState;
             States[PlayerState.Dash] = _dashState;
             States[PlayerState.WallHang] = _wallHangState;

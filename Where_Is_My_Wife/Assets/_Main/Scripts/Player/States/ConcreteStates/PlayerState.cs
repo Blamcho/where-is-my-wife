@@ -15,8 +15,8 @@ namespace WhereIsMyWife.Player.State
             NextState = stateKey;
         }
         
-        [Inject] protected IPlayerStateInput _playerStateInput;
-        [Inject] protected IPlayerStateIndicator _stateIndicator;
+        protected IPlayerStateInput _playerStateInput => PlayerManager.Instance.PlayerStateInput;
+        protected IPlayerStateIndicator _playerStateIndicator => PlayerManager.Instance.PlayerStateIndicator;
         
         protected IPlayerProperties _properties => PlayerManager.Instance.Properties;
         

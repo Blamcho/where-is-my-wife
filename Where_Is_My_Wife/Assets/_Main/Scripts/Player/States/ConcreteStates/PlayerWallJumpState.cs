@@ -48,7 +48,7 @@ namespace WhereIsMyWife.Player.State
             base.EnterState();
             
             _minTimeHasPassed = false;
-            _directionMultiplier = _stateIndicator.IsLookingRight ? 1 : -1;
+            _directionMultiplier = _playerStateIndicator.IsLookingRight ? 1 : -1;
             StartJumpSpeedCurve();
         }
 
@@ -60,7 +60,7 @@ namespace WhereIsMyWife.Player.State
 
         public override void UpdateState()
         {
-            if (_stateIndicator.IsAccelerating && _minTimeHasPassed)
+            if (_playerStateIndicator.IsAccelerating && _minTimeHasPassed)
             {
                 EndWallJump();
             }

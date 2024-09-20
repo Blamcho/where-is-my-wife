@@ -12,9 +12,9 @@ public class JumpingMethods : IJumpingMethods
 {
     public IJumpingMethods Methods => this;
     
-    [Inject] private IPlayerStateIndicator _stateIndicator;
+    private IPlayerStateIndicator _stateIndicator => PlayerManager.Instance.PlayerStateIndicator;
     
-    [Inject] private IPlayerJumpProperties _jumpProperties;
+    private IPlayerJumpProperties _jumpProperties => PlayerManager.Instance.Properties.Jump;
 
 
     public float GetJumpForce(float currentVelocityY)

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BaseWallJumpProperties
   m_EditorClassIdentifier: 
   <MinWallJumpDuration>k__BackingField: 0.2
-  <WallJumpSpeed>k__BackingField: 15
+  <Speed>k__BackingField: 15
   <TimeToNormalSpeed>k__BackingField: 0.23
   <TimeToZeroSpeed>k__BackingField: 0.5

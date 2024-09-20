@@ -14,10 +14,10 @@ public class RunningMethods : IRunningMethods
 {
     public IRunningMethods Methods => this;
     
-    [Inject] private IPlayerStateIndicator _stateIndicator;
+    private IPlayerStateIndicator _stateIndicator => PlayerManager.Instance.PlayerStateIndicator;
     
-    [Inject] private IPlayerMovementProperties _movementProperties;
-    [Inject] private IPlayerJumpProperties _jumpProperties;
+    private IPlayerMovementProperties _movementProperties => PlayerManager.Instance.Properties.Movement;
+    private IPlayerJumpProperties _jumpProperties => PlayerManager.Instance.Properties.Jump;
     
     private float _accelerationRate = 0;
     private float _targetSpeed = 0;

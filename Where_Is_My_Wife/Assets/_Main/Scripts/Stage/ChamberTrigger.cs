@@ -1,14 +1,21 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
+using WhereIsMyWife.Managers;
 using Zenject;
 
 public class ChamberTrigger : MonoBehaviour
 {
-   [Inject] IRespawn _respawn;
+   IRespawn _respawn;
    
    [SerializeField] private Transform _respawnTransform;
    [SerializeField] private Transform _chamberTransform;
+
+   private void Start()
+   {
+      _respawn = PlayerManager.Instance.Respawn;
+   }
 
    private void OnTriggerEnter2D(Collider2D other)
    {

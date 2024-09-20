@@ -52,11 +52,16 @@ namespace WhereIsMyWife.Managers
 
         private void Start()
         {
-            SubscribeToObservables();
-
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
+         
+            SubscribeToObservables();
             
             GravityScale?.Invoke(Properties.Gravity.Scale);
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeToObservables();
         }
 
         private void Update()
@@ -113,7 +118,7 @@ namespace WhereIsMyWife.Managers
                 if ((IsJumping || IsRunFalling))
                 {
                     IsOnWallHang = true;
-                    WallHangStart();
+                    WallHangStart?.Invoke();
                 }
             }
 
@@ -238,6 +243,15 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.DashAction += ExecuteDashStartEvent;
             _playerInputEvent.LookDownAction += ExecuteLookDownEvent;
         }
+        
+        private void UnsubscribeToObservables()
+        {
+            _playerInputEvent.JumpStartAction -= ExecuteJumpStartEvent;
+            _playerInputEvent.JumpEndAction -= ExecuteJumpEndEvent;
+            _playerInputEvent.RunAction -= ExecuteRunEvent;
+            _playerInputEvent.DashAction -= ExecuteDashStartEvent;
+            _playerInputEvent.LookDownAction -= ExecuteLookDownEvent;
+        }
     }
     
     public partial class PlayerManager : IPlayerStateIndicator
@@ -322,7 +336,8 @@ namespace WhereIsMyWife.Managers
         private void ExecuteRunEvent(float runDirection)
         {
             UpdateIsRunningRight(runDirection);
-            Run?.Invoke(_runningMethods.GetRunAcceleration(runDirection, _controllerData.RigidbodyVelocity.x));
+            float acceleration = _runningMethods.GetRunAcceleration(runDirection, _controllerData.RigidbodyVelocity.x);
+            Run?.Invoke(acceleration);
         }
 
         private void ExecuteDashStartEvent(Vector2 dashDirection)
