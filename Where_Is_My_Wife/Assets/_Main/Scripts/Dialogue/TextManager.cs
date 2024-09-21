@@ -7,20 +7,31 @@ namespace WhereIsMyWife.Managers
 {
    public class TextManager : Singleton<TextManager>
    {
-      [SerializeField] private EventTalk _eventTalk;
+      [SerializeField] private GameObject _textContainer;
       [SerializeField] private TextMeshProUGUI _text;
 
+      private EventTalk _eventTalk;
+      
       private int _currentTextIndex = -1;
    
       private void Start()
       {
-         ChangeToNextText();
          LanguageManager.Instance.OnLanguageChanged += RefreshText;
       }
 
       private void OnDestroy()
       {
          LanguageManager.Instance.OnLanguageChanged -= RefreshText;
+      }
+      
+      private void Update()
+      {
+         // TODO: Change to InputSystem using InputEventManager
+
+         if (Input.GetKeyDown(KeyCode.Space))
+         {
+            ChangeToNextText();
+         }
       }
 
       private void ChangeToNextText()
@@ -32,7 +43,7 @@ namespace WhereIsMyWife.Managers
          }
          else
          {
-            Debug.Log($"There is no text in {_eventTalk} at index {_currentTextIndex}");
+            CloseTextUI();
          }
       }
 
@@ -41,14 +52,18 @@ namespace WhereIsMyWife.Managers
          _text.text = _eventTalk.GetText(_currentTextIndex);
       }
 
-      private void Update()
+      public void ShowUIText(EventTalk nextEventTalk)
       {
-         // TODO: Change to InputSystem using InputEventManager
+         _eventTalk = nextEventTalk;
+         _textContainer.SetActive(true);
+         _currentTextIndex = -1;
+         ChangeToNextText();
+      }
 
-         if (Input.GetKeyDown(KeyCode.Space))
-         {
-            ChangeToNextText();
-         }
+      private void CloseTextUI()
+      {
+         Debug.Log($"There is no text in {_eventTalk} at index {_currentTextIndex}");
+         _textContainer.SetActive(false);
       }
    }
 }
