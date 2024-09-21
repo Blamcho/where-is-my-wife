@@ -1,9 +1,7 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers;
-using Zenject;
 
 public class ChamberTrigger : MonoBehaviour
 {

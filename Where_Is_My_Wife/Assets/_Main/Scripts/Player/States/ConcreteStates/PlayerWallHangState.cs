@@ -1,11 +1,7 @@
 using System;
 using DG.Tweening;
-using UnityEngine;
 using WhereIsMyWife.Controllers;
-using WhereIsMyWife.Managers;
-using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.StateMachine;
-using Zenject;
 
 namespace WhereIsMyWife.Player.State
 {

@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers;
-using Zenject;
 
 public class Hazard : MonoBehaviour
 {

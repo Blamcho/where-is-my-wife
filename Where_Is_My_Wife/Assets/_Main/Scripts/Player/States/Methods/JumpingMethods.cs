@@ -1,7 +1,5 @@
-using UnityEngine;
 using WhereIsMyWife.Managers;
 using WhereIsMyWife.Managers.Properties;
-using Zenject;
 
 public interface IJumpingMethods
 {

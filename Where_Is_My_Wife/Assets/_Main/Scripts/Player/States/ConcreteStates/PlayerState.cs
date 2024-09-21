@@ -3,7 +3,6 @@ using UnityEngine;
 using WhereIsMyWife.Managers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.StateMachine;
-using Zenject;
 
 namespace WhereIsMyWife.Player.State
 {

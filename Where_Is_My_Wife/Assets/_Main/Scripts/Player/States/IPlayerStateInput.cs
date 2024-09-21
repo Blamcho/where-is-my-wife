@@ -1,5 +1,4 @@
 ﻿using System;
-using UniRx;
 using UnityEngine;
 
 namespace WhereIsMyWife.Player.State

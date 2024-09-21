@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
-using Zenject;
 
 namespace WhereIsMyWife.Managers.Properties
 {

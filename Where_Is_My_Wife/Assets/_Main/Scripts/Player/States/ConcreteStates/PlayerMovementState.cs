@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Player.StateMachine;
 

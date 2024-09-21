@@ -1,10 +1,8 @@
 using System;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
-using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
 using WhereIsMyWife.Player.StateMachine;
-using Zenject;
 
 public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
 {

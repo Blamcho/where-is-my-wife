@@ -1,6 +1,4 @@
 using WhereIsMyWife.Managers;
-using WhereIsMyWife.Player.State;
-using Zenject;
 
 namespace WhereIsMyWife.Player.StateMachine
 {

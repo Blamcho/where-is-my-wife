@@ -1,6 +1,5 @@
 using UnityEngine;
 using WhereIsMyWife.Managers;
-using Zenject;
 
 namespace WhereIsMyWife.Controllers
 {
