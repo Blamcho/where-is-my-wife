@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Player.StateMachine;
 
@@ -25,7 +26,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.GravityScale += InvokeGravityScale;
             _playerStateInput.FallSpeedCap += InvokeFallSpeedCap;
             _playerStateInput.WallHangStart += WallHang;
-            _playerStateInput.DashStart += _ => Dash();
+            _playerStateInput.DashStart += Dash;
         }
 
         protected override void UnsubscribeToObservables()
@@ -35,10 +36,10 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.GravityScale -= InvokeGravityScale;
             _playerStateInput.FallSpeedCap -= InvokeFallSpeedCap;
             _playerStateInput.WallHangStart -= WallHang;
-            _playerStateInput.DashStart -= _ => Dash();
+            _playerStateInput.DashStart -= Dash;
         }
 
-        private void Dash()
+        private void Dash(Vector2 _)
         {
             NextState = PlayerStateMachine.PlayerState.Dash;
         }

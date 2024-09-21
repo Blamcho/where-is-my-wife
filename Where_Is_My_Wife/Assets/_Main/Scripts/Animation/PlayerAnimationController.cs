@@ -39,33 +39,33 @@ namespace WhereIsMyWife.Controllers
             _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
             _dashStateEvents = PlayerManager.Instance.DashStateEvents;
             
-            _movementStateEvents.JumpStart += _ => Jump();
-            _movementStateEvents.Run+= _ => Run();
+            _movementStateEvents.JumpStart += Jump;
+            _movementStateEvents.Run += Run;
 
             _wallHangStateEvents.StartWallHang += StartWallHang;
-            _wallHangStateEvents.WallJumpStart += _ => Fall();
+            _wallHangStateEvents.WallJumpStart += Fall;
         }
 
         private void OnDestroy()
         {
-            _movementStateEvents.JumpStart -= _ => Jump();
-            _movementStateEvents.Run -= _ => Run();
+            _movementStateEvents.JumpStart -= Jump;
+            _movementStateEvents.Run -= Run;
 
             _wallHangStateEvents.StartWallHang -= StartWallHang;
-            _wallHangStateEvents.WallJumpStart -= _ => Fall();
+            _wallHangStateEvents.WallJumpStart -= Fall;
         }
 
-        private void Jump()
+        private void Jump(float _)
         {
             PlayAnimationState(JUMP_ANIMATION_STATE);
         }
 
-        private void Fall()
+        private void Fall(float _)
         {
             PlayAnimationState(FALL_ANIMATION_STATE);
         }
         
-        private void Run()
+        private void Run(float _)
         {
             if (!_playerStateIndicator.IsJumping)
             {

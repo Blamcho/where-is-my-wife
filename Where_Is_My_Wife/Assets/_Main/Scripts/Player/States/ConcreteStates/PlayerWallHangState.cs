@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Player.StateMachine;
 
@@ -24,7 +25,7 @@ namespace WhereIsMyWife.Player.State
         
         protected override void SubscribeToObservables()
         {
-            _playerStateInput.DashStart += _ => Dash();
+            _playerStateInput.DashStart += Dash;
             _playerStateInput.JumpStart += Jump;
             _playerStateInput.Land += TurnAndCancelWallHang;
             _playerStateInput.WallHangEnd += TurnAndCancelWallHang;
@@ -32,7 +33,7 @@ namespace WhereIsMyWife.Player.State
 
         protected override void UnsubscribeToObservables()
         {
-            _playerStateInput.DashStart -= _ => Dash();
+            _playerStateInput.DashStart -= Dash;
             _playerStateInput.JumpStart -= Jump;
             _playerStateInput.Land -= TurnAndCancelWallHang;
             _playerStateInput.WallHangEnd -= TurnAndCancelWallHang;
@@ -114,7 +115,7 @@ namespace WhereIsMyWife.Player.State
             NextState = PlayerStateMachine.PlayerState.Movement;
         }
 
-        private void Dash()
+        private void Dash(Vector2 _)
         {
             Turn?.Invoke();
             NextState = PlayerStateMachine.PlayerState.Dash;
