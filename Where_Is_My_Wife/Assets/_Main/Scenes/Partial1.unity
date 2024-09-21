@@ -1088,6 +1088,10 @@ PrefabInstance:
       propertyPath: _respawnTransform
       value: 
       objectReference: {fileID: 1767969133}
+    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+      propertyPath: _playerRespawnTransform
+      value: 
+      objectReference: {fileID: 1767969133}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger 1
@@ -16385,6 +16389,10 @@ PrefabInstance:
       propertyPath: _respawnTransform
       value: 
       objectReference: {fileID: 1350883122}
+    - target: {fileID: 1235921275368862115, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
+      propertyPath: _playerRespawnTransform
+      value: 
+      objectReference: {fileID: 1350883122}
     - target: {fileID: 1618275288534122250, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
       propertyPath: m_Name
       value: Chamber 1
@@ -30634,6 +30642,10 @@ PrefabInstance:
       propertyPath: m_TileSpriteArray.Array.data[33].m_RefCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1235921275368862115, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
+      propertyPath: _playerRespawnTransform
+      value: 
+      objectReference: {fileID: 1460325755}
     - target: {fileID: 1618275288534122250, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
       propertyPath: m_Name
       value: Chamber 2
@@ -66667,6 +66679,7 @@ PrefabInstance:
     - {fileID: 2660199994337774177, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
     - {fileID: 1419484738273794926, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
     - {fileID: 5611387057339074839, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
+    - {fileID: 5749515418564884574, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2205077736419873349, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
       insertIndex: -1
@@ -66676,6 +66689,11 @@ PrefabInstance:
 --- !u!4 &1460325754 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2205077736419873349, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
+  m_PrefabInstance: {fileID: 1460325753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1460325755 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1886357346904633996, guid: b46b81a2fd4792948a71a64c9b53925a, type: 3}
   m_PrefabInstance: {fileID: 1460325753}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1462113285

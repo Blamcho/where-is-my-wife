@@ -1,25 +1,26 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers;
 
 public class ChamberTrigger : MonoBehaviour
 {
-   IRespawn _respawn;
+   IRespawn _playerRespawn;
    
-   [SerializeField] private Transform _respawnTransform;
+   [SerializeField] private Transform _playerRespawnTransform;
    [SerializeField] private Transform _chamberTransform;
 
    private void Start()
    {
-      _respawn = PlayerManager.Instance.Respawn;
+      _playerRespawn = PlayerManager.Instance.Respawn;
    }
 
    private void OnTriggerEnter2D(Collider2D other)
    {
       if (other.CompareTag("StageCollider"))
       {
-         _respawn.SetRespawnPoint(_respawnTransform.position);
+         _playerRespawn.SetRespawnPoint(_playerRespawnTransform.position);
          PerformCameraAnimation();
       }
    }
