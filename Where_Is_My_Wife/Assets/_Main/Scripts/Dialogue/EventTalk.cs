@@ -1,4 +1,5 @@
 using UnityEngine;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Dialogue
 {
@@ -9,12 +10,12 @@ namespace WhereIsMyWife.Dialogue
 
       public string GetText(int index)
       {
-         return _text[index].Text[0];
+         return _text[index].Text[(int)LanguageManager.Instance.Language];
       }
 
-      public bool IsThereAnotherText(int index)
+      public bool IsThereAnotherText(int currentIndex)
       {
-         return index < _text.Length;
+         return currentIndex + 1 < _text.Length;
       }
    }
 }
