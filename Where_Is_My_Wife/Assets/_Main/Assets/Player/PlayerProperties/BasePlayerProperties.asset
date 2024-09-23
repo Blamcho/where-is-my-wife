@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4743de84ceaaaf4ab703a1fef737455, type: 3}
+  m_Name: BasePlayerProperties
+  m_EditorClassIdentifier: 
+  _movementPropertiesSO: {fileID: 11400000, guid: 8fd7ea673e8b5ff43b36b7a4780f471e, type: 2}
+  _jumpPropertiesSO: {fileID: 11400000, guid: 05309a93c8aa2094f9316213aa5f0379, type: 2}
+  _dashPropertiesSO: {fileID: 11400000, guid: a6bc620f22c23d840961f7282c96cf83, type: 2}
+  _gravityPropertiesSO: {fileID: 11400000, guid: 8c4d0c2db350b4449a374a5e388d4c06, type: 2}
+  _checkPropertiesSO: {fileID: 11400000, guid: a6f1df6aba9d9e6468ba265c1ece69cb, type: 2}
+  _wallJumpPropertiesSO: {fileID: 11400000, guid: d58112eaeb40f104db267533a48ce42e, type: 2}
