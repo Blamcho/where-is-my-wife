@@ -73,6 +73,8 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.performed += OnMovePerform;
             _playerInputActions.Normal.Move.canceled += OnMoveCancel;
             _playerInputActions.Normal.Dash.performed += OnDash;
+            _playerInputActions.Normal.Hook.performed += OnHookPerform;
+            _playerInputActions.Normal.Hook.canceled += OnHookCancel;
 
             _playerInputActions.Special.Pause.started += OnPauseStart;
             
@@ -81,7 +83,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.UI.Submit.started += OnSubmitStart;
             _playerInputActions.UI.Cancel.started += OnCancelStart;
         }
-        
+
         private void UnsubscribeToInputActions()
         {
             _playerInputActions.Normal.Jump.performed -= OnJumpPerform;
@@ -89,6 +91,8 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.performed -= OnMovePerform;
             _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
             _playerInputActions.Normal.Dash.performed -= OnDash;
+            _playerInputActions.Normal.Hook.performed -= OnHookPerform;
+            _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
             
             _playerInputActions.Special.Pause.started -= OnPauseStart;
             
@@ -146,6 +150,21 @@ namespace WhereIsMyWife.Managers
             {
                DashAction?.Invoke(_moveVector.x);
             }
+        }
+
+        private void OnHookPerform(InputAction.CallbackContext context)
+        {
+            HookStartAction?.Invoke();
+        }
+
+        private void OnHookCancel(InputAction.CallbackContext context)
+        {
+            HookEndAction?.Invoke();
+        }       
+
+        public void Dispose()
+        {
+            _playerInputActions.Disable();
         }
 
         private void OnPauseStart(InputAction.CallbackContext context)
