@@ -3,6 +3,9 @@ using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Controllers
 {
+    /// <summary>
+    /// Reacts to whatever the <see cref="WhereIsMyWife.Player.StateMachine.PlayerStateMachine"/> decides the player needs to do based on the events sent. 
+    /// </summary>
     public class PlayerController : MonoBehaviour, IPlayerControllerData
     {
         public Vector2 RigidbodyVelocity => _rigidbody2D.velocity;

@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
+public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 {
     protected Dictionary<EState, IBaseState<EState>> States = new Dictionary<EState, IBaseState<EState>>();
     protected IBaseState<EState> CurrentState;
     
     protected bool IsTransitioningState = false;
-
+    
     protected virtual void Start()
     {
         CurrentState.EnterState();
@@ -16,30 +16,24 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
 
     private void Update()
     {
+        if (IsTransitioningState) return;
+        
         EState nextStateKey = CurrentState.NextState;
-
-        if (!IsTransitioningState && nextStateKey.Equals(CurrentState.StateKey))
-        {
-            CurrentState.UpdateState();
-        }
-        else if (!IsTransitioningState)
+        
+        if (!nextStateKey.Equals(CurrentState.StateKey))
         {
             TransitionToState(nextStateKey);
+            return;
         }
+        
+        CurrentState.UpdateState();
     }
 
     private void FixedUpdate()
     {
-        EState nextStateKey = CurrentState.NextState;
+        if (IsTransitioningState) return;
 
-        if (!IsTransitioningState && nextStateKey.Equals(CurrentState.StateKey))
-        {
-            CurrentState.FixedUpdateState();
-        }
-        else if (!IsTransitioningState)
-        {
-            TransitionToState(nextStateKey);
-        }
+        CurrentState.FixedUpdateState();
     }
 
     private void TransitionToState(EState nextStateKey)
@@ -53,16 +47,22 @@ public abstract class StateManager<EState> : MonoBehaviour where EState : Enum
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (IsTransitioningState) return;
+        
         CurrentState.OnTriggerEnter2D(other);
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        if (IsTransitioningState) return;
+        
         CurrentState.OnTriggerStay2D(other);
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (IsTransitioningState) return;
+        
         CurrentState.OnTriggerExit2D(other);
     }
 }

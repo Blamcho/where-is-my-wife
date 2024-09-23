@@ -1,8 +1,12 @@
-using WhereIsMyWife.Managers;
+using WhereIsMyWife.Controllers;
+using WhereIsMyWife.Player.State;
 
 namespace WhereIsMyWife.Player.StateMachine
 {
-    public class PlayerStateMachine : StateManager<PlayerStateMachine.PlayerState>
+    /// <summary>
+    /// Receives the processed input and decides what to do with it, changes the state and then raises events via different StateEvents interfaces.
+    /// </summary>
+    public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerState>
     {
         public enum PlayerState
         {
@@ -12,26 +16,25 @@ namespace WhereIsMyWife.Player.StateMachine
             WallHang,
             WallJump,
         }
-        private IMovementState _movementState;
-        private IDashState _dashState;
-        private IWallHangState _wallHangState;
-        private IWallJumpState _wallJumpState;
 
-        protected override void Start()
+        public IMovementStateEvents MovementStateEvents { get; private set; }
+        public IDashStateEvents DashStateEvents { get; private set; }
+        public IWallHangStateEvents WallHangStateEvents { get; private set; }
+        public IWallJumpStateEvents WallJumpStateEvents { get; private set; }
+        
+        protected void Awake()
         {
-            _movementState = PlayerManager.Instance.MovementState;
-            _dashState = PlayerManager.Instance.DashState;
-            _wallHangState = PlayerManager.Instance.WallHangState;
-            _wallJumpState = PlayerManager.Instance.WallJumpState;
-            
-            States[PlayerState.Movement] = _movementState;
-            States[PlayerState.Dash] = _dashState;
-            States[PlayerState.WallHang] = _wallHangState;
-            States[PlayerState.WallJump] = _wallJumpState;
+            States[PlayerState.Movement] = new PlayerMovementState();
+            States[PlayerState.Dash] = new PlayerDashState();
+            States[PlayerState.WallHang] = new PlayerWallHangState();
+            States[PlayerState.WallJump] = new PlayerWallJumpState();
+
+            MovementStateEvents = (IMovementStateEvents)States[PlayerState.Movement];
+            DashStateEvents = (IDashStateEvents)States[PlayerState.Dash];
+            WallHangStateEvents = (IWallHangStateEvents)States[PlayerState.WallHang];
+            WallJumpStateEvents = (IWallJumpStateEvents)States[PlayerState.WallJump];
             
             CurrentState = States[PlayerState.Movement];
-            
-            base.Start();
         }
     }
 }

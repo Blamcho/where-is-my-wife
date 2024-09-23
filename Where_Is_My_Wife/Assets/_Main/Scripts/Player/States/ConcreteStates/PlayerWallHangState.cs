@@ -10,9 +10,6 @@ namespace WhereIsMyWife.Player.State
     {
         public PlayerWallHangState() : base(PlayerStateMachine.PlayerState.WallHang) { }
         
-        public IWallHangStateEvents WallHangStateEvents => this;
-        public IWallHangState WallHangState => this;
-        
         public Action StartWallHang { get; set; }
         public Action<float> WallHangVelocity { get; set; }
         public Action<float> WallJumpStart { get; set; }

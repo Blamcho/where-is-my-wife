@@ -5,6 +5,9 @@ using WIMW.Input;
 
 namespace WhereIsMyWife.Managers
 {
+    /// <summary>
+    ///  The player input arrives here and raises events for other classes to react via an <see cref="IPlayerInputEvent"/>
+    /// </summary>
     public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent
     {
         public IPlayerInputEvent PlayerInputEvent => this;
@@ -45,7 +48,7 @@ namespace WhereIsMyWife.Managers
         private void Update()
         {
             CheckForControllerTypeChange();
-            RunAction?.Invoke(_moveVector.x);
+            RunAction?.Invoke(_moveVector.x); 
         }
         
         private void SubscribeToInputActions()

@@ -3,51 +3,33 @@ using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
+using WhereIsMyWife.Player.StateMachine;
 
 namespace WhereIsMyWife.Managers
 {
+    /// <summary>
+    /// Receives the input made by the player and process it with customized properties and then raises events via <see cref="IPlayerStateInput"/> and gives information via <see cref="IPlayerStateIndicator"/>
+    /// </summary>
     public partial class PlayerManager : Singleton<PlayerManager>
     {
         [SerializeField] private PlayerProperties _propertiesSO;
+        [SerializeField] private PlayerStateMachine _playerStateMachine;
+        
         public IPlayerProperties Properties => _propertiesSO.Properties;
         
         private IPlayerInputEvent _playerInputEvent;
         
         private IRunningMethods _runningMethods = new RunningMethods().Methods;
         private IJumpingMethods _jumpingMethods = new JumpingMethods().Methods;
-        
-        private PlayerDashState _playerDashState = new PlayerDashState();
-        private PlayerMovementState _playerMovementState = new PlayerMovementState();
-        private PlayerWallHangState _playerWallHangState = new PlayerWallHangState();
-        private PlayerWallJumpState _playerWallJumpState = new PlayerWallJumpState();
-        
-        public IDashState DashState { get; private set; } 
-        public IDashStateEvents DashStateEvents { get; private set; }
-        public IMovementState MovementState { get; private set; }
-        public IMovementStateEvents MovementStateEvents { get; private set; }
-        public IWallHangState WallHangState { get; private set; }
-        public IWallHangStateEvents WallHangStateEvents { get; private set; }
-        public IWallJumpState WallJumpState { get; private set; }
-        public IWallJumpStateEvents WallJumpStateEvents { get; private set; }
-            
+
+        public IDashStateEvents DashStateEvents => _playerStateMachine.DashStateEvents;
+        public IMovementStateEvents MovementStateEvents => _playerStateMachine.MovementStateEvents;
+        public IWallHangStateEvents WallHangStateEvents => _playerStateMachine.WallHangStateEvents;
+        public IWallJumpStateEvents WallJumpStateEvents => _playerStateMachine.WallJumpStateEvents;
         
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            DashState = _playerDashState.DashState;
-            DashStateEvents = _playerDashState.DashStateEvents;
-            MovementState = _playerMovementState.MovementState;
-            MovementStateEvents = _playerMovementState.MovementStateEvents;
-            WallHangState = _playerWallHangState.WallHangState;
-            WallHangStateEvents = _playerWallHangState.WallHangStateEvents;
-            WallJumpState = _playerWallJumpState.WallJumpState;
-            WallJumpStateEvents = _playerWallJumpState.WallJumpStateEvents;
-        }
 
         private void Start()
         {

@@ -9,9 +9,6 @@ namespace WhereIsMyWife.Player.State
     {
         public PlayerWallJumpState() : base(PlayerStateMachine.PlayerState.WallJump) { }
         
-        public IWallJumpStateEvents WallJumpStateEvents => this;
-        public IWallJumpState WallJumpState => this;
-        
         public Action<float> WallJumpVelocity { get; set; }
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }

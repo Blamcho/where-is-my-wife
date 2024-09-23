@@ -3,6 +3,9 @@ using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Controllers
 {
+    /// <summary>
+    /// This is independent to the <see cref="PlayerController"/> and just reacts to the Events to show the animations.
+    /// </summary>
     public class PlayerAnimationController : MonoBehaviour
     {
         [SerializeField] private Animator _animator;
