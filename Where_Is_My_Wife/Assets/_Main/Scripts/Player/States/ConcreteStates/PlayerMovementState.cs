@@ -14,8 +14,6 @@ namespace WhereIsMyWife.Player.State
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         
-        private float _runAcceleration;
-        
         protected override void SubscribeToObservables()
         {
             _playerStateInput.JumpStart += InvokeJumpStart;

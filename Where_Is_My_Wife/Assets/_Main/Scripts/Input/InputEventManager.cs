@@ -48,9 +48,13 @@ namespace WhereIsMyWife.Managers
         private void Update()
         {
             CheckForControllerTypeChange();
+        }
+
+        private void FixedUpdate()
+        {
             RunAction?.Invoke(_moveVector.x); 
         }
-        
+
         private void SubscribeToInputActions()
         {
             _playerInputActions.Normal.Jump.performed += OnJumpPerform;
