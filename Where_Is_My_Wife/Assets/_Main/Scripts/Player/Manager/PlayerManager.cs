@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
@@ -250,6 +251,8 @@ namespace WhereIsMyWife.Managers
         public bool IsOnWallHang { get; private set; } = false;
         public bool IsRunFalling { get; private set; } = false;
 
+        public float DashSpeed { get; private set; } = 0f;
+
         public bool IsOnJumpInputBuffer()
         {
             return _lastPressedJumpTime >= 0;
@@ -323,7 +326,8 @@ namespace WhereIsMyWife.Managers
 
         private void ExecuteDashStartEvent(float dashDirection)
         {
-            DashStart?.Invoke(dashDirection * Properties.Dash.Speed);
+            DashSpeed = dashDirection * Properties.Dash.Speed;
+            DashStart?.Invoke(DashSpeed);
         }
 
         private void ExecuteLookDownEvent(bool isLookingDown)

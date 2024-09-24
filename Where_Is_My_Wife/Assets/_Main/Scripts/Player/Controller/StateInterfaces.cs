@@ -14,6 +14,9 @@ namespace WhereIsMyWife.Controllers
     public interface IDashStateEvents
     {
         Action<float> Dash { get; set; }
+        Action<float> GravityScale { get; set; }
+        Action<float> FallSpeedCap { get; set; }
+
     }
 
     public interface IHookStateEvents

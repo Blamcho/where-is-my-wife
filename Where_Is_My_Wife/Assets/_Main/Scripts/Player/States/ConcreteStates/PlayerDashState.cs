@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Player.State;
@@ -9,28 +10,28 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
     public PlayerDashState() : base(PlayerStateMachine.PlayerState.Dash) { }
     
     public Action<float> Dash { get; set; }
-    
+    public Action<float> GravityScale { get; set; }
+    public Action<float> FallSpeedCap { get ; set; }
+
     private float _timer;
     
     protected override void SubscribeToObservables()
     {
-        _playerStateInput.DashStart += InvokeDash;
+        
     }
     
     protected override void UnsubscribeToObservables()
     {
-        _playerStateInput.DashStart -= InvokeDash;
-    }
-
-    private void InvokeDash(float dashVector)
-    {
-        Dash?.Invoke(dashVector);
+        
     }
 
     public override void EnterState()
     {
         base.EnterState();
         _timer = 0;
+        GravityScale?.Invoke(0f);
+        FallSpeedCap?.Invoke(0f);
+        Dash?.Invoke(_playerStateIndicator.DashSpeed);
     }
 
     public override void FixedUpdateState()
@@ -41,9 +42,5 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
         {
             NextState = PlayerStateMachine.PlayerState.Movement;
         }
-    }
-
-    public override void ExitState()
-    {
     }
 }
