@@ -8,21 +8,21 @@ using WhereIsMyWife.Player.StateMachine;
 public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
 {
     public PlayerDashState() : base(PlayerStateMachine.PlayerState.Dash) { }
-    
+
     public Action<float> Dash { get; set; }
     public Action<float> GravityScale { get; set; }
-    public Action<float> FallSpeedCap { get ; set; }
+    public Action<float> FallSpeedCap { get; set; }
 
     private float _timer;
-    
+
     protected override void SubscribeToObservables()
     {
-        
+        _playerStateInput.WallHangStart += Wallhang;
     }
-    
+
     protected override void UnsubscribeToObservables()
     {
-        
+        _playerStateInput.WallHangStart -= Wallhang;
     }
 
     public override void EnterState()
@@ -43,4 +43,10 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
             NextState = PlayerStateMachine.PlayerState.Movement;
         }
     }
+    private void Wallhang()
+
+    {
+        NextState = PlayerStateMachine.PlayerState.WallHang;
+    }
 }
+        

@@ -26,6 +26,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.FallSpeedCap += InvokeFallSpeedCap;
             _playerStateInput.Land += EndWallJump;
             _playerStateInput.WallHangStart += WallHang;
+            _playerStateInput.DashStart += Dash;
         }
 
         protected override void UnsubscribeToObservables()
@@ -34,6 +35,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.FallSpeedCap -= InvokeFallSpeedCap;
             _playerStateInput.Land -= EndWallJump;
             _playerStateInput.WallHangStart -= WallHang;
+            _playerStateInput.DashStart -= Dash;
         }
 
         public override void EnterState()
@@ -95,7 +97,7 @@ namespace WhereIsMyWife.Player.State
             NextState = PlayerStateMachine.PlayerState.WallHang;
         }
         
-        private void Dash()
+        private void Dash(float _)
         {
             NextState = PlayerStateMachine.PlayerState.Dash;
         }
