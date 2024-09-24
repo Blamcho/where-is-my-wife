@@ -15,7 +15,7 @@ namespace WhereIsMyWife.Managers
         public Action JumpStartAction { get; set; }
         public Action JumpEndAction { get; set; }
         public Action<float> RunAction { get; set; }
-        public Action<Vector2> DashAction { get; set; }
+        public Action<float> DashAction { get; set; }
         public Action<Vector2> UseItemAction { get; set; }
         public Action HookStartAction { get; set; }
         public Action HookEndAction { get; set; }
@@ -119,7 +119,7 @@ namespace WhereIsMyWife.Managers
 
         private void OnDash(InputAction.CallbackContext context)
         {
-            DashAction?.Invoke(_moveVector.normalized);
+            DashAction?.Invoke(_moveVector.x);
         }
     
         public void Dispose()

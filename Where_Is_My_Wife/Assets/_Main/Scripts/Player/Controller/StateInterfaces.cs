@@ -13,7 +13,7 @@ namespace WhereIsMyWife.Controllers
 
     public interface IDashStateEvents
     {
-        Action<Vector2> Dash { get; set; }
+        Action<float> Dash { get; set; }
     }
 
     public interface IHookStateEvents

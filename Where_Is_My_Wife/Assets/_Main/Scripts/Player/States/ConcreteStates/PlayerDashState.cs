@@ -8,7 +8,7 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
 {
     public PlayerDashState() : base(PlayerStateMachine.PlayerState.Dash) { }
     
-    public Action<Vector2> Dash { get; set; }
+    public Action<float> Dash { get; set; }
     
     private float _timer;
     
@@ -22,7 +22,7 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
         _playerStateInput.DashStart -= InvokeDash;
     }
 
-    private void InvokeDash(Vector2 dashVector)
+    private void InvokeDash(float dashVector)
     {
         Dash?.Invoke(dashVector);
     }

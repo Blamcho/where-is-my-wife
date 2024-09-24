@@ -34,7 +34,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.DashStart -= Dash;
         }
 
-        private void Dash(Vector2 _)
+        private void Dash(float _)
         {
             NextState = PlayerStateMachine.PlayerState.Dash;
         }

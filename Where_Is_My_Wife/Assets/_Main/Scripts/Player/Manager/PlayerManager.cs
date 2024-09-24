@@ -296,7 +296,7 @@ namespace WhereIsMyWife.Managers
         public Action<float> Run { get; set; }
         public Action WallHangStart { get; set; }
         public Action WallHangEnd { get; set; }
-        public Action<Vector2> DashStart { get; set; }
+        public Action<float> DashStart { get; set; }
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
@@ -321,7 +321,7 @@ namespace WhereIsMyWife.Managers
             Run?.Invoke(acceleration);
         }
 
-        private void ExecuteDashStartEvent(Vector2 dashDirection)
+        private void ExecuteDashStartEvent(float dashDirection)
         {
             DashStart?.Invoke(dashDirection * Properties.Dash.Speed);
         }

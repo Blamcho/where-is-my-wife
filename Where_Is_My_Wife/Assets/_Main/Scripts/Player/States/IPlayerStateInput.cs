@@ -9,7 +9,7 @@ namespace WhereIsMyWife.Player.State
         Action<float> Run { get; set; }
         Action WallHangStart { get; set; }
         Action WallHangEnd { get; set; }
-        Action<Vector2> DashStart { get; set; }
+        Action<float> DashStart { get; set; }
         Action<float> GravityScale { get; set; }
         Action<float> FallSpeedCap { get; set; }
         Action Land { get; set; }
