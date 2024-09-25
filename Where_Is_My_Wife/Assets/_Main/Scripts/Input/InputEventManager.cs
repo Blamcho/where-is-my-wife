@@ -30,6 +30,7 @@ namespace WhereIsMyWife.Managers
         private Vector2 _moveVector = Vector2.zero;
         
         private float _horizontalDeadZone = 0.5f;
+        private float _lookDownThreshold = 0.7f;
         
         protected override void Awake()
         {
@@ -91,7 +92,7 @@ namespace WhereIsMyWife.Managers
             ApplyHorizontalDeadZone();
             NormalizeHorizontalAxis();
             
-            LookDownAction?.Invoke(_moveVector.y < 0);
+            LookDownAction?.Invoke(_moveVector.y < -_lookDownThreshold);
         }
 
         private void ApplyHorizontalDeadZone()
