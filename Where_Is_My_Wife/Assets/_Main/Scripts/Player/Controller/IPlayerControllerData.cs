@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace WhereIsMyWife.Controllers
 {
@@ -9,5 +10,7 @@ namespace WhereIsMyWife.Controllers
         public Vector2 WallHangCheckUpPosition { get; }
         public Vector2 WallHangCheckDownPosition { get; }
         public float HorizontalScale { get; }
+        public Action<Collider2D> TriggerEnterEvent { get; set; }
+        public Action<Collider2D> TriggerExitEvent { get; set; }
     }
 }

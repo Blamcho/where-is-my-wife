@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
@@ -13,7 +14,9 @@ namespace WhereIsMyWife.Controllers
         public Vector2 WallHangCheckUpPosition => _wallHangCheckUpTransform.position;
         public Vector2 WallHangCheckDownPosition => _wallHangCheckDownTransform.position;
         public float HorizontalScale => transform.localScale.x;
-    
+        public Action<Collider2D> TriggerEnterEvent { get; set; }
+        public Action<Collider2D> TriggerExitEvent { get; set; }
+
         private IMovementStateEvents _movementStateEvents;
         private IWallHangStateEvents _wallHangStateEvents;
         private IWallJumpStateEvents _wallJumpStateEvents;
@@ -47,6 +50,16 @@ namespace WhereIsMyWife.Controllers
         private void OnDestroy()
         {
             UnsubscribeToObservables();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            TriggerEnterEvent?.Invoke(collision);
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            TriggerExitEvent?.Invoke(collision);
         }
 
         private void SubscribeToObservables()
