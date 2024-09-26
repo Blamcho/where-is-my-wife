@@ -350,6 +350,8 @@ namespace WhereIsMyWife.Managers
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
+        public Action HookStart { get; set; }
+        public Action HookEnd { get; set; }
 
         private void ExecuteJumpStartEvent()
         {
