@@ -6,6 +6,7 @@ TagManager:
   tags:
   - StageCollider
   - Hook
+  - DoubleJump
   layers:
   - Default
   - TransparentFX
