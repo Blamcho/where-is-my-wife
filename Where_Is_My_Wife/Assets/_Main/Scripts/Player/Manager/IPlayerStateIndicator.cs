@@ -12,8 +12,8 @@
         public bool IsJumpFalling { get; }
         public bool IsOnWallHang { get; }
         public bool IsRunFalling { get; }
+        public bool IsInHookRange { get; }
         public float DashSpeed {  get; }
-
         public bool IsOnJumpInputBuffer();
         public bool IsFastFalling();
         public bool IsOnGround();
