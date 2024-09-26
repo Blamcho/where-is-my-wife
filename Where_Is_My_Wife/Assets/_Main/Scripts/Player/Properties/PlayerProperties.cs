@@ -10,6 +10,7 @@ namespace WhereIsMyWife.Managers.Properties
         public IPlayerGravityProperties Gravity { get; }
         public IPlayerCheckProperties Check { get; }
         public IPlayerWallJumpProperties WallJump { get; }
+        public IPlayerHookProperties Hook { get; }
     }
     
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/PlayerProperties", fileName = "PlayerProperties")]
@@ -23,6 +24,7 @@ namespace WhereIsMyWife.Managers.Properties
         public IPlayerGravityProperties Gravity => _gravityPropertiesSO.GravityProperties;
         public IPlayerCheckProperties Check => _checkPropertiesSO.CheckProperties;
         public IPlayerWallJumpProperties WallJump => _wallJumpPropertiesSO.WallJumpProperties;
+        public IPlayerHookProperties Hook => _hookPropertiesSO.HookProperties;
 
         [field: SerializeField] private PlayerMovementProperties _movementPropertiesSO;
         [field: SerializeField] private PlayerJumpProperties _jumpPropertiesSO;
@@ -30,5 +32,6 @@ namespace WhereIsMyWife.Managers.Properties
         [field: SerializeField] private PlayerGravityProperties _gravityPropertiesSO;
         [field: SerializeField] private PlayerCheckProperties _checkPropertiesSO;
         [field: SerializeField] private PlayerWallJumpProperties _wallJumpPropertiesSO;
+        [field: SerializeField] private PlayerHookProperties _hookPropertiesSO;
     }
 }
