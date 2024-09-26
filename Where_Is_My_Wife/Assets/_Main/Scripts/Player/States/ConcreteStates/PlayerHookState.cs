@@ -5,7 +5,7 @@ using WhereIsMyWife.Player.StateMachine;
 
 namespace WhereIsMyWife.Player.State
 {
-    public class PlayerHookState : PlayerState, IMovementState, IMovementStateEvents
+    public class PlayerHookState : PlayerState, IHookState, IHookStateEvents
     {
         public PlayerHookState() : base(PlayerStateMachine.PlayerState.Hook) { }
 
