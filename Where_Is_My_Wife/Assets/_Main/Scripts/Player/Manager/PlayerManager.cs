@@ -180,7 +180,7 @@ namespace WhereIsMyWife.Managers
             JumpingCheck();
             LandCheck();
 
-            if (CanJump() && _lastPressedJumpTime > 0)
+            if (_lastPressedJumpTime > 0 && CanJump()) // Button press needs to happen before CanJump() for DoubleJump
             {
                 IsJumping = true;
                 IsJumpCut = false;
