@@ -32,6 +32,11 @@ namespace WhereIsMyWife.Managers
         private float _lastPressedJumpTime = 0;
 
         private bool _canDash = true;
+        
+        // Hook
+        private bool _hookAttempted = false;
+        private bool _hookQTEWindow = false;
+        private Vector3 _originalPlayerVelocity = Vector3.zero;
 
         private void Start()
         {
@@ -56,6 +61,32 @@ namespace WhereIsMyWife.Managers
             WallCheck();
             JumpChecks();
             GravityShifts();
+        }
+
+        private void HookHoldPlayerVelocity()
+        {
+            
+        }
+
+        private void HookResumePlayerVelocity()
+        {
+
+        }
+
+        private void TriggerEnter(Collider2D collider)
+        {
+            if (collider.CompareTag("Hook"))
+            {
+                IsInHookRange = true;
+            }
+        }
+        
+        private void TriggerExit(Collider2D collider)
+        {
+            if (collider.CompareTag("Hook"))
+            {
+                IsInHookRange = false;
+            }
         }
 
         private void UpdateIsRunningRight(float runDirection)
@@ -228,8 +259,13 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.RunAction += ExecuteRunEvent;
             _playerInputEvent.DashAction += ExecuteDashStartEvent;
             _playerInputEvent.LookDownAction += ExecuteLookDownEvent;
+            _playerInputEvent.HookStartAction += ExecuteHookStartEvent;
+            _playerInputEvent.HookEndAction += ExecuteHookEndEvent;
+
+            _controllerData.TriggerEnterEvent += TriggerEnter;
+            _controllerData.TriggerExitEvent += TriggerExit;
         }
-        
+
         private void UnsubscribeToObservables()
         {
             _playerInputEvent.JumpStartAction -= ExecuteJumpStartEvent;
@@ -237,6 +273,11 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.RunAction -= ExecuteRunEvent;
             _playerInputEvent.DashAction -= ExecuteDashStartEvent;
             _playerInputEvent.LookDownAction -= ExecuteLookDownEvent;
+            _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
+            _playerInputEvent.HookEndAction -= ExecuteHookEndEvent;
+
+            _controllerData.TriggerEnterEvent -= TriggerEnter;
+            _controllerData.TriggerExitEvent -= TriggerExit;
         }
     }
     
@@ -254,6 +295,7 @@ namespace WhereIsMyWife.Managers
         public bool IsJumpFalling { get; private set; } = false;
         public bool IsOnWallHang { get; private set; } = false;
         public bool IsRunFalling { get; private set; } = false;
+        public bool IsInHookRange { get; private set; } = false;
 
         public float DashSpeed { get; private set; } = 0f;
 
@@ -347,6 +389,29 @@ namespace WhereIsMyWife.Managers
         private void ExecuteLookDownEvent(bool isLookingDown)
         {
             IsLookingDown = isLookingDown;
+        }
+
+        private void ExecuteHookStartEvent()
+        {
+            if (IsInHookRange)
+            {
+                if (!_hookAttempted)
+                {
+                    _hookAttempted = true;
+                    
+                }
+            }
+        }
+
+        private void ExecuteHookEndEvent()
+        {
+            if (IsInHookRange)
+            {
+                if (_hookQTEWindow)
+                {
+
+                }
+            }
         }
     }
 
