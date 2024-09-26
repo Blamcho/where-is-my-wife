@@ -15,7 +15,8 @@ namespace WhereIsMyWife.Managers
     {
         [SerializeField] private PlayerProperties _propertiesSO;
         [SerializeField] private PlayerStateMachine _playerStateMachine;
-        
+        private bool _canDash = true;
+
         public IPlayerProperties Properties => _propertiesSO.Properties;
         
         private IPlayerInputEvent _playerInputEvent;
@@ -37,7 +38,9 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
          
             SubscribeToObservables();
-            
+
+            _canDash = true;
+
             GravityScale?.Invoke(Properties.Gravity.Scale);
         }
 
@@ -79,6 +82,7 @@ namespace WhereIsMyWife.Managers
             {
                 _lastOnGroundTime = Properties.Jump.CoyoteTime;
                 IsRunFalling = false;
+                _canDash = true;
             }
 
             if (!IsJumping && _lastOnGroundTime < Properties.Jump.CoyoteTime)
@@ -289,6 +293,7 @@ namespace WhereIsMyWife.Managers
         {
             return IsJumping && _controllerData.RigidbodyVelocity.y > 0;
         }
+
     }
     
     public partial class PlayerManager : IPlayerStateInput
@@ -316,7 +321,12 @@ namespace WhereIsMyWife.Managers
                 IsJumpCut = true;
             }
         }
-        
+
+        private bool InAir()
+        {
+            return _lastOnGroundTime <= 0 && !IsOnWallHang;
+        }
+
         private void ExecuteRunEvent(float runDirection)
         {
             UpdateIsRunningRight(runDirection);
@@ -326,8 +336,12 @@ namespace WhereIsMyWife.Managers
 
         private void ExecuteDashStartEvent(float dashDirection)
         {
-            DashSpeed = dashDirection * Properties.Dash.Speed;
-            DashStart?.Invoke(DashSpeed);
+            if (InAir() && _canDash)
+            {
+                DashSpeed = dashDirection * Properties.Dash.Speed;
+                DashStart?.Invoke(DashSpeed);
+                _canDash = false;
+            }
         }
 
         private void ExecuteLookDownEvent(bool isLookingDown)
