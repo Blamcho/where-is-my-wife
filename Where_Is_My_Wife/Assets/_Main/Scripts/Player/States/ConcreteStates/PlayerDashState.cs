@@ -12,6 +12,8 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
     public Action<float> Dash { get; set; }
     public Action<float> GravityScale { get; set; }
     public Action<float> FallSpeedCap { get; set; }
+    public Action<float> FallingSpeed {  get; set; }
+
 
     private float _timer;
 
@@ -31,6 +33,7 @@ public class PlayerDashState : PlayerState, IDashState, IDashStateEvents
         _timer = 0;
         GravityScale?.Invoke(0f);
         FallSpeedCap?.Invoke(0f);
+        FallingSpeed?.Invoke(0f);
         Dash?.Invoke(_playerStateIndicator.DashSpeed);
     }
 

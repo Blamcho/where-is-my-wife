@@ -67,6 +67,7 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.Dash += SetHorizontalSpeed;
             _dashStateEvents.GravityScale += SetGravityScale;
             _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
+            _dashStateEvents.FallingSpeed += SetFallSpeed;
             
             _respawn.RespawnAction += Respawn;
         }
@@ -89,6 +90,7 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.Dash -= SetHorizontalSpeed;
             _dashStateEvents.GravityScale -= SetGravityScale;
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
+            _dashStateEvents.FallingSpeed -= SetFallSpeed;
 
             _respawn.RespawnAction -= Respawn;
         }
@@ -114,6 +116,12 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x,
                 Mathf.Max(_rigidbody2D.velocity.y, -fallSpeedCap));
         }
+
+        private void SetFallSpeed(float fallSpeed)
+        {
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -fallSpeed);
+        }
+
 
         private void SetHorizontalSpeed(float speed)
         {
