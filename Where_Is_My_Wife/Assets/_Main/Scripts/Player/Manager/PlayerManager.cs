@@ -354,6 +354,12 @@ namespace WhereIsMyWife.Managers
 
         public bool CanJump()
         {
+            if (IsInDoubleJumpTrigger)
+            {
+                IsInDoubleJumpTrigger = false;
+                return true;
+            }
+            
             return (_lastOnGroundTime > 0 && !IsJumping) || IsOnWallHang;
         }
 
