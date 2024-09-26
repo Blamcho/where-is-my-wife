@@ -76,6 +76,11 @@ namespace WhereIsMyWife.Managers
                 _canAttemptHook = true;
                 HookPosition = collider.transform.position;
             }
+
+            if (collider.CompareTag("DoubleJump"))
+            {
+                IsInDoubleJumpTrigger = true;
+            }
         }
 
         private void TriggerExit(Collider2D collider)
@@ -83,6 +88,11 @@ namespace WhereIsMyWife.Managers
             if (collider.CompareTag("Hook"))
             {
                 IsInHookRange = false;
+            }
+            
+            if (collider.CompareTag("DoubleJump"))
+            {
+                IsInDoubleJumpTrigger = false;
             }
         }
 
