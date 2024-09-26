@@ -12,7 +12,8 @@ namespace WhereIsMyWife.Player.State
         public Action<float> WallJumpVelocity { get; set; }
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
-        
+        public Action<float> DoubleJump { get; set; }
+
         private Tween _horizontalSpeedTween;
         
         private float _horizontalSpeed = 0;
