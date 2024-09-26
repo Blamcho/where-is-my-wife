@@ -103,6 +103,12 @@ namespace WhereIsMyWife.Player.State
             NextState = PlayerStateMachine.PlayerState.Dash;
         }
 
+        private void InvokeDoubleJump(float jumpForce)
+        {
+            DoubleJump?.Invoke(jumpForce);
+            NextState = PlayerStateMachine.PlayerState.Movement;
+        }
+        
         private void InvokeGravityScale(float gravityScale)
         {
             GravityScale?.Invoke(gravityScale);
