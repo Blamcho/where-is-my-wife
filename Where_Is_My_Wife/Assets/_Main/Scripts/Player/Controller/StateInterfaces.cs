@@ -41,5 +41,6 @@ namespace WhereIsMyWife.Controllers
         Action<float> WallJumpVelocity { get; set; }
         Action<float> GravityScale { get; set; }
         Action<float> FallSpeedCap { get; set; }
+        Action<float> DoubleJump { get; set; }
     }
 }
