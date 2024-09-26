@@ -1,16 +1,23 @@
+using System;
 using UnityEngine;
+using WhereIsMyWife.Controllers;
+using WhereIsMyWife.Player.StateMachine;
 
-public class PlayerHookState : MonoBehaviour
+namespace WhereIsMyWife.Player.State
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerHookState : PlayerState, IMovementState, IMovementStateEvents
     {
-        
-    }
+        public PlayerHookState() : base(PlayerStateMachine.PlayerState.Hook) { }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Action<float> JumpStart { get; set; }
+        public Action<float> Run { get; set; }
+        public Action<float> GravityScale { get; set; }
+        public Action<float> FallSpeedCap { get; set; }
+        //public Action<float> ThrustForce { get; set; }
+
+        protected override void SubscribeToObservables()
+        {
+
+        }
     }
 }
