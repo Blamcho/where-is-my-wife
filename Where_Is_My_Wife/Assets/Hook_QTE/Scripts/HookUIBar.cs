@@ -7,9 +7,9 @@ public class HookUIBar : Singleton<HookUIBar>
 {
     [SerializeField] private Animator _animatorHookBarQTE;
 
+    private IHookStateEvents _hookStateEvents;
     public Action<bool> QTEWindowUpdated { get; set; }
     public Action FailedQTE { get; set; }
-    private IHookStateEvents _hookStateEvents { get; set; }
     //public Action EndUIHookBarAnimation;
 
     private void Start()
@@ -17,6 +17,7 @@ public class HookUIBar : Singleton<HookUIBar>
         _hookStateEvents = PlayerManager.Instance.HookStateEvents;
         Subscription();
     }
+
     private void OnDestroy()
     {
         Unsubscription();
@@ -26,12 +27,14 @@ public class HookUIBar : Singleton<HookUIBar>
     {
         _hookStateEvents.StartHook += StartHookAnimation;
         _hookStateEvents.ExecuteHook += ExecuteHookLaunch;
+        _hookStateEvents.HookQTEEnd += EndQTE;
     }
 
     private void Unsubscription()
     {
         _hookStateEvents.StartHook -= StartHookAnimation;
         _hookStateEvents.ExecuteHook -= ExecuteHookLaunch;
+        _hookStateEvents.HookQTEEnd -= EndQTE;
     }
 
     public void OpenQTEWindow()
@@ -57,11 +60,17 @@ public class HookUIBar : Singleton<HookUIBar>
 
     private void StartHookAnimation()
     {
+        Debug.Log("Starting QTE Animation...");
         _animatorHookBarQTE.SetBool("executeQTEAnimation", true);
     }
 
     private void ExecuteHookLaunch(Vector2 hookPosition)
     {
-        //Dissolve Animation
+        EndUIBarAnimation();
+    }
+
+    private void EndQTE(Vector2 originalVelocity)
+    {
+        EndUIBarAnimation();
     }
 }
