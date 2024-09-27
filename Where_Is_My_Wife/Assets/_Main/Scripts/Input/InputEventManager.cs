@@ -73,7 +73,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.performed += OnMovePerform;
             _playerInputActions.Normal.Move.canceled += OnMoveCancel;
             _playerInputActions.Normal.Dash.performed += OnDash;
-            _playerInputActions.Normal.Hook.performed += OnHookPerform;
+            _playerInputActions.Normal.Hook.started += OnHookStart;
             _playerInputActions.Normal.Hook.canceled += OnHookCancel;
 
             _playerInputActions.Special.Pause.started += OnPauseStart;
@@ -91,7 +91,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.performed -= OnMovePerform;
             _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
             _playerInputActions.Normal.Dash.performed -= OnDash;
-            _playerInputActions.Normal.Hook.performed -= OnHookPerform;
+            _playerInputActions.Normal.Hook.started -= OnHookStart;
             _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
             
             _playerInputActions.Special.Pause.started -= OnPauseStart;
@@ -152,13 +152,15 @@ namespace WhereIsMyWife.Managers
             }
         }
 
-        private void OnHookPerform(InputAction.CallbackContext context)
+        private void OnHookStart(InputAction.CallbackContext context)
         {
+            Debug.Log("Left Trigger Started");
             HookStartAction?.Invoke();
         }
 
         private void OnHookCancel(InputAction.CallbackContext context)
         {
+            Debug.Log("Left Trigger Ended");
             HookEndAction?.Invoke();
         }       
 
