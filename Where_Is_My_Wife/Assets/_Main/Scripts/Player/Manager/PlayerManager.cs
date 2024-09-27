@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
@@ -26,6 +27,7 @@ namespace WhereIsMyWife.Managers
         public IMovementStateEvents MovementStateEvents => _playerStateMachine.MovementStateEvents;
         public IWallHangStateEvents WallHangStateEvents => _playerStateMachine.WallHangStateEvents;
         public IWallJumpStateEvents WallJumpStateEvents => _playerStateMachine.WallJumpStateEvents;
+        public IHookStateEvents HookStateEvents => _playerStateMachine.HookStateEvents;
         
         // Timers
         private float _lastOnGroundTime = 0;
@@ -36,7 +38,8 @@ namespace WhereIsMyWife.Managers
         // Hook
         private bool _hookAttempted = false;
         private bool _hookQTEWindow = false;
-        private Vector3 _originalPlayerVelocity = Vector3.zero;
+        private Vector2 _originalPlayerVelocity = Vector2.zero;
+        private Transform _hookTransform = default;
 
         private void Start()
         {
@@ -63,14 +66,31 @@ namespace WhereIsMyWife.Managers
             GravityShifts();
         }
 
-        private void HookHoldPlayerVelocity()
+        private void UpdateQTEWindow(bool _newQTEWindow)
         {
-            
+            _hookQTEWindow = _newQTEWindow;
         }
 
-        private void HookResumePlayerVelocity()
+        private void FailedQTE()
         {
+            _hookAttempted = true;
+        }
 
+        private void RestoreFromHookAttempt()
+        {
+            HookRestablishGravity();
+            HookEnd?.Invoke(_originalPlayerVelocity);
+        }
+
+        private void HookHoldPlayerVelocity()
+        {
+            _originalPlayerVelocity = _controllerData.RigidbodyVelocity;
+            SetGravityScale(0f);
+        }
+
+        private void HookRestablishGravity()
+        {
+            SetGravityScale(Properties.Gravity.Scale);
         }
 
         private void TriggerEnter(Collider2D collider)
@@ -78,6 +98,7 @@ namespace WhereIsMyWife.Managers
             if (collider.CompareTag("Hook"))
             {
                 IsInHookRange = true;
+                _hookTransform = collider.transform;
             }
         }
         
@@ -189,6 +210,7 @@ namespace WhereIsMyWife.Managers
             {
                 IsJumpCut = false;
                 IsJumpFalling = false;
+                _hookAttempted = false;
                 Land?.Invoke();
             }
         }
@@ -251,7 +273,7 @@ namespace WhereIsMyWife.Managers
         {
             GravityScale?.Invoke(gravityScale);
         }
-        
+
         private void SubscribeToObservables()
         {
             _playerInputEvent.JumpStartAction += ExecuteJumpStartEvent;
@@ -264,6 +286,8 @@ namespace WhereIsMyWife.Managers
 
             _controllerData.TriggerEnterEvent += TriggerEnter;
             _controllerData.TriggerExitEvent += TriggerExit;
+            HookUIBar.Instance.QTEWindowUpdated += UpdateQTEWindow;
+            HookUIBar.Instance.FailedQTE += FailedQTE;
         }
 
         private void UnsubscribeToObservables()
@@ -350,8 +374,9 @@ namespace WhereIsMyWife.Managers
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
-        public Action HookStart { get; set; }
-        public Action HookEnd { get; set; }
+        public Action HookActivated { get; set; }
+        public Action<Vector2> ExecuteHookLaunch { get; set; }
+        public Action<Vector2> HookEnd { get; set; }
 
         private void ExecuteJumpStartEvent()
         {
@@ -400,7 +425,9 @@ namespace WhereIsMyWife.Managers
                 if (!_hookAttempted)
                 {
                     _hookAttempted = true;
-                    
+                    HookActivated?.Invoke();
+                    HookHoldPlayerVelocity();
+                    //Launch QTE Animation
                 }
             }
         }
@@ -411,7 +438,12 @@ namespace WhereIsMyWife.Managers
             {
                 if (_hookQTEWindow)
                 {
-
+                    //succes QTE
+                    ExecuteHookLaunch?.Invoke(_hookTransform.position - _controllerData.RigidbodyTransform.position);
+                }
+                else
+                {
+                    RestoreFromHookAttempt();
                 }
             }
         }
