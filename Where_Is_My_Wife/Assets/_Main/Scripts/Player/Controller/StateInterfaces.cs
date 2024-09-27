@@ -23,7 +23,7 @@ namespace WhereIsMyWife.Controllers
     {
         Action StartHook { get; set; }
         Action<Vector2> ExecuteHook { get; set; }
-        Action<Vector2> HookQTEFailed { get; set; }
+        Action<Vector2> HookQTEEnd { get; set; }
     }
 
     public interface IWallHangStateEvents

@@ -87,7 +87,7 @@ namespace WhereIsMyWife.Controllers
             
             _hookStateEvents.StartHook += StartHook;
             _hookStateEvents.ExecuteHook += ExecuteHookLaunch;
-            _hookStateEvents.HookQTEFailed += ResumeVelocityAfterHookQTEFailed;
+            _hookStateEvents.HookQTEEnd += ResumeVelocityAfterHookQTE;
             
             _respawn.RespawnAction += Respawn;
         }
@@ -114,7 +114,7 @@ namespace WhereIsMyWife.Controllers
             
             _hookStateEvents.StartHook -= StartHook;
             _hookStateEvents.ExecuteHook -= ExecuteHookLaunch;
-            _hookStateEvents.HookQTEFailed -= ResumeVelocityAfterHookQTEFailed;
+            _hookStateEvents.HookQTEEnd -= ResumeVelocityAfterHookQTE;
 
             _respawn.RespawnAction -= Respawn;
         }
@@ -192,7 +192,9 @@ namespace WhereIsMyWife.Controllers
 
         private void StartHook()
         {
-            _rigidbody2D.velocity = Vector2.zero;
+            Debug.Log("Starting Hook in Player Controller, gravity scale 0 and velocity zero");
+            SetGravityScale(0f);
+            _rigidbody2D.velocity = Vector3.zero;
         }
 
         private void ExecuteHookLaunch(Vector2 hookVelocity)
@@ -200,7 +202,7 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.AddForce(hookVelocity, ForceMode2D.Impulse);
         }
 
-        private void ResumeVelocityAfterHookQTEFailed(Vector2 originalPlayerVelocity)
+        private void ResumeVelocityAfterHookQTE(Vector2 originalPlayerVelocity)
         {
             _rigidbody2D.velocity = originalPlayerVelocity;
         }
