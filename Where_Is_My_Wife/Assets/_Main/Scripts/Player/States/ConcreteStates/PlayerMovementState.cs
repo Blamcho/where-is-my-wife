@@ -33,6 +33,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.FallSpeedCap -= InvokeFallSpeedCap;
             _playerStateInput.WallHangStart -= WallHang;
             _playerStateInput.DashStart -= Dash;
+            _playerStateInput.HookActivated -= Hook;
         }
 
         private void Dash(float _)
