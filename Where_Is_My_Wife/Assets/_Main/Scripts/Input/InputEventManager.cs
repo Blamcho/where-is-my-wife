@@ -119,7 +119,10 @@ namespace WhereIsMyWife.Managers
 
         private void OnDash(InputAction.CallbackContext context)
         {
-            DashAction?.Invoke(_moveVector.x);
+            if (_moveVector.x != 0) 
+            {
+               DashAction?.Invoke(_moveVector.x);
+            }
         }
     
         public void Dispose()
