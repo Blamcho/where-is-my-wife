@@ -10,6 +10,7 @@ namespace WhereIsMyWife.Controllers
     public class PlayerController : MonoBehaviour, IPlayerControllerData
     {
         public Vector2 RigidbodyVelocity => _rigidbody2D.velocity;
+        public Transform RigidbodyTransform => _rigidbody2D.transform;
         public Vector2 GroundCheckPosition => _groundCheckTransform.position;
         public Vector2 WallHangCheckUpPosition => _wallHangCheckUpTransform.position;
         public Vector2 WallHangCheckDownPosition => _wallHangCheckDownTransform.position;
@@ -21,6 +22,7 @@ namespace WhereIsMyWife.Controllers
         private IWallHangStateEvents _wallHangStateEvents;
         private IWallJumpStateEvents _wallJumpStateEvents;
         private IDashStateEvents _dashStateEvents;
+        private IHookStateEvents _hookStateEvents;
         
         private IPlayerStateIndicator _playerStateIndicator;
         private IPlayerControllerEvent _playerControllerEvent;
@@ -37,6 +39,7 @@ namespace WhereIsMyWife.Controllers
             _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
             _wallJumpStateEvents = PlayerManager.Instance.WallJumpStateEvents;
             _dashStateEvents = PlayerManager.Instance.DashStateEvents;
+            _hookStateEvents = PlayerManager.Instance.HookStateEvents;
 
             _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
             _playerControllerEvent = PlayerManager.Instance.PlayerControllerEvent;
@@ -82,6 +85,10 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
             _dashStateEvents.FallingSpeed += SetFallSpeed;
             
+            _hookStateEvents.StartHook += StartHook;
+            _hookStateEvents.ExecuteHook += ExecuteHookLaunch;
+            _hookStateEvents.HookQTEFailed += ResumeVelocityAfterHookQTEFailed;
+            
             _respawn.RespawnAction += Respawn;
         }
 
@@ -104,6 +111,10 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.GravityScale -= SetGravityScale;
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
+            
+            _hookStateEvents.StartHook -= StartHook;
+            _hookStateEvents.ExecuteHook -= ExecuteHookLaunch;
+            _hookStateEvents.HookQTEFailed -= ResumeVelocityAfterHookQTEFailed;
 
             _respawn.RespawnAction -= Respawn;
         }
@@ -177,6 +188,21 @@ namespace WhereIsMyWife.Controllers
         private void Respawn(Vector3 respawnPosition)
         {
             transform.position = respawnPosition;
+        }
+
+        private void StartHook()
+        {
+            _rigidbody2D.velocity = Vector2.zero;
+        }
+
+        private void ExecuteHookLaunch(Vector2 hookVelocity)
+        {
+            _rigidbody2D.AddForce(hookVelocity, ForceMode2D.Impulse);
+        }
+
+        private void ResumeVelocityAfterHookQTEFailed(Vector2 originalPlayerVelocity)
+        {
+            _rigidbody2D.velocity = originalPlayerVelocity;
         }
     }
 }
