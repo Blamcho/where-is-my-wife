@@ -22,6 +22,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.FallSpeedCap += InvokeFallSpeedCap;
             _playerStateInput.WallHangStart += WallHang;
             _playerStateInput.DashStart += Dash;
+            _playerStateInput.HookActivated += Hook;
         }
 
         protected override void UnsubscribeToObservables()
@@ -62,6 +63,11 @@ namespace WhereIsMyWife.Player.State
         private void InvokeFallSpeedCap(float fallSpeedCap)
         {
             FallSpeedCap?.Invoke(fallSpeedCap);
+        }
+
+        private void Hook()
+        {
+            NextState = PlayerStateMachine.PlayerState.Hook;
         }
     }
 }
