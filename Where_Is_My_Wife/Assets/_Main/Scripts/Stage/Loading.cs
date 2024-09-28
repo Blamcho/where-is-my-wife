@@ -18,7 +18,7 @@ public class Loading : MonoBehaviour
    
    public int _SceneToLoadNum = -1;
 
-   private const string _LoadingSceneName = " LoadingScreen";
+   private const string _LoadingSceneName = "LoadingScreen";
 
    private LOADING_PARTS _NextLoad = LOADING_PARTS.NONE;
 
@@ -40,6 +40,7 @@ public class Loading : MonoBehaviour
       SceneManager.sceneUnloaded += OnSceneUnLoaded;//eventos que llaman a las escenas de cargar o descargar escenas para volver a llamarlos
       _AnimationLoadScreen.gameObject.SetActive(true); //activas la animacion
       _AnimationLoadScreen.Play("LoadingAnim");
+        SceneManager.sceneLoaded += OnSceneLoaded;
       //
    }
 
