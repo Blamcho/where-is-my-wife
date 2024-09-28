@@ -18,3 +18,4 @@ MonoBehaviour:
   _gravityPropertiesSO: {fileID: 11400000, guid: 8c4d0c2db350b4449a374a5e388d4c06, type: 2}
   _checkPropertiesSO: {fileID: 11400000, guid: a6f1df6aba9d9e6468ba265c1ece69cb, type: 2}
   _wallJumpPropertiesSO: {fileID: 11400000, guid: d58112eaeb40f104db267533a48ce42e, type: 2}
+  _hookPropertiesSO: {fileID: 11400000, guid: 66b997ec4f3d23443a9bb49caacf0dd0, type: 2}
