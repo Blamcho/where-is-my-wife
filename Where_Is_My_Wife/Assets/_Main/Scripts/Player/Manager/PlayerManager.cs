@@ -38,7 +38,7 @@ namespace WhereIsMyWife.Managers
         private bool _canDash = true;
         
         // Hook Attempt Flag
-        private bool _canAttemptHook = true;
+        private bool _canAttemptHook = false;
 
         private void Start()
         {
@@ -71,6 +71,7 @@ namespace WhereIsMyWife.Managers
             if (collider.CompareTag("Hook"))
             {
                 IsInHookRange = true;
+                _canAttemptHook = true;
                 HookPosition = collider.transform.position;
             }
         }
@@ -183,7 +184,6 @@ namespace WhereIsMyWife.Managers
             {
                 IsJumpCut = false;
                 IsJumpFalling = false;
-                _canAttemptHook = true;
                 Land?.Invoke();
             }
         }
