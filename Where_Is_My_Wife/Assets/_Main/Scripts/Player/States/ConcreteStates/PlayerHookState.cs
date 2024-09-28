@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Player.StateMachine;
 
@@ -15,7 +16,10 @@ namespace WhereIsMyWife.Player.State
         public Action StopQTE { get; set; }
 
         private bool _isPerformingLaunch = false;
+        private bool _firstPositionIsSet = false;
         private Vector2 _initialPosition;
+        private Vector2 _updatedPosition;
+        private float _transitionTimer = 0f;
 
         protected override void SubscribeToObservables()
         {
@@ -30,7 +34,10 @@ namespace WhereIsMyWife.Player.State
         public override void EnterState()
         {
             base.EnterState();
-
+            _isPerformingLaunch = false;
+            _firstPositionIsSet = false;
+            _updatedPosition = Vector2.zero;
+            _transitionTimer = 0f;
             GravityScale?.Invoke(0f);
             SetVelocity?.Invoke(Vector2.zero);
             StartQTE?.Invoke();
@@ -46,17 +53,39 @@ namespace WhereIsMyWife.Player.State
         {
             if (_isPerformingLaunch)
             {
-                // Actualizas la posición con un timer, cuando el timer acaba, invocas el SetVelocity y cambias el next state
+                _transitionTimer += Time.fixedDeltaTime;
+                
+                if (_firstPositionIsSet)
+                {
+                    _updatedPosition = Vector2.Lerp(_initialPosition, _playerStateIndicator.HookPosition, _transitionTimer);
+                    _firstPositionIsSet = false;
+                }
+                else
+                {
+                    _updatedPosition = Vector2.Lerp(_updatedPosition, _playerStateIndicator.HookPosition, _transitionTimer);
+                }
+
+                SetPosition?.Invoke(_updatedPosition);
+
+                if (_transitionTimer >= _properties.Hook.TimeToReachHookPosition)
+                {
+                    _isPerformingLaunch = false;
+                    _transitionTimer = 0f;
+                    SetVelocity?.Invoke(_playerStateIndicator.HookLaunchVelocity);
+                    NextState = PlayerStateMachine.PlayerState.Movement;
+                }
             }
         }
 
-        private void ExecuteHookEnd()
+        private void ExecuteHookEnd(Vector2 _newInitialPosition)
         {
             if (_playerStateIndicator.IsInQTEWindow)
             {
+                _initialPosition = _newInitialPosition;
+                _firstPositionIsSet = true;
                 _isPerformingLaunch = true;
+                StopQTE?.Invoke();
             }
-
             else
             {
                 NextState = PlayerStateMachine.PlayerState.Movement;
