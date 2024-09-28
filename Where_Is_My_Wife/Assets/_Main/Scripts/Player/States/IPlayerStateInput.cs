@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace WhereIsMyWife.Player.State
 {
@@ -14,6 +15,6 @@ namespace WhereIsMyWife.Player.State
         Action<float> FallSpeedCap { get; set; }
         Action Land { get; set; }
         Action HookStart { get; set; }
-        Action HookEnd { get; set; }
+        Action<Vector2> HookEnd { get; set; }
     }
 }
