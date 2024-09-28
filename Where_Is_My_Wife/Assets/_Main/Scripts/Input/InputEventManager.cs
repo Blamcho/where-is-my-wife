@@ -11,6 +11,8 @@ namespace WhereIsMyWife.Managers
     public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent, ISpecialInputEvent, IUIInputEvent
     {
         public IPlayerInputEvent PlayerInputEvent => this;
+        public ISpecialInputEvent SpecialInputEvent => this;
+        public IUIInputEvent UIInputEvent => this;
         
         public Action JumpStartAction { get; set; }
         public Action JumpEndAction { get; set; }
@@ -25,7 +27,6 @@ namespace WhereIsMyWife.Managers
         public Action PauseAction { get; set; }
         
         public Action<int> HorizontalStartedAction { get; set; }
-        public Action<int> HorizontalPerformedAction { get; set; }
         public Action SubmitStartAction { get; set; }
         public Action CancelStartAction { get; set; }
         
@@ -75,8 +76,7 @@ namespace WhereIsMyWife.Managers
 
             _playerInputActions.Special.Pause.started += OnPauseStart;
             
-            _playerInputActions.UI.Navigate.started += OnNavigateStart;
-            _playerInputActions.UI.Navigate.performed += OnNavigatePerform;
+            _playerInputActions.UI.Navigate.started += OnNavigateStarted;
             _playerInputActions.UI.Submit.started += OnSubmitStart;
             _playerInputActions.UI.Cancel.started += OnCancelStart;
         }
@@ -91,8 +91,7 @@ namespace WhereIsMyWife.Managers
             
             _playerInputActions.Special.Pause.started -= OnPauseStart;
             
-            _playerInputActions.UI.Navigate.started -= OnNavigateStart;
-            _playerInputActions.UI.Navigate.performed -= OnNavigatePerform;
+            _playerInputActions.UI.Navigate.started -= OnNavigateStarted;
             _playerInputActions.UI.Submit.started -= OnSubmitStart;
             _playerInputActions.UI.Cancel.started -= OnCancelStart;
         }
@@ -149,14 +148,10 @@ namespace WhereIsMyWife.Managers
             PauseAction?.Invoke();
         }
 
-        private void OnNavigateStart(InputAction.CallbackContext context)
+        private void OnNavigateStarted(InputAction.CallbackContext context)
         {
+            if (context.ReadValue<Vector2>().x == 0) return;
             HorizontalStartedAction?.Invoke(NormalizedInputContextX(context));
-        }
-
-        private void OnNavigatePerform(InputAction.CallbackContext context)
-        {
-            HorizontalPerformedAction?.Invoke(NormalizedInputContextX(context));
         }
 
         private int NormalizedInputContextX(InputAction.CallbackContext context)
