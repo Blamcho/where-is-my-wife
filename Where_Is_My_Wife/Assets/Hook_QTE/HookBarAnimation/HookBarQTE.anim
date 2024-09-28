@@ -537,15 +537,8 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0833334
-    functionName: PlayerFailedQTE
-    data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 0e05af6a1d988f04f8672a7c9ad8361c, type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 1.5
-    functionName: EndUIBarAnimation
+    functionName: StopUIBarAnimation
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: 0e05af6a1d988f04f8672a7c9ad8361c, type: 3}
     floatParameter: 0

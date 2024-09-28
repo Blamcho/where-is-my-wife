@@ -40,6 +40,16 @@ public class HookUIBar : Singleton<HookUIBar>, IHookUIEvents
         _hookStateEvents.StopQTE -= StopUIBarAnimation;
     }
 
+    public void OpenQTEWindow()
+    {
+        SetQTEState(true);
+    }
+
+    public void CloseQTEWindow()
+    {
+        SetQTEState(false);
+    }
+
     public void SetQTEState(bool success)
     {
         QTEStateEvent?.Invoke(success);
@@ -47,12 +57,12 @@ public class HookUIBar : Singleton<HookUIBar>, IHookUIEvents
 
     public void StopUIBarAnimation()
     {
+        CloseQTEWindow();
         _animatorHookBarQTE.SetBool("executeQTEAnimation", false);
     }
 
     private void StartUIBarAnimation()
     {
-        Debug.Log("Starting QTE Animation...");
         _animatorHookBarQTE.SetBool("executeQTEAnimation", true);
     }
 }
