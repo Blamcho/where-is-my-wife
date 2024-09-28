@@ -55,6 +55,15 @@ namespace WIMW.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hook"",
+                    ""type"": ""Button"",
+                    ""id"": ""df902fb0-fadb-445f-a1a7-eb828d8db686"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -178,6 +187,28 @@ namespace WIMW.Input
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fad5dad9-aa0e-45fb-bf76-c0ea04756bb7"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34d7c13f-da55-4a84-af6a-7d2557850272"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -225,7 +256,7 @@ namespace WIMW.Input
             ""id"": ""6fdef99f-daab-44a8-8a16-37b422d4961a"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""Navigate"",
                     ""type"": ""Value"",
                     ""id"": ""2b1d5f6d-6404-4dfc-ad84-fe4caa279954"",
                     ""expectedControlType"": ""Vector2"",
@@ -234,7 +265,7 @@ namespace WIMW.Input
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Accept"",
+                    ""name"": ""Submit"",
                     ""type"": ""Button"",
                     ""id"": ""d0bdc1d5-47bf-4215-ad24-81e6bc134ac8"",
                     ""expectedControlType"": ""Button"",
@@ -243,7 +274,7 @@ namespace WIMW.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Back"",
+                    ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""238e4cd9-b02f-4aaa-81ae-1fe15e1c5d11"",
                     ""expectedControlType"": ""Button"",
@@ -260,7 +291,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -271,7 +302,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -282,7 +313,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -293,7 +324,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -304,7 +335,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -315,7 +346,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -326,7 +357,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -337,7 +368,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Accept"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -348,7 +379,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Accept"",
+                    ""action"": ""Submit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -359,7 +390,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Back"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -370,7 +401,7 @@ namespace WIMW.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Back"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -384,14 +415,15 @@ namespace WIMW.Input
             m_Normal_Move = m_Normal.FindAction("Move", throwIfNotFound: true);
             m_Normal_Jump = m_Normal.FindAction("Jump", throwIfNotFound: true);
             m_Normal_Dash = m_Normal.FindAction("Dash", throwIfNotFound: true);
+            m_Normal_Hook = m_Normal.FindAction("Hook", throwIfNotFound: true);
             // Special
             m_Special = asset.FindActionMap("Special", throwIfNotFound: true);
             m_Special_Pause = m_Special.FindAction("Pause", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-            m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
-            m_UI_Accept = m_UI.FindAction("Accept", throwIfNotFound: true);
-            m_UI_Back = m_UI.FindAction("Back", throwIfNotFound: true);
+            m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
+            m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
+            m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -456,6 +488,7 @@ namespace WIMW.Input
         private readonly InputAction m_Normal_Move;
         private readonly InputAction m_Normal_Jump;
         private readonly InputAction m_Normal_Dash;
+        private readonly InputAction m_Normal_Hook;
         public struct NormalActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -463,6 +496,7 @@ namespace WIMW.Input
             public InputAction @Move => m_Wrapper.m_Normal_Move;
             public InputAction @Jump => m_Wrapper.m_Normal_Jump;
             public InputAction @Dash => m_Wrapper.m_Normal_Dash;
+            public InputAction @Hook => m_Wrapper.m_Normal_Hook;
             public InputActionMap Get() { return m_Wrapper.m_Normal; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -481,6 +515,9 @@ namespace WIMW.Input
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
+                @Hook.started += instance.OnHook;
+                @Hook.performed += instance.OnHook;
+                @Hook.canceled += instance.OnHook;
             }
 
             private void UnregisterCallbacks(INormalActions instance)
@@ -494,6 +531,9 @@ namespace WIMW.Input
                 @Dash.started -= instance.OnDash;
                 @Dash.performed -= instance.OnDash;
                 @Dash.canceled -= instance.OnDash;
+                @Hook.started -= instance.OnHook;
+                @Hook.performed -= instance.OnHook;
+                @Hook.canceled -= instance.OnHook;
             }
 
             public void RemoveCallbacks(INormalActions instance)
@@ -561,16 +601,16 @@ namespace WIMW.Input
         // UI
         private readonly InputActionMap m_UI;
         private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-        private readonly InputAction m_UI_Move;
-        private readonly InputAction m_UI_Accept;
-        private readonly InputAction m_UI_Back;
+        private readonly InputAction m_UI_Navigate;
+        private readonly InputAction m_UI_Submit;
+        private readonly InputAction m_UI_Cancel;
         public struct UIActions
         {
             private @PlayerInputActions m_Wrapper;
             public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Move => m_Wrapper.m_UI_Move;
-            public InputAction @Accept => m_Wrapper.m_UI_Accept;
-            public InputAction @Back => m_Wrapper.m_UI_Back;
+            public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
+            public InputAction @Submit => m_Wrapper.m_UI_Submit;
+            public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -580,28 +620,28 @@ namespace WIMW.Input
             {
                 if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
-                @Accept.started += instance.OnAccept;
-                @Accept.performed += instance.OnAccept;
-                @Accept.canceled += instance.OnAccept;
-                @Back.started += instance.OnBack;
-                @Back.performed += instance.OnBack;
-                @Back.canceled += instance.OnBack;
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
+                @Submit.started += instance.OnSubmit;
+                @Submit.performed += instance.OnSubmit;
+                @Submit.canceled += instance.OnSubmit;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
             {
-                @Move.started -= instance.OnMove;
-                @Move.performed -= instance.OnMove;
-                @Move.canceled -= instance.OnMove;
-                @Accept.started -= instance.OnAccept;
-                @Accept.performed -= instance.OnAccept;
-                @Accept.canceled -= instance.OnAccept;
-                @Back.started -= instance.OnBack;
-                @Back.performed -= instance.OnBack;
-                @Back.canceled -= instance.OnBack;
+                @Navigate.started -= instance.OnNavigate;
+                @Navigate.performed -= instance.OnNavigate;
+                @Navigate.canceled -= instance.OnNavigate;
+                @Submit.started -= instance.OnSubmit;
+                @Submit.performed -= instance.OnSubmit;
+                @Submit.canceled -= instance.OnSubmit;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -624,6 +664,7 @@ namespace WIMW.Input
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
+            void OnHook(InputAction.CallbackContext context);
         }
         public interface ISpecialActions
         {
@@ -631,9 +672,9 @@ namespace WIMW.Input
         }
         public interface IUIActions
         {
-            void OnMove(InputAction.CallbackContext context);
-            void OnAccept(InputAction.CallbackContext context);
-            void OnBack(InputAction.CallbackContext context);
+            void OnNavigate(InputAction.CallbackContext context);
+            void OnSubmit(InputAction.CallbackContext context);
+            void OnCancel(InputAction.CallbackContext context);
         }
     }
 }
