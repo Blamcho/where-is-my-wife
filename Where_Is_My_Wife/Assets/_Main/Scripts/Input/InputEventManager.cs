@@ -41,32 +41,6 @@ namespace WhereIsMyWife.Managers
             SubscribeToInputActions();
             CheckForCurrentController();
         }
-
-        private void Start()
-        {
-            SwitchActionMapping();
-        }
-
-        private void SwitchActionMapping()
-        {
-            switch (GameManager.Instance.GameState)
-            {
-                case GameState.Gameplay:
-                    _playerInputActions.Normal.Enable();
-                    _playerInputActions.UI.Disable();
-                    break;
-                
-                case GameState.UI:
-                    _playerInputActions.UI.Enable();
-                    _playerInputActions.Normal.Disable();
-                    break;
-                
-                case GameState.Pause:
-                    _playerInputActions.UI.Enable();
-                    _playerInputActions.Normal.Disable();
-                    break;
-            }
-        }
         
         private void OnDestroy()
         {
