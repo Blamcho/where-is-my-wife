@@ -37,12 +37,8 @@ namespace WhereIsMyWife.Managers
 
         private bool _canDash = true;
         
-        // Hook
-        private bool _hookAttempted = false;
-        private bool _hookExecuting = false;
-        private bool _hookQTEWindow = false;
-        private Vector2 _originalPlayerVelocity = Vector2.zero;
-        private Transform _hookTransform = default;
+        // Hook Attempt Flag
+        private bool _canAttemptHook = true;
 
         private void Start()
         {
@@ -187,6 +183,7 @@ namespace WhereIsMyWife.Managers
             {
                 IsJumpCut = false;
                 IsJumpFalling = false;
+                _canAttemptHook = true;
                 Land?.Invoke();
             }
         }
@@ -264,6 +261,7 @@ namespace WhereIsMyWife.Managers
             _controllerData.TriggerExitEvent += TriggerExit;
 
             _hookUIEvents.QTEStateEvent += SetIsInQTEWindow;
+            _hookUIEvents.QTETimeExpired += QTETimeHasExpired;
         }
 
         private void UnsubscribeToObservables()
@@ -280,6 +278,7 @@ namespace WhereIsMyWife.Managers
             _controllerData.TriggerExitEvent -= TriggerExit;
 
             _hookUIEvents.QTEStateEvent -= SetIsInQTEWindow;
+            _hookUIEvents.QTETimeExpired -= QTETimeHasExpired;
         }
     }
     
@@ -404,10 +403,13 @@ namespace WhereIsMyWife.Managers
 
         private void ExecuteHookStartEvent()
         {
-            if (IsInHookRange)
+            if (_canAttemptHook)
             {
-                HookLaunchVelocity = GetHookLaunchVelocity();
-                HookStart?.Invoke();
+                if (IsInHookRange)
+                {
+                    HookLaunchVelocity = GetHookLaunchVelocity();
+                    HookStart?.Invoke();
+                }
             }
         }
 
@@ -420,6 +422,20 @@ namespace WhereIsMyWife.Managers
 
         private void ExecuteHookEndEvent()
         {
+            if (_canAttemptHook)
+            {
+                LaunchHookEndEvent();
+            }
+        }
+
+        private void QTETimeHasExpired()
+        {
+            LaunchHookEndEvent();
+        }
+
+        private void LaunchHookEndEvent()
+        {
+            _canAttemptHook = false;
             HookEnd?.Invoke(_controllerData.RigidbodyPosition);
         }
     }

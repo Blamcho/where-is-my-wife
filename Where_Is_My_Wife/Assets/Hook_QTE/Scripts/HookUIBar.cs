@@ -6,6 +6,7 @@ using WhereIsMyWife.Managers;
 public interface IHookUIEvents
 {
     Action<bool> QTEStateEvent { get; set; }
+    Action QTETimeExpired { get; set; }
 }
 
 public class HookUIBar : Singleton<HookUIBar>, IHookUIEvents
@@ -16,6 +17,7 @@ public class HookUIBar : Singleton<HookUIBar>, IHookUIEvents
 
     private IHookStateEvents _hookStateEvents;
     public Action<bool> QTEStateEvent { get; set; }
+    public Action QTETimeExpired { get; set; }
 
     private void Start()
     {
@@ -55,7 +57,13 @@ public class HookUIBar : Singleton<HookUIBar>, IHookUIEvents
         QTEStateEvent?.Invoke(success);
     }
 
-    public void StopUIBarAnimation()
+    public void QTEHasExpired()
+    {
+        QTETimeExpired?.Invoke();
+        StopUIBarAnimation();
+    }
+
+    private void StopUIBarAnimation()
     {
         CloseQTEWindow();
         _animatorHookBarQTE.SetBool("executeQTEAnimation", false);
