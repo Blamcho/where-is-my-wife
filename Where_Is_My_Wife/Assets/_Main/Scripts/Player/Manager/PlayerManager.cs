@@ -1,6 +1,7 @@
 using System;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UIElements;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
@@ -359,7 +360,7 @@ namespace WhereIsMyWife.Managers
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
         public Action HookStart { get; set; }
-        public Action HookEnd { get; set; }
+        public Action<Vector2> HookEnd { get; set; }
 
         private void ExecuteJumpStartEvent()
         {
@@ -412,16 +413,14 @@ namespace WhereIsMyWife.Managers
 
         private Vector2 GetHookLaunchVelocity()
         {
-            //TODO: Calculate Launch Velocity 
-            // HookPosition - RigidbodyPosition
-            // Normalize that vector
-            // Multiply by Hook velocity
-            return Vector2.zero;
+            Vector2 _calculatedLaunchVelocity = HookPosition - _controllerData.RigidbodyPosition;
+            _calculatedLaunchVelocity.Normalize();
+            return _calculatedLaunchVelocity * Properties.Hook.ThrustForce;
         }
 
         private void ExecuteHookEndEvent()
         {
-            HookEnd?.Invoke();
+            HookEnd?.Invoke(_controllerData.RigidbodyPosition);
         }
     }
 
