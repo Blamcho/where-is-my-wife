@@ -13,8 +13,7 @@ namespace WhereIsMyWife.Player.State
         Action<float> GravityScale { get; set; }
         Action<float> FallSpeedCap { get; set; }
         Action Land { get; set; }
-        Action HookActivated { get; set; }
-        Action<Vector2> ExecuteHookLaunch { get; set; }
-        Action<Vector2> HookEnd { get; set; }
+        Action HookStart { get; set; }
+        Action HookEnd { get; set; }
     }
 }

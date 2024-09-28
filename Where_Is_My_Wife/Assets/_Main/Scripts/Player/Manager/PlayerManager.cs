@@ -19,7 +19,8 @@ namespace WhereIsMyWife.Managers
         public IPlayerProperties Properties => _propertiesSO.Properties;
         
         private IPlayerInputEvent _playerInputEvent;
-        
+        private IHookUIEvents _hookUIEvents;
+
         private IRunningMethods _runningMethods = new RunningMethods().Methods;
         private IJumpingMethods _jumpingMethods = new JumpingMethods().Methods;
 
@@ -45,6 +46,7 @@ namespace WhereIsMyWife.Managers
         private void Start()
         {
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
+            _hookUIEvents = HookUIBar.Instance.HookUIEvents;
          
             SubscribeToObservables();
 
@@ -67,28 +69,12 @@ namespace WhereIsMyWife.Managers
             GravityShifts();
         }
 
-        private void UpdateQTEWindow(bool _newQTEWindow)
-        {
-            _hookQTEWindow = _newQTEWindow;
-        }
-
-        private void FailedQTE()
-        {
-            Debug.Log("Hook Attempted!!!");
-            _hookAttempted = true;
-        }
-
-        private void HookHoldPlayerVelocity()
-        {
-            _originalPlayerVelocity = _controllerData.RigidbodyVelocity;
-        }
-
         private void TriggerEnter(Collider2D collider)
         {
             if (collider.CompareTag("Hook"))
             {
                 IsInHookRange = true;
-                _hookTransform = collider.transform;
+                HookPosition = collider.transform.position;
             }
         }
         
@@ -200,7 +186,6 @@ namespace WhereIsMyWife.Managers
             {
                 IsJumpCut = false;
                 IsJumpFalling = false;
-                _hookAttempted = false;
                 Land?.Invoke();
             }
         }
@@ -220,12 +205,6 @@ namespace WhereIsMyWife.Managers
         
         private void GravityShifts()
         {
-            // Suspend Player in the air
-            if (_hookExecuting)
-            {
-                return;
-            }
-
             // Make player fall faster if holding down 
             if (IsFastFalling())
             {
@@ -282,8 +261,8 @@ namespace WhereIsMyWife.Managers
 
             _controllerData.TriggerEnterEvent += TriggerEnter;
             _controllerData.TriggerExitEvent += TriggerExit;
-            HookUIBar.Instance.QTEWindowUpdated += UpdateQTEWindow;
-            HookUIBar.Instance.FailedQTE += FailedQTE;
+
+            _hookUIEvents.QTEStateEvent += SetIsInQTEWindow;
         }
 
         private void UnsubscribeToObservables()
@@ -298,8 +277,8 @@ namespace WhereIsMyWife.Managers
 
             _controllerData.TriggerEnterEvent -= TriggerEnter;
             _controllerData.TriggerExitEvent -= TriggerExit;
-            HookUIBar.Instance.QTEWindowUpdated -= UpdateQTEWindow;
-            HookUIBar.Instance.FailedQTE -= FailedQTE;
+
+            _hookUIEvents.QTEStateEvent -= SetIsInQTEWindow;
         }
     }
     
@@ -318,6 +297,9 @@ namespace WhereIsMyWife.Managers
         public bool IsOnWallHang { get; private set; } = false;
         public bool IsRunFalling { get; private set; } = false;
         public bool IsInHookRange { get; private set; } = false;
+        public bool IsInQTEWindow { get; private set; } = false;
+        public Vector2 HookPosition { get; private set; } 
+        public Vector2 HookLaunchVelocity { get; private set; }
 
         public float DashSpeed { get; private set; } = 0f;
 
@@ -358,6 +340,10 @@ namespace WhereIsMyWife.Managers
             return IsJumping && _controllerData.RigidbodyVelocity.y > 0;
         }
 
+        private void SetIsInQTEWindow(bool isInQTEWindow)
+        {
+            IsInQTEWindow = isInQTEWindow;
+        }
     }
     
     public partial class PlayerManager : IPlayerStateInput
@@ -372,9 +358,8 @@ namespace WhereIsMyWife.Managers
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
-        public Action HookActivated { get; set; }
-        public Action<Vector2> ExecuteHookLaunch { get; set; }
-        public Action<Vector2> HookEnd { get; set; }
+        public Action HookStart { get; set; }
+        public Action HookEnd { get; set; }
 
         private void ExecuteJumpStartEvent()
         {
@@ -420,33 +405,23 @@ namespace WhereIsMyWife.Managers
         {
             if (IsInHookRange)
             {
-                if (!_hookAttempted)
-                {
-                    _hookAttempted = true;
-                    _hookExecuting = true;
-                    HookHoldPlayerVelocity();
-                    HookActivated?.Invoke();
-                    //Launch QTE Animation
-                }
+                HookLaunchVelocity = GetHookLaunchVelocity();
+                HookStart?.Invoke();
             }
+        }
+
+        private Vector2 GetHookLaunchVelocity()
+        {
+            //TODO: Calculate Launch Velocity 
+            // HookPosition - RigidbodyPosition
+            // Normalize that vector
+            // Multiply by Hook velocity
+            return Vector2.zero;
         }
 
         private void ExecuteHookEndEvent()
         {
-            if (_hookExecuting)
-            {
-                if (_hookQTEWindow)
-                {
-                    //succes QTE
-                    ExecuteHookLaunch?.Invoke(_hookTransform.position - _controllerData.RigidbodyTransform.position);
-                    _hookExecuting = false;
-                }
-                else
-                {
-                    HookEnd?.Invoke(_originalPlayerVelocity);
-                    _hookExecuting = false;
-                }
-            }
+            HookEnd?.Invoke();
         }
     }
 

@@ -8,38 +8,59 @@ namespace WhereIsMyWife.Player.State
     public class PlayerHookState : PlayerState, IHookState, IHookStateEvents
     {
         public PlayerHookState() : base(PlayerStateMachine.PlayerState.Hook) { }
-        public Action StartHook { get; set; }
-        public Action<Vector2> ExecuteHook { get; set; }
-        public Action<Vector2> HookQTEEnd { get; set; }
+        public Action<Vector2> SetVelocity { get; set; }
+        public Action<Vector2> SetPosition { get; set; }
+        public Action<float> GravityScale { get; set; }
+        public Action StartQTE { get; set; }
+        public Action StopQTE { get; set; }
+
+        private bool _isPerformingLaunch = false;
+        private Vector2 _initialPosition;
 
         protected override void SubscribeToObservables()
         {
-            _playerStateInput.HookActivated += InvokeHookActivated;
-            _playerStateInput.ExecuteHookLaunch += InvokeExecuteHook;
-            _playerStateInput.HookEnd += InvokeHookEnd;
+            _playerStateInput.HookEnd += ExecuteHookEnd;
         }
 
         protected override void UnsubscribeToObservables()
         {
-            _playerStateInput.HookActivated -= InvokeHookActivated;
-            _playerStateInput.ExecuteHookLaunch -= InvokeExecuteHook;
-            _playerStateInput.HookEnd -= InvokeHookEnd;
+            _playerStateInput.HookEnd -= ExecuteHookEnd;
         }
 
-        private void InvokeHookActivated()
+        public override void EnterState()
         {
-            StartHook?.Invoke();
+            base.EnterState();
+
+            GravityScale?.Invoke(0f);
+            SetVelocity?.Invoke(Vector2.zero);
+            StartQTE?.Invoke();
         }
 
-        private void InvokeExecuteHook(Vector2 hookVelocity)
+        public override void ExitState()
         {
-            ExecuteHook?.Invoke(hookVelocity);
+            base.ExitState();
+            StopQTE?.Invoke();
         }
 
-        private void InvokeHookEnd(Vector2 originalVelocity)
+        public override void FixedUpdateState()
         {
-            HookQTEEnd?.Invoke(originalVelocity);
-            NextState = PlayerStateMachine.PlayerState.Movement;
+            if (_isPerformingLaunch)
+            {
+                // Actualizas la posición con un timer, cuando el timer acaba, invocas el SetVelocity y cambias el next state
+            }
+        }
+
+        private void ExecuteHookEnd()
+        {
+            if (_playerStateIndicator.IsInQTEWindow)
+            {
+                _isPerformingLaunch = true;
+            }
+
+            else
+            {
+                NextState = PlayerStateMachine.PlayerState.Movement;
+            }
         }
     }
 }

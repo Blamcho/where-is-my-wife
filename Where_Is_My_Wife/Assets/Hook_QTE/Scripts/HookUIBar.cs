@@ -3,74 +3,56 @@ using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers;
 
-public class HookUIBar : Singleton<HookUIBar>
+public interface IHookUIEvents
 {
+    Action<bool> QTEStateEvent { get; set; }
+}
+
+public class HookUIBar : Singleton<HookUIBar>, IHookUIEvents
+{
+    public IHookUIEvents HookUIEvents => this;
+
     [SerializeField] private Animator _animatorHookBarQTE;
 
     private IHookStateEvents _hookStateEvents;
-    public Action<bool> QTEWindowUpdated { get; set; }
-    public Action FailedQTE { get; set; }
-    //public Action EndUIHookBarAnimation;
+    public Action<bool> QTEStateEvent { get; set; }
 
     private void Start()
     {
         _hookStateEvents = PlayerManager.Instance.HookStateEvents;
-        Subscription();
+        SubscribeToActions();
     }
 
     private void OnDestroy()
     {
-        Unsubscription();
+        UnsubscribeFromActions();
     }
 
-    private void Subscription()
+    private void SubscribeToActions()
     {
-        _hookStateEvents.StartHook += StartHookAnimation;
-        _hookStateEvents.ExecuteHook += ExecuteHookLaunch;
-        _hookStateEvents.HookQTEEnd += EndQTE;
+        _hookStateEvents.StartQTE += StartUIBarAnimation;
+        _hookStateEvents.StopQTE += StopUIBarAnimation;
     }
 
-    private void Unsubscription()
+    private void UnsubscribeFromActions()
     {
-        _hookStateEvents.StartHook -= StartHookAnimation;
-        _hookStateEvents.ExecuteHook -= ExecuteHookLaunch;
-        _hookStateEvents.HookQTEEnd -= EndQTE;
+        _hookStateEvents.StartQTE -= StartUIBarAnimation;
+        _hookStateEvents.StopQTE -= StopUIBarAnimation;
     }
 
-    public void OpenQTEWindow()
+    public void SetQTEState(bool success)
     {
-        QTEWindowUpdated?.Invoke(true);
+        QTEStateEvent?.Invoke(success);
     }
 
-    public void CloseQTEWindow()
+    public void StopUIBarAnimation()
     {
-        QTEWindowUpdated?.Invoke(false);
-    }
-
-    public void PlayerFailedQTE()
-    {
-        FailedQTE?.Invoke();
-    }
-
-    public void EndUIBarAnimation()
-    {
-        //EndUIHookBarAnimation.Invoke();
         _animatorHookBarQTE.SetBool("executeQTEAnimation", false);
     }
 
-    private void StartHookAnimation()
+    private void StartUIBarAnimation()
     {
         Debug.Log("Starting QTE Animation...");
         _animatorHookBarQTE.SetBool("executeQTEAnimation", true);
-    }
-
-    private void ExecuteHookLaunch(Vector2 hookPosition)
-    {
-        EndUIBarAnimation();
-    }
-
-    private void EndQTE(Vector2 originalVelocity)
-    {
-        EndUIBarAnimation();
     }
 }

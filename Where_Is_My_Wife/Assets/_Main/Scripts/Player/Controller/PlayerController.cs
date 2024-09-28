@@ -10,7 +10,7 @@ namespace WhereIsMyWife.Controllers
     public class PlayerController : MonoBehaviour, IPlayerControllerData
     {
         public Vector2 RigidbodyVelocity => _rigidbody2D.velocity;
-        public Transform RigidbodyTransform => _rigidbody2D.transform;
+        public Vector2 RigidbodyPosition => _rigidbody2D.position;
         public Vector2 GroundCheckPosition => _groundCheckTransform.position;
         public Vector2 WallHangCheckUpPosition => _wallHangCheckUpTransform.position;
         public Vector2 WallHangCheckDownPosition => _wallHangCheckDownTransform.position;
@@ -85,9 +85,9 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
             _dashStateEvents.FallingSpeed += SetFallSpeed;
             
-            _hookStateEvents.StartHook += StartHook;
-            _hookStateEvents.ExecuteHook += ExecuteHookLaunch;
-            _hookStateEvents.HookQTEEnd += ResumeVelocityAfterHookQTE;
+            _hookStateEvents.GravityScale += SetGravityScale;
+            _hookStateEvents.SetVelocity += SetVelocity;
+            _hookStateEvents.SetPosition += SetPosition;
             
             _respawn.RespawnAction += Respawn;
         }
@@ -112,9 +112,9 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
             
-            _hookStateEvents.StartHook -= StartHook;
-            _hookStateEvents.ExecuteHook -= ExecuteHookLaunch;
-            _hookStateEvents.HookQTEEnd -= ResumeVelocityAfterHookQTE;
+            _hookStateEvents.GravityScale += SetGravityScale;
+            _hookStateEvents.SetVelocity += SetVelocity;
+            _hookStateEvents.SetPosition += SetPosition;
 
             _respawn.RespawnAction -= Respawn;
         }
@@ -128,6 +128,16 @@ namespace WhereIsMyWife.Controllers
         {
             FaceDirection(_playerStateIndicator.IsRunningRight);
             _rigidbody2D.AddForce(Vector2.right * runAcceleration, ForceMode2D.Force);
+        }
+
+        private void SetPosition(Vector2 position)
+        {
+            _rigidbody2D.position = position;
+        }
+
+        private void SetVelocity(Vector2 velocity)
+        {
+            _rigidbody2D.velocity = velocity;
         }
 
         private void SetGravityScale(float gravityScale)
@@ -188,23 +198,6 @@ namespace WhereIsMyWife.Controllers
         private void Respawn(Vector3 respawnPosition)
         {
             transform.position = respawnPosition;
-        }
-
-        private void StartHook()
-        {
-            Debug.Log("Starting Hook in Player Controller, gravity scale 0 and velocity zero");
-            SetGravityScale(0f);
-            _rigidbody2D.velocity = Vector3.zero;
-        }
-
-        private void ExecuteHookLaunch(Vector2 hookVelocity)
-        {
-            _rigidbody2D.AddForce(hookVelocity, ForceMode2D.Impulse);
-        }
-
-        private void ResumeVelocityAfterHookQTE(Vector2 originalPlayerVelocity)
-        {
-            _rigidbody2D.velocity = originalPlayerVelocity;
         }
     }
 }

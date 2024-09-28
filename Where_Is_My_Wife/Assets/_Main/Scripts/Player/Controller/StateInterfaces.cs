@@ -21,9 +21,11 @@ namespace WhereIsMyWife.Controllers
 
     public interface IHookStateEvents
     {
-        Action StartHook { get; set; }
-        Action<Vector2> ExecuteHook { get; set; }
-        Action<Vector2> HookQTEEnd { get; set; }
+        Action StartQTE { get; set; }
+        Action StopQTE { get; set; }
+        Action<Vector2> SetPosition { get; set; }
+        Action<float> GravityScale { get; set; }
+        Action<Vector2> SetVelocity { get; set; }
     }
 
     public interface IWallHangStateEvents

@@ -1,4 +1,6 @@
-﻿namespace WhereIsMyWife.Managers
+﻿using UnityEngine;
+
+namespace WhereIsMyWife.Managers
 {
     public interface IPlayerStateIndicator
     {
@@ -14,6 +16,9 @@
         public bool IsRunFalling { get; }
         public bool IsInHookRange { get; }
         public float DashSpeed {  get; }
+        public bool IsInQTEWindow { get; }
+        public Vector2 HookPosition { get; }
+        public Vector2 HookLaunchVelocity { get; }
         public bool IsOnJumpInputBuffer();
         public bool IsFastFalling();
         public bool IsOnGround();

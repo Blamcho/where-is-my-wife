@@ -154,13 +154,11 @@ namespace WhereIsMyWife.Managers
 
         private void OnHookStart(InputAction.CallbackContext context)
         {
-            Debug.Log("Left Trigger Started");
             HookStartAction?.Invoke();
         }
 
         private void OnHookCancel(InputAction.CallbackContext context)
         {
-            Debug.Log("Left Trigger Ended");
             HookEndAction?.Invoke();
         }       
 

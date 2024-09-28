@@ -6,7 +6,7 @@ namespace WhereIsMyWife.Controllers
     public interface IPlayerControllerData
     {
         public Vector2 RigidbodyVelocity { get; }
-        public Transform RigidbodyTransform { get; }
+        public Vector2 RigidbodyPosition { get; }
         public Vector2 GroundCheckPosition { get; }
         public Vector2 WallHangCheckUpPosition { get; }
         public Vector2 WallHangCheckDownPosition { get; }
