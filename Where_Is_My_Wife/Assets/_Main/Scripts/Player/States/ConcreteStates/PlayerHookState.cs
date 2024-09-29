@@ -17,6 +17,7 @@ namespace WhereIsMyWife.Player.State
 
         private bool _isPerformingLaunch = false;
         private bool _firstPositionIsSet = false;
+        private bool _allowingVelocityTime = false;
         private Vector2 _initialPosition;
         private Vector2 _updatedPosition;
         private float _transitionTimer = 0f;
@@ -24,11 +25,15 @@ namespace WhereIsMyWife.Player.State
         protected override void SubscribeToObservables()
         {
             _playerStateInput.HookEnd += ExecuteHookEnd;
+            _playerStateInput.WallHangStart += WallHangStart;
+            _playerStateInput.Land += MovementStart;
         }
 
         protected override void UnsubscribeToObservables()
         {
             _playerStateInput.HookEnd -= ExecuteHookEnd;
+            _playerStateInput.WallHangStart -= WallHangStart;
+            _playerStateInput.Land -= MovementStart;
         }
 
         public override void EnterState()
@@ -36,6 +41,7 @@ namespace WhereIsMyWife.Player.State
             base.EnterState();
             _isPerformingLaunch = false;
             _firstPositionIsSet = false;
+            _allowingVelocityTime = false;
             _updatedPosition = Vector2.zero;
             _transitionTimer = 0f;
             GravityScale?.Invoke(0f);
@@ -72,6 +78,17 @@ namespace WhereIsMyWife.Player.State
                     _isPerformingLaunch = false;
                     _transitionTimer = 0f;
                     SetVelocity?.Invoke(_playerStateIndicator.HookLaunchVelocity);
+                    _allowingVelocityTime = true;
+                }
+            }
+            if (_allowingVelocityTime)
+            {
+                _transitionTimer += Time.fixedDeltaTime;
+
+                if (_transitionTimer >= _properties.Hook.TimeAllowedToPerformLaunch)
+                {
+                    _allowingVelocityTime = false;
+                    _transitionTimer = 0f;
                     NextState = PlayerStateMachine.PlayerState.Movement;
                 }
             }
@@ -90,6 +107,18 @@ namespace WhereIsMyWife.Player.State
             {
                 NextState = PlayerStateMachine.PlayerState.Movement;
             }
+        }
+
+        private void WallHangStart()
+        {
+            _allowingVelocityTime = false;
+            NextState = PlayerStateMachine.PlayerState.WallHang;
+        }
+
+        private void MovementStart()
+        {
+            _allowingVelocityTime = false;
+            NextState = PlayerStateMachine.PlayerState.Movement;
         }
     }
 }

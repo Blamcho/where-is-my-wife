@@ -417,7 +417,8 @@ namespace WhereIsMyWife.Managers
         {
             Vector2 _calculatedLaunchVelocity = HookPosition - _controllerData.RigidbodyPosition;
             _calculatedLaunchVelocity.Normalize();
-            return _calculatedLaunchVelocity * Properties.Hook.ThrustForce;
+            _calculatedLaunchVelocity *= Properties.Hook.ThrustForce;
+            return _calculatedLaunchVelocity;
         }
 
         private void ExecuteHookEndEvent()
