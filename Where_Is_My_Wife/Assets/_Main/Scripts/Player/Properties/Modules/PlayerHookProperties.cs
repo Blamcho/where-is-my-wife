@@ -6,6 +6,7 @@ namespace WhereIsMyWife.Managers.Properties
     {
         public float ThrustForce { get; }
         public float TimeToReachHookPosition { get; }
+        public float TimeAllowedToPerformLaunch { get; }
     }
 
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/Modules/HookProperties", fileName = "HookProperties")]
@@ -15,6 +16,7 @@ namespace WhereIsMyWife.Managers.Properties
 
         [field: SerializeField] public float ThrustForce { get; private set;}
         [field: SerializeField] public float TimeToReachHookPosition { get; private set; }
+        [field: SerializeField] public float TimeAllowedToPerformLaunch { get;private set; }
     }
 
 }

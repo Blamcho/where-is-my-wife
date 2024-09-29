@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab4b125c22bcd1b438c640b8efc80417, type: 3}
   m_Name: HookProperties
   m_EditorClassIdentifier: 
-  <ThrustForce>k__BackingField: 50
+  <ThrustForce>k__BackingField: 35
   <TimeToReachHookPosition>k__BackingField: 1
+  <TimeAllowedToPerformLaunch>k__BackingField: 0.15
