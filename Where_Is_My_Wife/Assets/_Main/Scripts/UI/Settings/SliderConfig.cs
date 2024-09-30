@@ -1,24 +1,58 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SliderConfig : ConfigSelection
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private int _valueStep;
-    
+    [SerializeField] private float _updateInterval;
+    private float _updateTimer = 0;
+    private int _horizontalValue = 0;
+
+    private void FixedUpdate()
+    {
+        TickUpdateTimer();
+    }
+
+    public override void OnDeselect(BaseEventData eventData)
+    {
+        base.OnDeselect(eventData);
+        SetHorizontalValue(0);
+    }
+
     protected override void SubscribeToActions()
     {
-        _uiInputEvent.HorizontalStartedAction += UpdateSliderValue;
+        _uiInputEvent.HorizontalStartedAction += SetHorizontalValue;
+        _uiInputEvent.HorizontalCanceledAction += SetHorizontalValue;
     }
 
     protected override void UnsubscribeFromActions()
     {
-        _uiInputEvent.HorizontalStartedAction -= UpdateSliderValue;
+        _uiInputEvent.HorizontalStartedAction -= SetHorizontalValue;
+        _uiInputEvent.HorizontalCanceledAction -= SetHorizontalValue;
     }
 
-    private void UpdateSliderValue(int value)
+    private void SetHorizontalValue(int value)
     {
-        _slider.value += value * _valueStep;
+        _horizontalValue = value;
+    }
+
+    private void UpdateSliderValue()
+    {
+        _slider.value += _horizontalValue * _valueStep;
+    }
+    
+    private void TickUpdateTimer()
+    {
+        _updateTimer += Time.fixedDeltaTime;
+
+        if (_updateTimer >= _updateInterval)
+        {
+            UpdateSliderValue();
+            _updateTimer = 0;
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace WhereIsMyWife.Managers
     public interface IUIInputEvent
     {
         Action<int> HorizontalStartedAction { get; set; }
+        Action<int> HorizontalCanceledAction { get; set; }
         Action SubmitStartAction { get; set; }
         Action CancelStartAction { get; set; }
     }

@@ -27,6 +27,7 @@ namespace WhereIsMyWife.Managers
         public Action PauseAction { get; set; }
         
         public Action<int> HorizontalStartedAction { get; set; }
+        public Action<int> HorizontalCanceledAction { get; set; }
         public Action SubmitStartAction { get; set; }
         public Action CancelStartAction { get; set; }
         
@@ -77,6 +78,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Special.Pause.started += OnPauseStart;
             
             _playerInputActions.UI.Navigate.started += OnNavigateStarted;
+            _playerInputActions.UI.Navigate.canceled += OnNavigateCanceled;
             _playerInputActions.UI.Submit.started += OnSubmitStart;
             _playerInputActions.UI.Cancel.started += OnCancelStart;
         }
@@ -92,6 +94,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Special.Pause.started -= OnPauseStart;
             
             _playerInputActions.UI.Navigate.started -= OnNavigateStarted;
+            _playerInputActions.UI.Navigate.canceled -= OnNavigateCanceled;
             _playerInputActions.UI.Submit.started -= OnSubmitStart;
             _playerInputActions.UI.Cancel.started -= OnCancelStart;
         }
@@ -150,12 +153,18 @@ namespace WhereIsMyWife.Managers
 
         private void OnNavigateStarted(InputAction.CallbackContext context)
         {
-            if (context.ReadValue<Vector2>().x == 0) return;
             HorizontalStartedAction?.Invoke(NormalizedInputContextX(context));
+        }
+        
+        private void OnNavigateCanceled(InputAction.CallbackContext context)
+        {
+            HorizontalStartedAction?.Invoke(0);
         }
 
         private int NormalizedInputContextX(InputAction.CallbackContext context)
         {
+            if (context.ReadValue<Vector2>().x == 0) return 0;
+            
             return (int)Mathf.Sign(context.ReadValue<Vector2>().x);
         }
 

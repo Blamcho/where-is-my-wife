@@ -11,12 +11,12 @@ public class ConfigSelection : MonoBehaviour, ISelectHandler, IDeselectHandler
         _uiInputEvent = InputEventManager.Instance.UIInputEvent;
     }
     
-    public void OnSelect(BaseEventData eventData)
+    public virtual void OnSelect(BaseEventData eventData)
     {
         SubscribeToActions();
     }
     
-    public void OnDeselect(BaseEventData eventData)
+    public virtual void OnDeselect(BaseEventData eventData)
     {
         UnsubscribeFromActions();
     }

@@ -781,6 +781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slider: {fileID: 3380678827439888161}
   _valueStep: 1
+  _updateInterval: 0.1
 --- !u!224 &4669328725139108016 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3277828610616576536, guid: ef9e00cc2af63a94a8b001c5c04fbbf1, type: 3}
