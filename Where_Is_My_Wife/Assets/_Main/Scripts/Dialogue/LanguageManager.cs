@@ -15,8 +15,6 @@ namespace WhereIsMyWife.Managers
             Language = nextLanguages;
             OnLanguageChanged?.Invoke();
         }
-
-        
         
         #if UNITY_EDITOR
         
@@ -24,17 +22,22 @@ namespace WhereIsMyWife.Managers
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                AlternateLanguage();
+                CycleThroughLanguages(1);
             }
         }
 
-        private void AlternateLanguage()
+        public void CycleThroughLanguages(int direction)
         {
-            Language += 1;
+            Language += direction;
 
             if (Language >= Languages.Max)
             {
                 Language = 0;
+            }
+
+            if (Language < 0)
+            {
+                Language = Languages.Max - 1;
             }
             
             ChangeLanguage(Language);
@@ -45,8 +48,8 @@ namespace WhereIsMyWife.Managers
 
     public enum Languages
     {
-        Spanish,
         English,
+        Spanish,
         Max,
     }
 }
