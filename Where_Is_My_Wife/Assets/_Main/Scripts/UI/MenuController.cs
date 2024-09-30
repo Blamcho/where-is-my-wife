@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MenuController : MonoBehaviour
+namespace WhereIsMyWife.UI
 {
-    public void Play()
+    public class MenuController : MonoBehaviour
     {
-        SceneManager.LoadScene("Partial1");
-    }
+        public void Play()
+        {
+            SceneManager.LoadScene("Partial1");
+        }
 
-    public void ExitGame()
-    {
-        Application.Quit();
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
     }
 }

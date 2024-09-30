@@ -2,30 +2,33 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using WhereIsMyWife.Managers;
 
-public class ConfigSelection : MonoBehaviour, ISelectHandler, IDeselectHandler
+namespace WhereIsMyWife.Config
 {
-    protected IUIInputEvent _uiInputEvent;
-
-    private void Start()
+    public class ConfigSelection : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
-        _uiInputEvent = InputEventManager.Instance.UIInputEvent;
-    }
+        protected IUIInputEvent _uiInputEvent;
+
+        private void Start()
+        {
+            _uiInputEvent = InputEventManager.Instance.UIInputEvent;
+        }
     
-    public virtual void OnSelect(BaseEventData eventData)
-    {
-        SubscribeToActions();
-    }
+        public virtual void OnSelect(BaseEventData eventData)
+        {
+            SubscribeToActions();
+        }
     
-    public virtual void OnDeselect(BaseEventData eventData)
-    {
-        UnsubscribeFromActions();
-    }
+        public virtual void OnDeselect(BaseEventData eventData)
+        {
+            UnsubscribeFromActions();
+        }
 
-    private void OnDestroy()
-    {
-        UnsubscribeFromActions();
-    }
+        private void OnDestroy()
+        {
+            UnsubscribeFromActions();
+        }
 
-    protected virtual void SubscribeToActions() { }
-    protected virtual void UnsubscribeFromActions() { }
+        protected virtual void SubscribeToActions() { }
+        protected virtual void UnsubscribeFromActions() { }
+    }
 }

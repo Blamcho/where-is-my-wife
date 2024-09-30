@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleConfig : MonoBehaviour
+namespace WhereIsMyWife.Config
 {
-    [SerializeField] private Toggle _toggle;
-
-    public void ToggleIsOn()
+    public class ToggleConfig : MonoBehaviour
     {
-        _toggle.isOn = !_toggle.isOn;
+        [SerializeField] private Toggle _toggle;
+
+        public void ToggleIsOn()
+        {
+            _toggle.isOn = !_toggle.isOn;
+        }
     }
 }
