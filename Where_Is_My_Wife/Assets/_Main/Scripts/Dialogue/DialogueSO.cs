@@ -3,8 +3,8 @@ using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Dialogue
 {
-   [CreateAssetMenu (fileName = "EventTalk", menuName = "ScriptableObjects/Dialogue/EventTalk")]
-   public class EventTalk : ScriptableObject
+   [CreateAssetMenu (fileName = "DialogueSO", menuName = "ScriptableObjects/Dialogue/DialogueSO")]
+   public class DialogueSO : ScriptableObject
    {
       [SerializeField] private StringArray[] _text;
 
