@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using WhereIsMyWife.Dialogue;
@@ -10,33 +9,32 @@ namespace WhereIsMyWife.Managers
       [SerializeField] private GameObject _textContainer;
       [SerializeField] private TextMeshProUGUI _text;
 
-      private EventTalk _eventTalk;
-      
+      private DialogueSO _dialogueSo;
+         
       private int _currentTextIndex = -1;
+      private LanguageManager _languageManager;
+      private IUIInputEvent _uiInputEvent;
    
       private void Start()
       {
-         LanguageManager.Instance.OnLanguageChanged += RefreshText;
+         _languageManager = LanguageManager.Instance;
+         _uiInputEvent = InputEventManager.Instance.UIInputEvent;
+         
+         _languageManager.OnLanguageChanged += RefreshText;
+         _uiInputEvent.SubmitStartAction += ChangeToNextText;
       }
 
       private void OnDestroy()
       {
-         LanguageManager.Instance.OnLanguageChanged -= RefreshText;
-      }
-      
-      private void Update()
-      {
-         // TODO: Change to InputSystem using InputEventManager
-
-         if (Input.GetKeyDown(KeyCode.Space))
-         {
-            ChangeToNextText();
-         }
+         _languageManager.OnLanguageChanged -= RefreshText;
+         _uiInputEvent.SubmitStartAction -= ChangeToNextText;
       }
 
       private void ChangeToNextText()
       {
-         if (_eventTalk.IsThereAnotherText(_currentTextIndex))
+         if (!_dialogueSo) return;
+         
+         if (_dialogueSo.IsThereAnotherText(_currentTextIndex))
          {
             _currentTextIndex++;
             RefreshText();
@@ -49,12 +47,14 @@ namespace WhereIsMyWife.Managers
 
       private void RefreshText()
       {
-         _text.text = _eventTalk.GetText(_currentTextIndex);
+         if (!_dialogueSo) return;
+         
+         _text.text = _dialogueSo.GetText(_currentTextIndex);
       }
 
-      public void ShowUIText(EventTalk nextEventTalk)
+      public void StartDialogue(DialogueSO nextDialogueSo)
       {
-         _eventTalk = nextEventTalk;
+         _dialogueSo = nextDialogueSo;
          _textContainer.SetActive(true);
          _currentTextIndex = -1;
          ChangeToNextText();
@@ -62,7 +62,8 @@ namespace WhereIsMyWife.Managers
 
       private void CloseTextUI()
       {
-         Debug.Log($"There is no text in {_eventTalk} at index {_currentTextIndex}");
+         Debug.Log($"There is no text in {_dialogueSo.name} at index {_currentTextIndex}. Dialogue is closed.");
+         _dialogueSo = null;
          _textContainer.SetActive(false);
       }
    }
