@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using WhereIsMyWife.Managers;
 
-public class LanguageConfig : MonoBehaviour
+namespace WhereIsMyWife.Config
 {
-    // Start is called before the first frame update
-    void Start()
+    public class LanguageConfig : ConfigSelection
     {
-        
-    }
+        protected override void SubscribeToActions()
+        {
+            _uiInputEvent.HorizontalStartedAction += CycleThroughLanguages;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected override void SelectedUnsubscribeFromActions()
+        {
+            _uiInputEvent.HorizontalStartedAction -= CycleThroughLanguages;
+        }
+
+        private void CycleThroughLanguages(int direction)
+        {
+            LanguageManager.Instance.CycleThroughLanguages(direction);
+        }
     }
 }

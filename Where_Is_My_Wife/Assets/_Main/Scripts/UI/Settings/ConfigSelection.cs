@@ -8,7 +8,7 @@ namespace WhereIsMyWife.Config
     {
         protected IUIInputEvent _uiInputEvent;
 
-        private void Start()
+        protected virtual void Start()
         {
             _uiInputEvent = InputEventManager.Instance.UIInputEvent;
         }
@@ -20,15 +20,15 @@ namespace WhereIsMyWife.Config
     
         public virtual void OnDeselect(BaseEventData eventData)
         {
-            UnsubscribeFromActions();
+            SelectedUnsubscribeFromActions();
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
-            UnsubscribeFromActions();
+            SelectedUnsubscribeFromActions();
         }
 
         protected virtual void SubscribeToActions() { }
-        protected virtual void UnsubscribeFromActions() { }
+        protected virtual void SelectedUnsubscribeFromActions() { }
     }
 }

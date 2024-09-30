@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WhereIsMyWife.Config
+namespace WhereIsMyWife.Config  
 {
     public class ToggleConfig : MonoBehaviour
     {

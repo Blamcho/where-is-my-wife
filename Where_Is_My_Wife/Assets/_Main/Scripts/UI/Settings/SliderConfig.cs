@@ -29,7 +29,7 @@ namespace WhereIsMyWife.Config
             _uiInputEvent.HorizontalCanceledAction += SetHorizontalValue;
         }
 
-        protected override void UnsubscribeFromActions()
+        protected override void SelectedUnsubscribeFromActions()
         {
             _uiInputEvent.HorizontalStartedAction -= SetHorizontalValue;
             _uiInputEvent.HorizontalCanceledAction -= SetHorizontalValue;
