@@ -163,7 +163,7 @@ namespace WhereIsMyWife.Managers
 
         private int NormalizedInputContextX(InputAction.CallbackContext context)
         {
-            if (context.ReadValue<Vector2>().x == 0) return 0;
+            if (Mathf.Abs(context.ReadValue<Vector2>().normalized.x) < _horizontalDeadZone) return 0;
             
             return (int)Mathf.Sign(context.ReadValue<Vector2>().x);
         }
