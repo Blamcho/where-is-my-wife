@@ -5,7 +5,7 @@ using WhereIsMyWife.Dialogue;
 
 namespace WhereIsMyWife.Managers
 {
-   public class TextManager : Singleton<TextManager>
+   public class DialogueManager : Singleton<DialogueManager>
    {
       [SerializeField] private GameObject _textContainer;
       [SerializeField] private TextMeshProUGUI _text;
