@@ -295,7 +295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5269401718622137257, guid: 15fb7bffad3bdf94f9198b0268a93ea7, type: 3}
       propertyPath: m_Name
-      value: MultilingualText
+      value: Text
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
