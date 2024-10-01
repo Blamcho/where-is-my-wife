@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ namespace WhereIsMyWife.Setting
     public class SliderSetting : SettingSelection
     {
         [SerializeField] private Slider _slider;
+        [SerializeField] private TextMeshProUGUI _sliderValueText;
         [SerializeField] private int _valueStep;
         [SerializeField] private float _updateInterval;
         private float _updateTimer = 0;
@@ -43,6 +45,7 @@ namespace WhereIsMyWife.Setting
         private void UpdateSliderValue()
         {
             _slider.value += _horizontalValue * _valueStep;
+            _sliderValueText.text = _slider.value.ToString();
         }
     
         private void TickUpdateTimer()
