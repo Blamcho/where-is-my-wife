@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using WhereIsMyWife.Managers;
 
-namespace WhereIsMyWife.Config
+namespace WhereIsMyWife.Setting
 {
-    public class ConfigSelection : MonoBehaviour, ISelectHandler, IDeselectHandler
+    public class SettingSelection : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         protected IUIInputEvent _uiInputEvent;
 

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WhereIsMyWife.Config  
+namespace WhereIsMyWife.Setting  
 {
-    public class ToggleConfig : MonoBehaviour
+    public class ToggleSetting : MonoBehaviour
     {
         [SerializeField] private Toggle _toggle;
 

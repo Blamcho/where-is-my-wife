@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace WhereIsMyWife.Config
+namespace WhereIsMyWife.Setting
 {
-    public class SliderConfig : ConfigSelection
+    public class SliderSetting : SettingSelection
     {
         [SerializeField] private Slider _slider;
         [SerializeField] private int _valueStep;

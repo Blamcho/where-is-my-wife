@@ -1,8 +1,8 @@
 using WhereIsMyWife.Managers;
 
-namespace WhereIsMyWife.Config
+namespace WhereIsMyWife.Setting
 {
-    public class LanguageConfig : ConfigSelection
+    public class LanguageSetting : SettingSelection
     {
         protected override void SubscribeToActions()
         {
