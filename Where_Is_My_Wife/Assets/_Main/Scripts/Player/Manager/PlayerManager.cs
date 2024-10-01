@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
@@ -15,7 +14,6 @@ namespace WhereIsMyWife.Managers
     {
         [SerializeField] private PlayerProperties _propertiesSO;
         [SerializeField] private PlayerStateMachine _playerStateMachine;
-        private bool _canDash = true;
 
         public IPlayerProperties Properties => _propertiesSO.Properties;
         
@@ -32,6 +30,8 @@ namespace WhereIsMyWife.Managers
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
+
+        private bool _canDash = true;
 
         private void Start()
         {
