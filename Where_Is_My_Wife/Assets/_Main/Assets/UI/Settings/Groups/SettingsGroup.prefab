@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 5949487420366763535}
   - component: {fileID: 2410724599712145854}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SettingsSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,7 +295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5269401718622137257, guid: 15fb7bffad3bdf94f9198b0268a93ea7, type: 3}
       propertyPath: m_Name
-      value: Text
+      value: SettingsText
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

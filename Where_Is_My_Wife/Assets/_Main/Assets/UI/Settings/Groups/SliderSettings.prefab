@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 720133633907001890}
   - component: {fileID: 2630557257279695682}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SliderValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -319,7 +319,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5395975003462169250}
   - component: {fileID: 3380678827439888161}
-  - component: {fileID: 746775860930062124}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -399,32 +398,7 @@ MonoBehaviour:
   m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 746775860930062124}
-        m_TargetAssemblyTypeName: WhereIsMyWife.UI.UnityEventText, Assembly-CSharp
-        m_MethodName: SetText
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &746775860930062124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6631577073278574488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa53d055af41d10458df57c1893ee1b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 2630557257279695682}
+      m_Calls: []
 --- !u!1 &7695643468888719457
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,6 +754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slider: {fileID: 3380678827439888161}
+  _sliderValueText: {fileID: 2630557257279695682}
   _valueStep: 1
   _updateInterval: 0.1
 --- !u!224 &4669328725139108016 stripped
