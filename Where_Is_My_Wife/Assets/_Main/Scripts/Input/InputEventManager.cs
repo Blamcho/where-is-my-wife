@@ -8,10 +8,9 @@ namespace WhereIsMyWife.Managers
     /// <summary>
     ///  The player input arrives here and raises events for other classes to react via an <see cref="IPlayerInputEvent"/>
     /// </summary>
-    public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent, ISpecialInputEvent, IUIInputEvent
+    public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent, IUIInputEvent
     {
         public IPlayerInputEvent PlayerInputEvent => this;
-        public ISpecialInputEvent SpecialInputEvent => this;
         public IUIInputEvent UIInputEvent => this;
         
         public Action JumpStartAction { get; set; }
@@ -24,7 +23,7 @@ namespace WhereIsMyWife.Managers
         public Action LookUpAction { get; set; }
         public Action<bool> LookDownAction { get; set; }
     
-        public Action PauseAction { get; set; }
+        public Action PauseStartAction { get; set; }
         
         public Action<int> HorizontalStartedAction { get; set; }
         public Action<int> HorizontalCanceledAction { get; set; }
@@ -148,7 +147,7 @@ namespace WhereIsMyWife.Managers
 
         private void OnPauseStart(InputAction.CallbackContext context)
         {
-            PauseAction?.Invoke();
+            PauseStartAction?.Invoke();
         }
 
         private void OnNavigateStarted(InputAction.CallbackContext context)
