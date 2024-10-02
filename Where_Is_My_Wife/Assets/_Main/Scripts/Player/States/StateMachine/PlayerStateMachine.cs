@@ -21,6 +21,7 @@ namespace WhereIsMyWife.Player.StateMachine
         public IDashStateEvents DashStateEvents { get; private set; }
         public IWallHangStateEvents WallHangStateEvents { get; private set; }
         public IWallJumpStateEvents WallJumpStateEvents { get; private set; }
+        public IHookStateEvents HookStateEvents { get; private set; }
         
         protected void Awake()
         {
@@ -28,11 +29,13 @@ namespace WhereIsMyWife.Player.StateMachine
             States[PlayerState.Dash] = new PlayerDashState();
             States[PlayerState.WallHang] = new PlayerWallHangState();
             States[PlayerState.WallJump] = new PlayerWallJumpState();
+            States[PlayerState.Hook] = new PlayerHookState();
 
             MovementStateEvents = (IMovementStateEvents)States[PlayerState.Movement];
             DashStateEvents = (IDashStateEvents)States[PlayerState.Dash];
             WallHangStateEvents = (IWallHangStateEvents)States[PlayerState.WallHang];
             WallJumpStateEvents = (IWallJumpStateEvents)States[PlayerState.WallJump];
+            HookStateEvents = (IHookStateEvents)States[PlayerState.Hook];
             
             CurrentState = States[PlayerState.Movement];
         }

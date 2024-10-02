@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
@@ -9,15 +10,19 @@ namespace WhereIsMyWife.Controllers
     public class PlayerController : MonoBehaviour, IPlayerControllerData
     {
         public Vector2 RigidbodyVelocity => _rigidbody2D.velocity;
+        public Vector2 RigidbodyPosition => _rigidbody2D.position;
         public Vector2 GroundCheckPosition => _groundCheckTransform.position;
         public Vector2 WallHangCheckUpPosition => _wallHangCheckUpTransform.position;
         public Vector2 WallHangCheckDownPosition => _wallHangCheckDownTransform.position;
         public float HorizontalScale => transform.localScale.x;
-    
+        public Action<Collider2D> TriggerEnterEvent { get; set; }
+        public Action<Collider2D> TriggerExitEvent { get; set; }
+
         private IMovementStateEvents _movementStateEvents;
         private IWallHangStateEvents _wallHangStateEvents;
         private IWallJumpStateEvents _wallJumpStateEvents;
         private IDashStateEvents _dashStateEvents;
+        private IHookStateEvents _hookStateEvents;
         
         private IPlayerStateIndicator _playerStateIndicator;
         private IPlayerControllerEvent _playerControllerEvent;
@@ -34,6 +39,7 @@ namespace WhereIsMyWife.Controllers
             _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
             _wallJumpStateEvents = PlayerManager.Instance.WallJumpStateEvents;
             _dashStateEvents = PlayerManager.Instance.DashStateEvents;
+            _hookStateEvents = PlayerManager.Instance.HookStateEvents;
 
             _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
             _playerControllerEvent = PlayerManager.Instance.PlayerControllerEvent;
@@ -47,6 +53,16 @@ namespace WhereIsMyWife.Controllers
         private void OnDestroy()
         {
             UnsubscribeToObservables();
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            TriggerEnterEvent?.Invoke(collision);
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            TriggerExitEvent?.Invoke(collision);
         }
 
         private void SubscribeToObservables()
@@ -68,6 +84,10 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.GravityScale += SetGravityScale;
             _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
             _dashStateEvents.FallingSpeed += SetFallSpeed;
+            
+            _hookStateEvents.GravityScale += SetGravityScale;
+            _hookStateEvents.SetVelocity += SetVelocity;
+            _hookStateEvents.SetPosition += SetPosition;
             
             _respawn.RespawnAction += Respawn;
         }
@@ -91,6 +111,10 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.GravityScale -= SetGravityScale;
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
+            
+            _hookStateEvents.GravityScale += SetGravityScale;
+            _hookStateEvents.SetVelocity += SetVelocity;
+            _hookStateEvents.SetPosition += SetPosition;
 
             _respawn.RespawnAction -= Respawn;
         }
@@ -104,6 +128,16 @@ namespace WhereIsMyWife.Controllers
         {
             FaceDirection(_playerStateIndicator.IsRunningRight);
             _rigidbody2D.AddForce(Vector2.right * runAcceleration, ForceMode2D.Force);
+        }
+
+        private void SetPosition(Vector2 position)
+        {
+            _rigidbody2D.position = position;
+        }
+
+        private void SetVelocity(Vector2 velocity)
+        {
+            _rigidbody2D.velocity = velocity;
         }
 
         private void SetGravityScale(float gravityScale)

@@ -4,6 +4,7 @@ using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
 using WhereIsMyWife.Player.StateMachine;
+using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.Managers
 {
@@ -18,7 +19,8 @@ namespace WhereIsMyWife.Managers
         public IPlayerProperties Properties => _propertiesSO.Properties;
         
         private IPlayerInputEvent _playerInputEvent;
-        
+        private IHookUIEvents _hookUIEvents;
+
         private IRunningMethods _runningMethods = new RunningMethods().Methods;
         private IJumpingMethods _jumpingMethods = new JumpingMethods().Methods;
 
@@ -26,16 +28,21 @@ namespace WhereIsMyWife.Managers
         public IMovementStateEvents MovementStateEvents => _playerStateMachine.MovementStateEvents;
         public IWallHangStateEvents WallHangStateEvents => _playerStateMachine.WallHangStateEvents;
         public IWallJumpStateEvents WallJumpStateEvents => _playerStateMachine.WallJumpStateEvents;
+        public IHookStateEvents HookStateEvents => _playerStateMachine.HookStateEvents;
         
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
 
         private bool _canDash = true;
+        
+        // Hook Attempt Flag
+        private bool _canAttemptHook = false;
 
         private void Start()
         {
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
+            _hookUIEvents = HookUIBar.Instance.HookUIEvents;
          
             SubscribeToObservables();
 
@@ -56,6 +63,24 @@ namespace WhereIsMyWife.Managers
             WallCheck();
             JumpChecks();
             GravityShifts();
+        }
+
+        private void TriggerEnter(Collider2D collider)
+        {
+            if (collider.CompareTag("Hook"))
+            {
+                IsInHookRange = true;
+                _canAttemptHook = true;
+                HookPosition = collider.transform.position;
+            }
+        }
+        
+        private void TriggerExit(Collider2D collider)
+        {
+            if (collider.CompareTag("Hook"))
+            {
+                IsInHookRange = false;
+            }
         }
 
         private void UpdateIsRunningRight(float runDirection)
@@ -220,7 +245,7 @@ namespace WhereIsMyWife.Managers
         {
             GravityScale?.Invoke(gravityScale);
         }
-        
+
         private void SubscribeToObservables()
         {
             _playerInputEvent.JumpStartAction += ExecuteJumpStartEvent;
@@ -228,8 +253,16 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.RunAction += ExecuteRunEvent;
             _playerInputEvent.DashAction += ExecuteDashStartEvent;
             _playerInputEvent.LookDownAction += ExecuteLookDownEvent;
+            _playerInputEvent.HookStartAction += ExecuteHookStartEvent;
+            _playerInputEvent.HookEndAction += ExecuteHookEndEvent;
+
+            _controllerData.TriggerEnterEvent += TriggerEnter;
+            _controllerData.TriggerExitEvent += TriggerExit;
+
+            _hookUIEvents.QTEStateEvent += SetIsInQTEWindow;
+            _hookUIEvents.QTETimeExpired += QTETimeHasExpired;
         }
-        
+
         private void UnsubscribeToObservables()
         {
             _playerInputEvent.JumpStartAction -= ExecuteJumpStartEvent;
@@ -237,6 +270,14 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.RunAction -= ExecuteRunEvent;
             _playerInputEvent.DashAction -= ExecuteDashStartEvent;
             _playerInputEvent.LookDownAction -= ExecuteLookDownEvent;
+            _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
+            _playerInputEvent.HookEndAction -= ExecuteHookEndEvent;
+
+            _controllerData.TriggerEnterEvent -= TriggerEnter;
+            _controllerData.TriggerExitEvent -= TriggerExit;
+
+            _hookUIEvents.QTEStateEvent -= SetIsInQTEWindow;
+            _hookUIEvents.QTETimeExpired -= QTETimeHasExpired;
         }
     }
     
@@ -254,6 +295,10 @@ namespace WhereIsMyWife.Managers
         public bool IsJumpFalling { get; private set; } = false;
         public bool IsOnWallHang { get; private set; } = false;
         public bool IsRunFalling { get; private set; } = false;
+        public bool IsInHookRange { get; private set; } = false;
+        public bool IsInQTEWindow { get; private set; } = false;
+        public Vector2 HookPosition { get; private set; } 
+        public Vector2 HookLaunchVelocity { get; private set; }
 
         public float DashSpeed { get; private set; } = 0f;
 
@@ -294,6 +339,10 @@ namespace WhereIsMyWife.Managers
             return IsJumping && _controllerData.RigidbodyVelocity.y > 0;
         }
 
+        private void SetIsInQTEWindow(bool isInQTEWindow)
+        {
+            IsInQTEWindow = isInQTEWindow;
+        }
     }
     
     public partial class PlayerManager : IPlayerStateInput
@@ -308,6 +357,8 @@ namespace WhereIsMyWife.Managers
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
+        public Action HookStart { get; set; }
+        public Action<Vector2> HookEnd { get; set; }
 
         private void ExecuteJumpStartEvent()
         {
@@ -348,6 +399,45 @@ namespace WhereIsMyWife.Managers
         {
             IsLookingDown = isLookingDown;
         }
+
+        private void ExecuteHookStartEvent()
+        {
+            if (_canAttemptHook)
+            {
+                if (IsInHookRange)
+                {
+                    HookLaunchVelocity = GetHookLaunchVelocity();
+                    HookStart?.Invoke();
+                }
+            }
+        }
+
+        private Vector2 GetHookLaunchVelocity()
+        {
+            Vector2 _calculatedLaunchVelocity = HookPosition - _controllerData.RigidbodyPosition;
+            _calculatedLaunchVelocity.Normalize();
+            _calculatedLaunchVelocity *= Properties.Hook.ThrustForce;
+            return _calculatedLaunchVelocity;
+        }
+
+        private void ExecuteHookEndEvent()
+        {
+            if (_canAttemptHook)
+            {
+                LaunchHookEndEvent();
+            }
+        }
+
+        private void QTETimeHasExpired()
+        {
+            LaunchHookEndEvent();
+        }
+
+        private void LaunchHookEndEvent()
+        {
+            _canAttemptHook = false;
+            HookEnd?.Invoke(_controllerData.RigidbodyPosition);
+        }
     }
 
     public partial class PlayerManager : IPlayerControllerEvent
@@ -379,6 +469,5 @@ namespace WhereIsMyWife.Managers
         {
            RespawnAction?.Invoke(_respawnPoint);
         }
-
     }
 }

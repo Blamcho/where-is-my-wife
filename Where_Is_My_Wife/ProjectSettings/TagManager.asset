@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - StageCollider
+  - Hook
   layers:
   - Default
   - TransparentFX
