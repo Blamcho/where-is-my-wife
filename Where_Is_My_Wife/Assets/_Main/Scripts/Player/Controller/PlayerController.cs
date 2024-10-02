@@ -5,7 +5,7 @@ using WhereIsMyWife.Managers;
 namespace WhereIsMyWife.Controllers
 {
     /// <summary>
-    /// Reacts to whatever the <see cref="WhereIsMyWife.Player.StateMachine.PlayerStateMachine"/> decides the player needs to do based on the events sent. 
+    /// Reacts to whatever the <see cref="WhereIsMyWife.Player.StateMachine.PlayerStateMachine"/> decides the player needs to do based on the events sent.
     /// </summary>
     public class PlayerController : MonoBehaviour, IPlayerControllerData
     {
@@ -23,16 +23,23 @@ namespace WhereIsMyWife.Controllers
         private IWallJumpStateEvents _wallJumpStateEvents;
         private IDashStateEvents _dashStateEvents;
         private IHookStateEvents _hookStateEvents;
-        
+
         private IPlayerStateIndicator _playerStateIndicator;
         private IPlayerControllerEvent _playerControllerEvent;
         private IRespawn _respawn;
 
-        [SerializeField] private Rigidbody2D _rigidbody2D;
-        [SerializeField] private Transform _groundCheckTransform = null;
-        [SerializeField] private Transform _wallHangCheckUpTransform = null;
-        [SerializeField] private Transform _wallHangCheckDownTransform = null;
-        
+        [SerializeField]
+        private Rigidbody2D _rigidbody2D;
+
+        [SerializeField]
+        private Transform _groundCheckTransform = null;
+
+        [SerializeField]
+        private Transform _wallHangCheckUpTransform = null;
+
+        [SerializeField]
+        private Transform _wallHangCheckDownTransform = null;
+
         private void Start()
         {
             _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
@@ -44,9 +51,9 @@ namespace WhereIsMyWife.Controllers
             _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
             _playerControllerEvent = PlayerManager.Instance.PlayerControllerEvent;
             _respawn = PlayerManager.Instance.Respawn;
-            
+
             _playerControllerEvent.SetPlayerControllerData(this);
-            
+
             SubscribeToObservables();
         }
 
@@ -67,7 +74,7 @@ namespace WhereIsMyWife.Controllers
 
         private void SubscribeToObservables()
         {
-            _movementStateEvents.Run += Run; 
+            _movementStateEvents.Run += Run;
             _movementStateEvents.JumpStart += JumpStart;
             _movementStateEvents.GravityScale += SetGravityScale;
             _movementStateEvents.FallSpeedCap += SetFallSpeedCap;
@@ -79,22 +86,23 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.WallJumpVelocity += SetHorizontalSpeed;
             _wallJumpStateEvents.GravityScale += SetGravityScale;
             _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
+            _wallJumpStateEvents.DoubleJump += JumpStart;
 
             _dashStateEvents.Dash += SetHorizontalSpeed;
             _dashStateEvents.GravityScale += SetGravityScale;
             _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
             _dashStateEvents.FallingSpeed += SetFallSpeed;
-            
+
             _hookStateEvents.GravityScale += SetGravityScale;
             _hookStateEvents.SetVelocity += SetVelocity;
             _hookStateEvents.SetPosition += SetPosition;
-            
+
             _respawn.RespawnAction += Respawn;
         }
 
         private void UnsubscribeToObservables()
         {
-            _movementStateEvents.Run -= Run; 
+            _movementStateEvents.Run -= Run;
             _movementStateEvents.JumpStart -= JumpStart;
             _movementStateEvents.GravityScale -= SetGravityScale;
             _movementStateEvents.FallSpeedCap -= SetFallSpeedCap;
@@ -106,12 +114,13 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.WallJumpVelocity -= SetHorizontalSpeed;
             _wallJumpStateEvents.GravityScale -= SetGravityScale;
             _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
+            _wallJumpStateEvents.DoubleJump -= JumpStart;
 
             _dashStateEvents.Dash -= SetHorizontalSpeed;
             _dashStateEvents.GravityScale -= SetGravityScale;
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
-            
+
             _hookStateEvents.GravityScale += SetGravityScale;
             _hookStateEvents.SetVelocity += SetVelocity;
             _hookStateEvents.SetPosition += SetPosition;
@@ -147,8 +156,10 @@ namespace WhereIsMyWife.Controllers
 
         private void SetFallSpeedCap(float fallSpeedCap)
         {
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x,
-                Mathf.Max(_rigidbody2D.velocity.y, -fallSpeedCap));
+            _rigidbody2D.velocity = new Vector2(
+                _rigidbody2D.velocity.x,
+                Mathf.Max(_rigidbody2D.velocity.y, -fallSpeedCap)
+            );
         }
 
         private void SetFallSpeed(float fallSpeed)
@@ -156,17 +167,15 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -fallSpeed);
         }
 
-
         private void SetHorizontalSpeed(float speed)
         {
             _rigidbody2D.velocity = new Vector2(speed, _rigidbody2D.velocity.y);
         }
-        
+
         private void WallHangVelocity(float fallVelocity)
         {
             SetGravityScale(0f);
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x,
-                fallVelocity);
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, fallVelocity);
         }
 
         private void Turn()
@@ -174,19 +183,18 @@ namespace WhereIsMyWife.Controllers
             Vector3 scale = transform.localScale;
 
             scale.x *= -1;
-            
+
             transform.localScale = scale;
         }
-        
+
         private void FaceDirection(bool shouldFaceRight)
         {
             Vector3 scale = transform.localScale;
-            
+
             if (shouldFaceRight)
             {
                 scale.x = 1;
             }
-
             else
             {
                 scale.x = -1;
@@ -194,7 +202,7 @@ namespace WhereIsMyWife.Controllers
 
             transform.localScale = scale;
         }
-        
+
         private void Respawn(Vector3 respawnPosition)
         {
             transform.position = respawnPosition;

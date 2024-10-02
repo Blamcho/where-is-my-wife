@@ -15,7 +15,7 @@ namespace WhereIsMyWife.Managers
         public bool IsOnWallHang { get; }
         public bool IsRunFalling { get; }
         public bool IsInHookRange { get; }
-        public float DashSpeed {  get; }
+        public float DashSpeed { get; }
         public bool IsInQTEWindow { get; }
         public Vector2 HookPosition { get; }
         public Vector2 HookLaunchVelocity { get; }

@@ -7,19 +7,21 @@ namespace WhereIsMyWife.Player.State
 {
     public class PlayerWallJumpState : PlayerState, IWallJumpState, IWallJumpStateEvents
     {
-        public PlayerWallJumpState() : base(PlayerStateMachine.PlayerState.WallJump) { }
-        
+        public PlayerWallJumpState()
+            : base(PlayerStateMachine.PlayerState.WallJump) { }
+
         public Action<float> WallJumpVelocity { get; set; }
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
-        
+        public Action<float> DoubleJump { get; set; }
+
         private Tween _horizontalSpeedTween;
-        
+
         private float _horizontalSpeed = 0;
         private int _directionMultiplier = 1;
 
         private bool _minTimeHasPassed = false;
-        
+
         protected override void SubscribeToObservables()
         {
             _playerStateInput.GravityScale += InvokeGravityScale;
@@ -27,6 +29,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.Land += EndWallJump;
             _playerStateInput.WallHangStart += WallHang;
             _playerStateInput.DashStart += Dash;
+            _playerStateInput.JumpStart += InvokeDoubleJump;
         }
 
         protected override void UnsubscribeToObservables()
@@ -36,12 +39,13 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.Land -= EndWallJump;
             _playerStateInput.WallHangStart -= WallHang;
             _playerStateInput.DashStart -= Dash;
+            _playerStateInput.JumpStart -= InvokeDoubleJump;
         }
 
         public override void EnterState()
         {
             base.EnterState();
-            
+
             _minTimeHasPassed = false;
             _directionMultiplier = _playerStateIndicator.IsLookingRight ? 1 : -1;
             StartJumpSpeedCurve();
@@ -70,23 +74,31 @@ namespace WhereIsMyWife.Player.State
         {
             _horizontalSpeed = _properties.WallJump.Speed * _directionMultiplier;
 
-            _horizontalSpeedTween = DOTween.To(() => _horizontalSpeed, x => _horizontalSpeed = x, 
-                    _properties.Movement.RunMaxSpeed * _directionMultiplier, 
-                    _properties.WallJump.TimeToNormalSpeed)
+            _horizontalSpeedTween = DOTween
+                .To(
+                    () => _horizontalSpeed,
+                    x => _horizontalSpeed = x,
+                    _properties.Movement.RunMaxSpeed * _directionMultiplier,
+                    _properties.WallJump.TimeToNormalSpeed
+                )
                 .SetEase(Ease.InOutSine)
                 .OnComplete(StartDecelerationCurve);
         }
-        
+
         private void StartDecelerationCurve()
         {
             _minTimeHasPassed = true;
-            _horizontalSpeedTween = DOTween.To(() => _horizontalSpeed, x => _horizontalSpeed = x, 
-                    0, 
-                    _properties.WallJump.TimeToZeroSpeed)
+            _horizontalSpeedTween = DOTween
+                .To(
+                    () => _horizontalSpeed,
+                    x => _horizontalSpeed = x,
+                    0,
+                    _properties.WallJump.TimeToZeroSpeed
+                )
                 .SetEase(Ease.InSine)
                 .OnComplete(StartDecelerationCurve);
         }
-        
+
         private void EndWallJump()
         {
             NextState = PlayerStateMachine.PlayerState.Movement;
@@ -96,10 +108,16 @@ namespace WhereIsMyWife.Player.State
         {
             NextState = PlayerStateMachine.PlayerState.WallHang;
         }
-        
+
         private void Dash(float _)
         {
             NextState = PlayerStateMachine.PlayerState.Dash;
+        }
+
+        private void InvokeDoubleJump(float jumpForce)
+        {
+            DoubleJump?.Invoke(jumpForce);
+            NextState = PlayerStateMachine.PlayerState.Movement;
         }
 
         private void InvokeGravityScale(float gravityScale)
