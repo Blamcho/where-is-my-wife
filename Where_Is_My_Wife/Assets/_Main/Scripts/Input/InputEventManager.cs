@@ -8,9 +8,10 @@ namespace WhereIsMyWife.Managers
     /// <summary>
     ///  The player input arrives here and raises events for other classes to react via an <see cref="IPlayerInputEvent"/>
     /// </summary>
-    public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent
+    public class InputEventManager : Singleton<InputEventManager>, IPlayerInputEvent, IUIInputEvent
     {
         public IPlayerInputEvent PlayerInputEvent => this;
+        public IUIInputEvent UIInputEvent => this;
         
         public Action JumpStartAction { get; set; }
         public Action JumpEndAction { get; set; }
@@ -22,6 +23,13 @@ namespace WhereIsMyWife.Managers
         public Action LookUpAction { get; set; }
         public Action<bool> LookDownAction { get; set; }
     
+        public Action PauseStartAction { get; set; }
+        
+        public Action<int> HorizontalStartedAction { get; set; }
+        public Action<int> HorizontalCanceledAction { get; set; }
+        public Action SubmitStartAction { get; set; }
+        public Action CancelStartAction { get; set; }
+        
         ControllerType _currentControllerType;
         private string[] controllers;
     
@@ -37,13 +45,15 @@ namespace WhereIsMyWife.Managers
             base.Awake();
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Enable();
+            
             SubscribeToInputActions();
             CheckForCurrentController();
         }
-
+        
         private void OnDestroy()
         {
             UnsubscribeToInputActions();
+            _playerInputActions.Disable();
         }
 
         private void Update()
@@ -63,6 +73,13 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.performed += OnMovePerform;
             _playerInputActions.Normal.Move.canceled += OnMoveCancel;
             _playerInputActions.Normal.Dash.performed += OnDash;
+
+            _playerInputActions.Special.Pause.started += OnPauseStart;
+            
+            _playerInputActions.UI.Navigate.started += OnNavigateStarted;
+            _playerInputActions.UI.Navigate.canceled += OnNavigateCanceled;
+            _playerInputActions.UI.Submit.started += OnSubmitStart;
+            _playerInputActions.UI.Cancel.started += OnCancelStart;
         }
         
         private void UnsubscribeToInputActions()
@@ -72,8 +89,14 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.performed -= OnMovePerform;
             _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
             _playerInputActions.Normal.Dash.performed -= OnDash;
+            
+            _playerInputActions.Special.Pause.started -= OnPauseStart;
+            
+            _playerInputActions.UI.Navigate.started -= OnNavigateStarted;
+            _playerInputActions.UI.Navigate.canceled -= OnNavigateCanceled;
+            _playerInputActions.UI.Submit.started -= OnSubmitStart;
+            _playerInputActions.UI.Cancel.started -= OnCancelStart;
         }
-
         
         private void OnJumpPerform(InputAction.CallbackContext context)
         {
@@ -124,12 +147,39 @@ namespace WhereIsMyWife.Managers
                DashAction?.Invoke(_moveVector.x);
             }
         }
-    
-        public void Dispose()
+
+        private void OnPauseStart(InputAction.CallbackContext context)
         {
-            _playerInputActions.Disable();
+            PauseStartAction?.Invoke();
         }
 
+        private void OnNavigateStarted(InputAction.CallbackContext context)
+        {
+            HorizontalStartedAction?.Invoke(NormalizedInputContextX(context));
+        }
+        
+        private void OnNavigateCanceled(InputAction.CallbackContext context)
+        {
+            HorizontalStartedAction?.Invoke(0);
+        }
+
+        private int NormalizedInputContextX(InputAction.CallbackContext context)
+        {
+            if (Mathf.Abs(context.ReadValue<Vector2>().normalized.x) < _horizontalDeadZone) return 0;
+            
+            return (int)Mathf.Sign(context.ReadValue<Vector2>().x);
+        }
+
+        private void OnSubmitStart(InputAction.CallbackContext context)
+        {
+            SubmitStartAction?.Invoke();
+        }
+        
+        private void OnCancelStart(InputAction.CallbackContext context)
+        {
+            CancelStartAction?.Invoke();
+        }
+        
         // TODO: Change the way it detects the input was from a different controller type
         private void CheckForControllerTypeChange()
         {

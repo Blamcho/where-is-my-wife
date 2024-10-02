@@ -16,6 +16,15 @@ namespace WhereIsMyWife.Managers
         Action<bool> LookDownAction { get; set; }
     }
     
+    public interface IUIInputEvent
+    {
+        Action<int> HorizontalStartedAction { get; set; }
+        Action<int> HorizontalCanceledAction { get; set; }
+        Action SubmitStartAction { get; set; }
+        Action CancelStartAction { get; set; }
+        Action PauseStartAction { get; set; }
+    }
+    
     public enum ControllerType
     {
         Keyboard,
