@@ -14,7 +14,7 @@ namespace WhereIsMyWife.Managers
     {
         [SerializeField] private PlayerProperties _propertiesSO;
         [SerializeField] private PlayerStateMachine _playerStateMachine;
-        
+
         public IPlayerProperties Properties => _propertiesSO.Properties;
         
         private IPlayerInputEvent _playerInputEvent;
@@ -31,12 +31,16 @@ namespace WhereIsMyWife.Managers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
 
+        private bool _canDash = true;
+
         private void Start()
         {
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
          
             SubscribeToObservables();
-            
+
+            _canDash = true;
+
             GravityScale?.Invoke(Properties.Gravity.Scale);
         }
 
@@ -78,6 +82,7 @@ namespace WhereIsMyWife.Managers
             {
                 _lastOnGroundTime = Properties.Jump.CoyoteTime;
                 IsRunFalling = false;
+                _canDash = true;
             }
 
             if (!IsJumping && _lastOnGroundTime < Properties.Jump.CoyoteTime)
@@ -250,6 +255,8 @@ namespace WhereIsMyWife.Managers
         public bool IsOnWallHang { get; private set; } = false;
         public bool IsRunFalling { get; private set; } = false;
 
+        public float DashSpeed { get; private set; } = 0f;
+
         public bool IsOnJumpInputBuffer()
         {
             return _lastPressedJumpTime >= 0;
@@ -286,6 +293,7 @@ namespace WhereIsMyWife.Managers
         {
             return IsJumping && _controllerData.RigidbodyVelocity.y > 0;
         }
+
     }
     
     public partial class PlayerManager : IPlayerStateInput
@@ -296,7 +304,7 @@ namespace WhereIsMyWife.Managers
         public Action<float> Run { get; set; }
         public Action WallHangStart { get; set; }
         public Action WallHangEnd { get; set; }
-        public Action<Vector2> DashStart { get; set; }
+        public Action<float> DashStart { get; set; }
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
@@ -313,7 +321,12 @@ namespace WhereIsMyWife.Managers
                 IsJumpCut = true;
             }
         }
-        
+
+        private bool InAir()
+        {
+            return _lastOnGroundTime <= 0 && !IsOnWallHang;
+        }
+
         private void ExecuteRunEvent(float runDirection)
         {
             UpdateIsRunningRight(runDirection);
@@ -321,9 +334,14 @@ namespace WhereIsMyWife.Managers
             Run?.Invoke(acceleration);
         }
 
-        private void ExecuteDashStartEvent(Vector2 dashDirection)
+        private void ExecuteDashStartEvent(float dashDirection)
         {
-            DashStart?.Invoke(dashDirection * Properties.Dash.Speed);
+            if (InAir() && _canDash)
+            {
+                DashSpeed = dashDirection * Properties.Dash.Speed;
+                DashStart?.Invoke(DashSpeed);
+                _canDash = false;
+            }
         }
 
         private void ExecuteLookDownEvent(bool isLookingDown)

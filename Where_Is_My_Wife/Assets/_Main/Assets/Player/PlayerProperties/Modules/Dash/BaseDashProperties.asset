@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BaseDashProperties
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 20
-  <Duration>k__BackingField: 1
+  <Duration>k__BackingField: 0.2
   <HangTime>k__BackingField: 0
-  <Cooldown>k__BackingField: 0
+  <Cooldown>k__BackingField: 2

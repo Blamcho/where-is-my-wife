@@ -17,6 +17,7 @@ namespace WhereIsMyWife.Controllers
         private IMovementStateEvents _movementStateEvents;
         private IWallHangStateEvents _wallHangStateEvents;
         private IWallJumpStateEvents _wallJumpStateEvents;
+        private IDashStateEvents _dashStateEvents;
         
         private IPlayerStateIndicator _playerStateIndicator;
         private IPlayerControllerEvent _playerControllerEvent;
@@ -32,6 +33,7 @@ namespace WhereIsMyWife.Controllers
             _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
             _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
             _wallJumpStateEvents = PlayerManager.Instance.WallJumpStateEvents;
+            _dashStateEvents = PlayerManager.Instance.DashStateEvents;
 
             _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
             _playerControllerEvent = PlayerManager.Instance.PlayerControllerEvent;
@@ -61,6 +63,11 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.WallJumpVelocity += SetHorizontalSpeed;
             _wallJumpStateEvents.GravityScale += SetGravityScale;
             _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
+
+            _dashStateEvents.Dash += SetHorizontalSpeed;
+            _dashStateEvents.GravityScale += SetGravityScale;
+            _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
+            _dashStateEvents.FallingSpeed += SetFallSpeed;
             
             _respawn.RespawnAction += Respawn;
         }
@@ -79,7 +86,12 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.WallJumpVelocity -= SetHorizontalSpeed;
             _wallJumpStateEvents.GravityScale -= SetGravityScale;
             _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
-            
+
+            _dashStateEvents.Dash -= SetHorizontalSpeed;
+            _dashStateEvents.GravityScale -= SetGravityScale;
+            _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
+            _dashStateEvents.FallingSpeed -= SetFallSpeed;
+
             _respawn.RespawnAction -= Respawn;
         }
 
@@ -94,11 +106,6 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.AddForce(Vector2.right * runAcceleration, ForceMode2D.Force);
         }
 
-        private void DashStart(Vector2 dashForce)
-        {
-            _rigidbody2D.velocity = dashForce;
-        }
-
         private void SetGravityScale(float gravityScale)
         {
             _rigidbody2D.gravityScale = gravityScale;
@@ -109,6 +116,12 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x,
                 Mathf.Max(_rigidbody2D.velocity.y, -fallSpeedCap));
         }
+
+        private void SetFallSpeed(float fallSpeed)
+        {
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -fallSpeed);
+        }
+
 
         private void SetHorizontalSpeed(float speed)
         {

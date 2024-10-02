@@ -112,7 +112,7 @@ namespace WhereIsMyWife.Player.State
             NextState = PlayerStateMachine.PlayerState.Movement;
         }
 
-        private void Dash(Vector2 _)
+        private void Dash(float _)
         {
             Turn?.Invoke();
             NextState = PlayerStateMachine.PlayerState.Dash;
