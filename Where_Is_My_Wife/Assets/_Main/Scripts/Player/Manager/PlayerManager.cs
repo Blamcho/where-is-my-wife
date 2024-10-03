@@ -36,7 +36,7 @@ namespace WhereIsMyWife.Managers
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
-
+        
         private bool _canDash = true;
 
         // Hook Attempt Flag
@@ -143,7 +143,7 @@ namespace WhereIsMyWife.Managers
         {
             if (GetWallHangCheck())
             {
-                if ((IsJumping || IsRunFalling))
+                if (ShouldStartWallHang())
                 {
                     IsOnWallHang = true;
                     WallHangStart?.Invoke();
@@ -171,10 +171,14 @@ namespace WhereIsMyWife.Managers
                     0,
                     Properties.Check.GroundLayer
                 )
-                && IsAccelerating
             );
         }
 
+        private bool ShouldStartWallHang()
+        {
+            return (IsJumping || IsRunFalling) && IsAccelerating;
+        }
+        
         private void JumpChecks()
         {
             JumpingCheck();
