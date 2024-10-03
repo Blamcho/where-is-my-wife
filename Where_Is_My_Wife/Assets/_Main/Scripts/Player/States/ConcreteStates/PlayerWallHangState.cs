@@ -18,6 +18,7 @@ namespace WhereIsMyWife.Player.State
         private Tween _slideTween;
         
         private float _slideTweenSpeed = 0;
+        private float _wallHangCancelBufferTimer = 0;
         private bool _isLookingRightAtStart;
         
         protected override void SubscribeToObservables()
@@ -39,7 +40,8 @@ namespace WhereIsMyWife.Player.State
         public override void EnterState()
         {
             base.EnterState();
-            
+
+            _wallHangCancelBufferTimer = _properties.Movement.WallHangCancelBuffer;
             _isLookingRightAtStart = _playerStateIndicator.IsLookingRight;
             StartWallHang?.Invoke();
             
@@ -73,12 +75,55 @@ namespace WhereIsMyWife.Player.State
 
         public override void UpdateState()
         {
-            if (PlayerIsGoingOppositeDirectionOfWall())
+            WallHangVelocity?.Invoke(GetSlideSpeed());
+        }
+
+        public override void FixedUpdateState()
+        {
+            UpdateWallHangCancelBuffer();
+
+            if (ShouldCancelWallHang())
             {
                 TurnAndCancelWallHang();
             }
+        }
+
+        private bool ShouldCancelWallHang()
+        {
+            return _wallHangCancelBufferTimer <= 0;
+        }
+
+        private void UpdateWallHangCancelBuffer()
+        {
+            if (!PlayerIsMovingAgainstWall())
+            {
+                _wallHangCancelBufferTimer -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                _wallHangCancelBufferTimer = _properties.Movement.WallHangCancelBuffer;
+            }
+        }
+
+        private bool PlayerIsMovingAgainstWall()
+        {
+            if (!_playerStateIndicator.IsAccelerating)
+            {
+                return false;
+            }
             
-            WallHangVelocity?.Invoke(GetSlideSpeed());
+            return _isLookingRightAtStart == _playerStateIndicator.IsRunningRight;
+        }
+
+        private void TurnAndCancelWallHang()
+        {
+            Turn?.Invoke();
+            CancelWallHang();
+        }
+        
+        private void CancelWallHang()
+        {
+            NextState = PlayerStateMachine.PlayerState.Movement;
         }
 
         private float GetSlideSpeed()
@@ -91,27 +136,6 @@ namespace WhereIsMyWife.Player.State
             return _slideTweenSpeed;
         }
         
-        private bool PlayerIsGoingOppositeDirectionOfWall()
-        {
-            if (!_playerStateIndicator.IsAccelerating)
-            {
-                return false;
-            }
-            
-            return _isLookingRightAtStart != _playerStateIndicator.IsRunningRight;
-        }
-
-        private void TurnAndCancelWallHang()
-        {
-            Turn?.Invoke();
-            CancelWallHang();
-        }
-
-        private void CancelWallHang()
-        {
-            NextState = PlayerStateMachine.PlayerState.Movement;
-        }
-
         private void Dash(float _)
         {
             Turn?.Invoke();
