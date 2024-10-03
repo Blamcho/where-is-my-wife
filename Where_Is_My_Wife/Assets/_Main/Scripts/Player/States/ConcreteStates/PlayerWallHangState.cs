@@ -99,7 +99,6 @@ namespace WhereIsMyWife.Player.State
             {
                 _wallHangCancelBufferTimer -= Time.fixedDeltaTime;
             }
-
             else
             {
                 _wallHangCancelBufferTimer = _properties.Movement.WallHangCancelBuffer;
