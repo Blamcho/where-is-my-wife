@@ -4,7 +4,6 @@ namespace WhereIsMyWife.Managers.Properties
 {
     public interface IPlayerWallJumpProperties
     {
-        public float MinWallJumpDuration { get; }
         public float Speed { get; }
         public float TimeToNormalSpeed { get; }
         public float TimeToZeroSpeed { get; }
