@@ -12,6 +12,7 @@ namespace WhereIsMyWife.Managers.Properties
         public float WallSlideMaxVelocity { get; }
         public float WallSlideTimeToMaxVelocity { get; }
         public float WallSlideFastVelocity { get; }
+        public float WallHangCancelBuffer { get; }
     }
 
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/Modules/MovementProperties", fileName = "MovementProperties")]
@@ -27,6 +28,7 @@ namespace WhereIsMyWife.Managers.Properties
         [field: SerializeField] public float WallSlideMaxVelocity { get; private set; }
         [field: SerializeField] public float WallSlideTimeToMaxVelocity { get; private set; }
         [field: SerializeField] public float WallSlideFastVelocity { get; private set; }
+        [field: SerializeField] public float WallHangCancelBuffer { get; private set; }
     }
 
 }
