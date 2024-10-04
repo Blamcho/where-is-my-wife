@@ -161,12 +161,7 @@ namespace WhereIsMyWife.Managers
         {
             HookEndAction?.Invoke();
         }       
-
-        public void Dispose()
-        {
-            _playerInputActions.Disable();
-        }
-
+        
         private void OnPauseStart(InputAction.CallbackContext context)
         {
             PauseStartAction?.Invoke();
