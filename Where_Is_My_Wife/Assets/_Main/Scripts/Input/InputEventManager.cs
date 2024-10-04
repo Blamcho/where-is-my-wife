@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using WIMW.Input;
 
 namespace WhereIsMyWife.Managers
@@ -36,7 +37,8 @@ namespace WhereIsMyWife.Managers
         private PlayerInputActions _playerInputActions;
         
         private Vector2 _moveVector = Vector2.zero;
-        
+
+        private float _axisControllerDetectionThreshold = 0.1f;
         private float _horizontalDeadZone = 0.5f;
         private float _lookDownThreshold = 0.7f;
         
@@ -47,7 +49,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Enable();
             
             SubscribeToInputActions();
-            CheckForCurrentController();
+            ChangeControllerType(ControllerType.Keyboard);
         }
         
         private void OnDestroy()
@@ -194,114 +196,77 @@ namespace WhereIsMyWife.Managers
             CancelStartAction?.Invoke();
         }
         
-        // TODO: Change the way it detects the input was from a different controller type
         private void CheckForControllerTypeChange()
         {
-            if (Input.anyKeyDown)
+            if (KeyboardInputWasMadeThisFrame())
             {
-                if (InputWasFromJoystick())
-                {
-                    if (_currentControllerType == ControllerType.Keyboard)
-                    {
-                        CheckForCurrentController();
-                    }
-                }
-                else if (_currentControllerType != ControllerType.Keyboard)
+                if (_currentControllerType != ControllerType.Keyboard)
                 {
                     ChangeControllerType(ControllerType.Keyboard);
-                }                    
-            }
-        }
-
-        // TODO: Change the way it detects the input was from a gamepad
-        private bool InputWasFromJoystick()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                if (Input.GetKeyDown((KeyCode)350 + i))
-                {
-                    return true;
                 }
             }
-            
-            return false;
+            else if (GamepadInputWasMadeThisFrame())
+            {
+                ControllerType currentGamepadType = GetCurrentGamepadType();
+                
+                if (_currentControllerType != currentGamepadType)
+                {
+                    Debug.Log($"Current gamepad name: {Gamepad.current.name}");
+                    ChangeControllerType(currentGamepadType);
+                }
+            }
         }
         
-        private void CheckForCurrentController()
-        {
-            controllers = Input.GetJoystickNames();
-            
-            for (int i = 0; i < controllers.Length; i++)
-            {
-                Debug.Log(controllers[i]);
-            }
-
-            if (OnlyKeyboardIsConnected())
-            {
-                ChangeControllerType(ControllerType.Keyboard);
-            }
-
-            else
-            {
-                ConnectController();
-            }
-        }
-
         private void ChangeControllerType(ControllerType controllerType)
         {
             _currentControllerType = controllerType;
             Debug.Log($"ControllerType: {_currentControllerType}");
         }
-
-        private void ConnectController()
+        
+        private bool KeyboardInputWasMadeThisFrame()
         {
-            for (int index = 0; index < controllers.Length; index++)
+            return Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame;
+        }
+        
+        private bool GamepadInputWasMadeThisFrame()
+        {
+            if (Gamepad.current == null) return false;
+            
+            var gamepad = Gamepad.current;
+            
+            foreach (var control in gamepad.allControls)
             {
-                if (IsControllerValid(index))
+                if (control is ButtonControl { wasPressedThisFrame: true })
                 {
-                    if (IsXboxConnected(index))
-                    {
-                        ChangeControllerType(ControllerType.Xbox);
-                    }
-                    else if (IsPlaystationConnected(index))
-                    {
-                        ChangeControllerType(ControllerType.Playstation);
-                    }
-                    else if (IsNintendoConnected(index))
-                    {
-                        ChangeControllerType(ControllerType.Nintendo);
-                    }
-                    else
-                    {
-                        ChangeControllerType(ControllerType.Xbox);
-                    }
+                    return true;
+                }
+                if (control is AxisControl axis && axis.ReadValue() > _axisControllerDetectionThreshold) 
+                {
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        private bool IsControllerValid(int index)
+        private ControllerType GetCurrentGamepadType()
         {
-            return controllers[index] != "";
-        }
-
-        private bool IsNintendoConnected(int index)
-        {
-            return controllers[index].Contains("Pro") || controllers[index].Contains("Core") || controllers[index].Contains("Switch");
-        }
-
-        private bool IsPlaystationConnected(int index)
-        {
-            return controllers[index].Contains("playstation") || controllers[index].Contains("PS");
-        }
-
-        private bool IsXboxConnected(int index)
-        {
-            return controllers[index].Contains("Xbox");
-        }
-
-        private bool OnlyKeyboardIsConnected()
-        {
-            return controllers == null || controllers.Length == 0 || (controllers.Length == 1 && controllers[0] == "");
+            string gamepadName = Gamepad.current.name.ToLower();
+            
+            if (gamepadName.Contains("xbox") || gamepadName.Contains("microsoft"))
+            {
+                return ControllerType.Xbox;
+            }
+            if (gamepadName.Contains("playstation") || gamepadName.Contains("ps") || gamepadName.Contains("dualshock") || gamepadName.Contains("dualsense"))
+            {
+                return ControllerType.Playstation;
+            }
+            if (gamepadName.Contains("switch") || gamepadName.Contains("nintendo") || gamepadName.Contains("joycon") || gamepadName.Contains("pro"))
+            {
+                return ControllerType.Nintendo;
+            }
+           
+            return ControllerType.Xbox; 
         }
     }
 }
