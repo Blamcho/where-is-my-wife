@@ -132,7 +132,7 @@ namespace WhereIsMyWife.Managers
         private Collider2D GetGroundCheckOverlapBox()
         {
             return Physics2D.OverlapBox(
-                _controllerData.GroundCheckPosition,
+                PlayerControllerData.GroundCheckPosition,
                 Properties.Check.GroundCheckSize,
                 0,
                 Properties.Check.GroundLayer
@@ -160,13 +160,13 @@ namespace WhereIsMyWife.Managers
         {
             return (
                 Physics2D.OverlapBox(
-                    _controllerData.WallHangCheckUpPosition,
+                    PlayerControllerData.WallHangCheckUpPosition,
                     Properties.Check.WallHangCheckSize,
                     0,
                     Properties.Check.GroundLayer
                 )
                 && Physics2D.OverlapBox(
-                    _controllerData.WallHangCheckDownPosition,
+                    PlayerControllerData.WallHangCheckDownPosition,
                     Properties.Check.WallHangCheckSize,
                     0,
                     Properties.Check.GroundLayer
@@ -197,7 +197,7 @@ namespace WhereIsMyWife.Managers
 
         private void JumpingCheck()
         {
-            if (IsJumping && _controllerData.RigidbodyVelocity.y < 0)
+            if (IsJumping && PlayerControllerData.RigidbodyVelocity.y < 0)
             {
                 IsJumping = false;
                 IsJumpFalling = true;
@@ -218,7 +218,7 @@ namespace WhereIsMyWife.Managers
         {
             ResetJumpTimers();
 
-            JumpStart?.Invoke(_jumpingMethods.GetJumpForce(_controllerData.RigidbodyVelocity.y));
+            JumpStart?.Invoke(_jumpingMethods.GetJumpForce(PlayerControllerData.RigidbodyVelocity.y));
         }
 
         private void ResetJumpTimers()
@@ -293,8 +293,8 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
             _playerInputEvent.HookEndAction -= ExecuteHookEndEvent;
 
-            _controllerData.TriggerEnterEvent -= TriggerEnter;
-            _controllerData.TriggerExitEvent -= TriggerExit;
+            PlayerControllerData.TriggerEnterEvent -= TriggerEnter;
+            PlayerControllerData.TriggerExitEvent -= TriggerExit;
 
             _hookUIEvents.QTEStateEvent -= SetIsInQTEWindow;
             _hookUIEvents.QTETimeExpired -= QTETimeHasExpired;
@@ -308,7 +308,7 @@ namespace WhereIsMyWife.Managers
         public bool IsDead { get; private set; } = false;
         public bool IsAccelerating => _runningMethods.GetIsAccelerating();
         public bool IsRunningRight { get; private set; } = true;
-        public bool IsLookingRight => _controllerData.HorizontalScale > 0;
+        public bool IsLookingRight => PlayerControllerData.HorizontalScale > 0;
         public bool IsLookingDown { get; private set; }
         public bool IsJumping { get; private set; } = false;
         public bool IsJumpCut { get; private set; } = false;
@@ -335,21 +335,21 @@ namespace WhereIsMyWife.Managers
 
         public bool IsFastFalling()
         {
-            return _controllerData.RigidbodyVelocity.y < 0 && IsLookingDown;
+            return PlayerControllerData.RigidbodyVelocity.y < 0 && IsLookingDown;
         }
 
         public bool IsInJumpHang()
         {
             return (IsJumping || IsJumpFalling)
-                && Mathf.Abs(_controllerData.RigidbodyVelocity.y)
+                && Mathf.Abs(PlayerControllerData.RigidbodyVelocity.y)
                     < Properties.Jump.HangTimeThreshold;
         }
 
         public bool IsIdling()
         {
             return (
-                Mathf.Abs(_controllerData.RigidbodyVelocity.x) < 0.1f
-                && Mathf.Abs(_controllerData.RigidbodyVelocity.y) < 0.1f
+                Mathf.Abs(PlayerControllerData.RigidbodyVelocity.x) < 0.1f
+                && Mathf.Abs(PlayerControllerData.RigidbodyVelocity.y) < 0.1f
             );
         }
 
@@ -366,7 +366,7 @@ namespace WhereIsMyWife.Managers
 
         public bool CanJumpCut()
         {
-            return IsJumping && _controllerData.RigidbodyVelocity.y > 0;
+            return IsJumping && PlayerControllerData.RigidbodyVelocity.y > 0;
         }
 
         private void SetIsInQTEWindow(bool isInQTEWindow)
@@ -413,7 +413,7 @@ namespace WhereIsMyWife.Managers
             UpdateIsRunningRight(runDirection);
             float acceleration = _runningMethods.GetRunAcceleration(
                 runDirection,
-                _controllerData.RigidbodyVelocity.x
+                PlayerControllerData.RigidbodyVelocity.x
             );
             Run?.Invoke(acceleration);
         }
@@ -447,7 +447,7 @@ namespace WhereIsMyWife.Managers
 
         private Vector2 GetHookLaunchVelocity()
         {
-            Vector2 _calculatedLaunchVelocity = HookPosition - _controllerData.RigidbodyPosition;
+            Vector2 _calculatedLaunchVelocity = HookPosition - PlayerControllerData.RigidbodyPosition;
             _calculatedLaunchVelocity.Normalize();
             _calculatedLaunchVelocity *= Properties.Hook.ThrustForce;
             return _calculatedLaunchVelocity;
@@ -469,7 +469,7 @@ namespace WhereIsMyWife.Managers
         private void LaunchHookEndEvent()
         {
             _canAttemptHook = false;
-            HookEnd?.Invoke(_controllerData.RigidbodyPosition);
+            HookEnd?.Invoke(PlayerControllerData.RigidbodyPosition);
         }
     }
 
@@ -477,14 +477,14 @@ namespace WhereIsMyWife.Managers
     {
         public IPlayerControllerEvent PlayerControllerEvent => this;
 
-        private IPlayerControllerData _controllerData;
+        public IPlayerControllerData PlayerControllerData { get; private set; }
 
         public void SetPlayerControllerData(IPlayerControllerData playerControllerData)
         {
-            _controllerData = playerControllerData;
+            PlayerControllerData = playerControllerData;
             
-            _controllerData.TriggerEnterEvent += TriggerEnter;
-            _controllerData.TriggerExitEvent += TriggerExit;
+            PlayerControllerData.TriggerEnterEvent += TriggerEnter;
+            PlayerControllerData.TriggerExitEvent += TriggerExit;
         }
     }
 
