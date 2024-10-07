@@ -145,7 +145,7 @@ namespace WhereIsMyWife.Player.State
         private void Jump(float jumpForce)
         {
             Turn?.Invoke();
-            WallJumpStart?.Invoke(jumpForce / 1.5f);
+            WallJumpStart?.Invoke(jumpForce);
             NextState = PlayerStateMachine.PlayerState.WallJump;
         }
     }
