@@ -279,9 +279,6 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.HookStartAction += ExecuteHookStartEvent;
             _playerInputEvent.HookEndAction += ExecuteHookEndEvent;
 
-            _controllerData.TriggerEnterEvent += TriggerEnter;
-            _controllerData.TriggerExitEvent += TriggerExit;
-
             _hookUIEvents.QTEStateEvent += SetIsInQTEWindow;
             _hookUIEvents.QTETimeExpired += QTETimeHasExpired;
         }
@@ -485,6 +482,9 @@ namespace WhereIsMyWife.Managers
         public void SetPlayerControllerData(IPlayerControllerData playerControllerData)
         {
             _controllerData = playerControllerData;
+            
+            _controllerData.TriggerEnterEvent += TriggerEnter;
+            _controllerData.TriggerExitEvent += TriggerExit;
         }
     }
 
