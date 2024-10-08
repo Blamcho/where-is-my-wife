@@ -6,15 +6,20 @@ using WhereIsMyWife.Managers;
 
 public class TireMovement : MonoBehaviour
 {
-    [SerializeField] private float _timeToReachPlayer;
+    [FormerlySerializedAs("_timeToReachPlayer")] [SerializeField] private float _timeToReachYPosition;
 
-    private Tweener _tweener;
+    private Tweener _verticalTweener;
     
     private Vector2 _playerPosition;
     private bool _isMovingTowardsPlayer;
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I)) // TODO: Change to trigger invoke
+        {
+            StartMovingTowardsPlayer();
+        }
+        
         if (_isMovingTowardsPlayer)
         {
             UpdatePlayerPosition();
@@ -31,14 +36,21 @@ public class TireMovement : MonoBehaviour
         UpdatePlayerPosition();
         _isMovingTowardsPlayer = true;
         
-        //TODO: Change movement to lerp from initial position to player position using tweened float
-        _tweener = transform.DOMove(_playerPosition, _timeToReachPlayer);
+        StartVerticalTweener();
         
-        _tweener.OnUpdate(delegate()
+        //TODO: Change movement to lerp from initial position to player position using tweened float
+        
+    }
+
+    private void StartVerticalTweener()
+    {
+        _verticalTweener = transform.DOMoveY(_playerPosition.y, _timeToReachYPosition);
+
+        _verticalTweener.OnUpdate(delegate()
         {
             if (Vector3.Distance(transform.position, _playerPosition) > 0.1f)
             {
-                _tweener.ChangeEndValue((Vector3)_playerPosition, true);
+                _verticalTweener.ChangeEndValue((Vector3)_playerPosition, true);
             }
         });
     }
