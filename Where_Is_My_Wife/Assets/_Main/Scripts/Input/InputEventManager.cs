@@ -23,7 +23,8 @@ namespace WhereIsMyWife.Managers
         public Action HookEndAction { get; set; }
         public Action LookUpAction { get; set; }
         public Action<bool> LookDownAction { get; set; }
-    
+        public Action PunchAction { get; set; }
+
         public Action PauseStartAction { get; set; }
         
         public Action<int> HorizontalStartedAction { get; set; }
@@ -77,6 +78,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Dash.performed += OnDash;
             _playerInputActions.Normal.Hook.started += OnHookStart;
             _playerInputActions.Normal.Hook.canceled += OnHookCancel;
+            _playerInputActions.Normal.Punch.started += OnPunchStarted;
 
             _playerInputActions.Special.Pause.started += OnPauseStart;
             
@@ -95,6 +97,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Dash.performed -= OnDash;
             _playerInputActions.Normal.Hook.started -= OnHookStart;
             _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
+            _playerInputActions.Normal.Punch.started -= OnPunchStarted;
             
             _playerInputActions.Special.Pause.started -= OnPauseStart;
             
@@ -162,6 +165,11 @@ namespace WhereIsMyWife.Managers
         private void OnHookCancel(InputAction.CallbackContext context)
         {
             HookEndAction?.Invoke();
+        }       
+        
+        private void OnPunchStarted(InputAction.CallbackContext context)
+        {
+            PunchAction?.Invoke();
         }       
         
         private void OnPauseStart(InputAction.CallbackContext context)
