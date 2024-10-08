@@ -524,14 +524,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TirePrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 5790179627400725404, guid: 565162daa4377e74ea489717c7520d7d, type: 3}
-      propertyPath: _timeToReachYPosition
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5790179627400725404, guid: 565162daa4377e74ea489717c7520d7d, type: 3}
-      propertyPath: _timeToReachHorizontalPosition
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6815349398951157931, guid: 565162daa4377e74ea489717c7520d7d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 29.575106
