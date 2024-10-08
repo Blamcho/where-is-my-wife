@@ -16,5 +16,7 @@ namespace WhereIsMyWife.Player.State
         Action Land { get; set; }
         Action HookStart { get; set; }
         Action<Vector2> HookEnd { get; set; }
+        Action PunchStart { get; set; }
+        Action PunchEnd { get; set; }
     }
 }
