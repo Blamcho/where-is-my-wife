@@ -10,6 +10,15 @@ namespace WhereIsMyWife.Controllers
         Action<float> GravityScale { get; set; }
         Action<float> FallSpeedCap { get; set; }
     }
+    
+    public interface IPunchingStateEvents
+    {
+        Action PunchStart { get; set; } 
+        Action<float> JumpStart { get; set; }
+        Action<float> Run { get; set; }
+        Action<float> GravityScale { get; set; }
+        Action<float> FallSpeedCap { get; set; }
+    }
 
     public interface IDashStateEvents
     {
