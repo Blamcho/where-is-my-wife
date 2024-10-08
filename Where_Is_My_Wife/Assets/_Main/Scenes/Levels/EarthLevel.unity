@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeToReachYPosition: 0.35
+  _timeToReachHorizontalPosition: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

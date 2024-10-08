@@ -6,11 +6,14 @@ using WhereIsMyWife.Managers;
 
 public class TireMovement : MonoBehaviour
 {
-    [FormerlySerializedAs("_timeToReachPlayer")] [SerializeField] private float _timeToReachYPosition;
+    [SerializeField] private float _timeToReachYPosition;
+    [SerializeField] private float _timeToReachHorizontalPosition;
 
     private Tweener _verticalTweener;
+    private Tween _horizontalDistanceTween;
     
     private Vector2 _playerPosition;
+    private float _horizontalDistance;
     private bool _isMovingTowardsPlayer;
 
     private void Update()
@@ -36,10 +39,25 @@ public class TireMovement : MonoBehaviour
         UpdatePlayerPosition();
         _isMovingTowardsPlayer = true;
         
+        StartHorizontalDistanceTween();
         StartVerticalTweener();
+    }
+
+    private void StartHorizontalDistanceTween()
+    {
+        _horizontalDistance = transform.position.x - _playerPosition.x;
         
-        //TODO: Change movement to lerp from initial position to player position using tweened float
-        
+        _horizontalDistanceTween = DOTween
+            .To(
+                () => _horizontalDistance,
+                x => _horizontalDistance = x,
+                0,
+                _timeToReachHorizontalPosition
+            );
+
+        _horizontalDistanceTween.OnUpdate(
+            delegate() { transform.position = new Vector2(_playerPosition.x + _horizontalDistance, transform.position.y);
+        });
     }
 
     private void StartVerticalTweener()
