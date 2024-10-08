@@ -32,6 +32,7 @@ namespace WhereIsMyWife.Managers
         public IWallHangStateEvents WallHangStateEvents => _playerStateMachine.WallHangStateEvents;
         public IWallJumpStateEvents WallJumpStateEvents => _playerStateMachine.WallJumpStateEvents;
         public IHookStateEvents HookStateEvents => _playerStateMachine.HookStateEvents;
+        public IPunchingStateEvents PunchingStateEvents => _playerStateMachine.PunchingStateEvents;
 
         // Timers
         private float _lastOnGroundTime = 0;
@@ -278,6 +279,7 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.LookDownAction += ExecuteLookDownEvent;
             _playerInputEvent.HookStartAction += ExecuteHookStartEvent;
             _playerInputEvent.HookEndAction += ExecuteHookEndEvent;
+            _playerInputEvent.PunchAction += ExecutePunchStartEvent;
 
             _hookUIEvents.QTEStateEvent += SetIsInQTEWindow;
             _hookUIEvents.QTETimeExpired += QTETimeHasExpired;
@@ -292,6 +294,7 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.LookDownAction -= ExecuteLookDownEvent;
             _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
             _playerInputEvent.HookEndAction -= ExecuteHookEndEvent;
+            _playerInputEvent.PunchAction -= ExecutePunchStartEvent;
 
             PlayerControllerData.TriggerEnterEvent -= TriggerEnter;
             PlayerControllerData.TriggerExitEvent -= TriggerExit;
@@ -389,6 +392,8 @@ namespace WhereIsMyWife.Managers
         public Action Land { get; set; }
         public Action HookStart { get; set; }
         public Action<Vector2> HookEnd { get; set; }
+        public Action PunchStart { get; set; }
+        public Action PunchEnd { get; set; }
 
         private void ExecuteJumpStartEvent()
         {
@@ -461,6 +466,11 @@ namespace WhereIsMyWife.Managers
             }
         }
 
+        private void ExecutePunchStartEvent()
+        {
+            PunchStart?.Invoke();
+        }
+        
         private void QTETimeHasExpired()
         {
             LaunchHookEndEvent();
