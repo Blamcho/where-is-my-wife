@@ -8,6 +8,7 @@ public class TireController : MonoBehaviour
 {
     [SerializeField] private float _timeToReachYPosition;
     [SerializeField] private float _timeToReachHorizontalPosition;
+    [SerializeField] private Ease _horizontalEase = Ease.InSine;
 
     private Tweener _verticalTweener;
     private Tween _horizontalDistanceTween;
@@ -82,7 +83,7 @@ public class TireController : MonoBehaviour
                 x => _horizontalDistance = x,
                 0,
                 _timeToReachHorizontalPosition
-            );
+            ).SetEase(_horizontalEase);
 
         _horizontalDistanceTween.OnUpdate(
             delegate() { transform.position = new Vector2(_playerPosition.x + _horizontalDistance, transform.position.y);
