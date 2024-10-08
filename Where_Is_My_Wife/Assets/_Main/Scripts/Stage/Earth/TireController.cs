@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using WhereIsMyWife.Managers;
 
-public class TireMovement : MonoBehaviour
+public class TireController : MonoBehaviour
 {
     [SerializeField] private float _timeToReachYPosition;
     [SerializeField] private float _timeToReachHorizontalPosition;
@@ -16,13 +16,22 @@ public class TireMovement : MonoBehaviour
     private float _horizontalDistance;
     private bool _isMovingTowardsPlayer;
 
+    private void Start()
+    {
+        TireManager.Instance.ActivateTireEvent += Activate;
+        TireManager.Instance.DeactivateTireEvent += Deactivate;
+            
+        gameObject.SetActive(false);    
+    }
+
+    private void OnDestroy()
+    {
+        TireManager.Instance.ActivateTireEvent -= Activate;
+        TireManager.Instance.DeactivateTireEvent -= Deactivate;
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I)) // TODO: Change to trigger invoke
-        {
-            StartMovingTowardsPlayer();
-        }
-        
         if (_isMovingTowardsPlayer)
         {
             UpdatePlayerPosition();
@@ -34,10 +43,30 @@ public class TireMovement : MonoBehaviour
         _playerPosition = PlayerManager.Instance.PlayerControllerData.RigidbodyPosition;
     }
 
+    private void Activate(Vector2 position)
+    {
+        gameObject.SetActive(true);
+        transform.position = position;
+        StartMovingTowardsPlayer();
+    }
+
+    private void Deactivate()
+    {
+        StopMovingTowardsPlayer();
+        gameObject.SetActive(false);
+    }
+
+    private void StopMovingTowardsPlayer()
+    {
+        _isMovingTowardsPlayer = false;
+        _verticalTweener.Kill();
+        _horizontalDistanceTween.Kill();
+    }
+
     public void StartMovingTowardsPlayer()
     {
-        UpdatePlayerPosition();
         _isMovingTowardsPlayer = true;
+        UpdatePlayerPosition();
         
         StartHorizontalDistanceTween();
         StartVerticalTweener();

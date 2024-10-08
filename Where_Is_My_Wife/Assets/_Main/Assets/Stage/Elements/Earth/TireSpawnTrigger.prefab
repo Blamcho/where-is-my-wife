@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53afa460f3987e4e9cb729f09b349d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tirePrefab: {fileID: 5189654470362143659, guid: 565162daa4377e74ea489717c7520d7d, type: 3}
+  _spawnTransform: {fileID: 7181353184278045715}
 --- !u!1 &5415166613774435759
 GameObject:
   m_ObjectHideFlags: 0

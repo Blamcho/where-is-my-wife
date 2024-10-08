@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6872226635796374711}
   - component: {fileID: 1644576470001983644}
   m_Layer: 0
-  m_Name: PunchableTrigger
+  m_Name: PunchingDistanceTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,6 +77,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6815349398951157931}
   - component: {fileID: 3033629727878082945}
+  - component: {fileID: 5790179627400725404}
   m_Layer: 0
   m_Name: TirePrefab
   m_TagString: Untagged
@@ -153,6 +154,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5790179627400725404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189654470362143659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84122b138f100d34a818f0b06e584c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeToReachYPosition: 0.05
+  _timeToReachHorizontalPosition: 1
 --- !u!1 &6895051478036456748
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5650635190936688241}
   - component: {fileID: 5895982907446505060}
+  - component: {fileID: 6563362721430604361}
   m_Layer: 0
   m_Name: HazardTrigger
   m_TagString: Untagged
@@ -220,3 +236,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6563362721430604361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895051478036456748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a4e46c6a15fb047aa33b60d0731f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
