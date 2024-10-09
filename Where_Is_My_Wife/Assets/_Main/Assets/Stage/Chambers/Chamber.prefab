@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 5625502202646961228}
   - component: {fileID: 4002491938268651884}
   - component: {fileID: 4949883536567449972}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: 'HazardTilemap '
   m_TagString: Untagged
   m_Icon: {fileID: 0}

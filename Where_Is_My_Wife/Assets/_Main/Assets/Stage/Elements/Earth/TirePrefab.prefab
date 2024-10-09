@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6815349398951157931}
   - component: {fileID: 3033629727878082945}
-  - component: {fileID: 5790179627400725404}
   - component: {fileID: 5906366421934354829}
   - component: {fileID: 7289908796642013168}
+  - component: {fileID: 5640863960867858850}
   m_Layer: 0
   m_Name: TirePrefab
   m_TagString: Enemy
@@ -88,21 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5790179627400725404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5189654470362143659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84122b138f100d34a818f0b06e584c13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _timeToReachYPosition: 0.05
-  _timeToReachHorizontalPosition: 1
-  _horizontalEase: 3
 --- !u!50 &5906366421934354829
 Rigidbody2D:
   serializedVersion: 4
@@ -165,6 +150,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!114 &5640863960867858850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189654470362143659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d38df3b77af3474fb7eeea2484fcbf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeToReachYPosition: 0.15
+  _timeToReachHorizontalPosition: 1
+  _horizontalEase: 3
 --- !u!1 &6895051478036456748
 GameObject:
   m_ObjectHideFlags: 0

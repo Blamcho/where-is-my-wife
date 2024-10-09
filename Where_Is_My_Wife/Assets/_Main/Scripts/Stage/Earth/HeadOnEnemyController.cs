@@ -1,10 +1,7 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
-using WhereIsMyWife.Managers;
 
-public class TireController : MonoBehaviour
+public class HeadOnEnemyController : EnemyController
 {
     [SerializeField] private float _timeToReachYPosition;
     [SerializeField] private float _timeToReachHorizontalPosition;
@@ -13,50 +10,20 @@ public class TireController : MonoBehaviour
     private Tweener _verticalTweener;
     private Tween _horizontalDistanceTween;
     
-    private Vector2 _playerPosition;
     private float _horizontalDistance;
-    private bool _isMovingTowardsPlayer;
 
-    private void Start()
+    public override void Activate(Vector2 position)
     {
-        TireManager.Instance.ActivateTireEvent += Activate;
-        TireManager.Instance.DeactivateTireEvent += Deactivate;
-            
-        gameObject.SetActive(false);    
-    }
-
-    private void OnDestroy()
-    {
-        TireManager.Instance.ActivateTireEvent -= Activate;
-        TireManager.Instance.DeactivateTireEvent -= Deactivate;
-    }
-
-    private void Update()
-    {
-        if (_isMovingTowardsPlayer)
-        {
-            UpdatePlayerPosition();
-        }
-    }
-
-    private void UpdatePlayerPosition()
-    {
-        _playerPosition = PlayerManager.Instance.PlayerControllerData.RigidbodyPosition;
-    }
-
-    private void Activate(Vector2 position)
-    {
-        gameObject.SetActive(true);
-        transform.position = position;
+        base.Activate(position);
         StartMovingTowardsPlayer();
     }
 
-    private void Deactivate()
+    public override void Deactivate()
     {
         StopMovingTowardsPlayer();
-        gameObject.SetActive(false);
+        base.Deactivate();
     }
-
+    
     private void StopMovingTowardsPlayer()
     {
         _isMovingTowardsPlayer = false;
@@ -87,7 +54,7 @@ public class TireController : MonoBehaviour
 
         _horizontalDistanceTween.OnUpdate(
             delegate() { transform.position = new Vector2(_playerPosition.x + _horizontalDistance, transform.position.y);
-        });
+            });
     }
 
     private void StartVerticalTweener()

@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
-public class TireSpawnTrigger : MonoBehaviour
+public class EnemyActivationTrigger : MonoBehaviour
 {
-    [SerializeField] private GameObject _tirePrefab;
+    [SerializeField] private EnemyController _enemyController;
     [SerializeField] private Transform _spawnTransform;
     
     private bool _hasBeenTriggeredAlready;
@@ -26,7 +23,7 @@ public class TireSpawnTrigger : MonoBehaviour
         if (other.CompareTag("Player") && !_hasBeenTriggeredAlready)
         {
             _hasBeenTriggeredAlready = true;
-            TireManager.Instance.ActivateTire(_spawnTransform.position);
+            _enemyController.Activate(_spawnTransform.position);
         }
     }
 }
