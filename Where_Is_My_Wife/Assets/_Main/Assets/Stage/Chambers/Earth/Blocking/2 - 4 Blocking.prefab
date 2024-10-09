@@ -12860,6 +12860,10 @@ PrefabInstance:
       value: TireSpawnTrigger
       objectReference: {fileID: 0}
     - target: {fileID: 5543993901631634469, guid: 50eac98739fdbb54a90143d129b04e17, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543993901631634469, guid: 50eac98739fdbb54a90143d129b04e17, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -12901,7 +12905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7181353184278045715, guid: 50eac98739fdbb54a90143d129b04e17, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.25
+      value: 3.541666
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
