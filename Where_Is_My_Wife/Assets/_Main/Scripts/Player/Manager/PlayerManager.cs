@@ -11,7 +11,7 @@ namespace WhereIsMyWife.Managers
     /// <summary>
     /// Receives the input made by the player and process it with customized properties and then raises events via <see cref="IPlayerStateInput"/> and gives information via <see cref="IPlayerStateIndicator"/>
     /// </summary>
-    public partial class PlayerManager : Singleton<PlayerManager>
+    public partial class PlayerManager : SingletonDestroyOnLoad<PlayerManager>
     {
         [SerializeField]
         private PlayerProperties _propertiesSO;
