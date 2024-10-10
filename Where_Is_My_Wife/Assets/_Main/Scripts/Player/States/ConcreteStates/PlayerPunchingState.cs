@@ -5,10 +5,11 @@ using WhereIsMyWife.Player.StateMachine;
 
 namespace WhereIsMyWife.Player.State
 {
-    public class PlayerMovementState : PlayerState, IMovementState, IMovementStateEvents
+    public class PlayerPunchingState : PlayerState, IPunchingState, IPunchingStateEvents
     {
-        public PlayerMovementState() : base(PlayerStateMachine.PlayerState.Movement) { }
-        
+        public PlayerPunchingState() : base(PlayerStateMachine.PlayerState.Punching) { }
+
+        public Action PunchStart { get; set; }
         public Action<float> JumpStart { get; set; }
         public Action<float> Run { get; set; }
         public Action<float> GravityScale { get; set; }
@@ -20,10 +21,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.Run += InvokeRun;
             _playerStateInput.GravityScale += InvokeGravityScale;
             _playerStateInput.FallSpeedCap += InvokeFallSpeedCap;
-            _playerStateInput.WallHangStart += WallHang;
-            _playerStateInput.DashStart += Dash;
-            _playerStateInput.HookStart += Hook;
-            _playerStateInput.PunchStart += Punch;
+            _playerStateInput.PunchEnd += EndPunch;
         }
 
         protected override void UnsubscribeToObservables()
@@ -32,20 +30,13 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.Run -= InvokeRun;
             _playerStateInput.GravityScale -= InvokeGravityScale;
             _playerStateInput.FallSpeedCap -= InvokeFallSpeedCap;
-            _playerStateInput.WallHangStart -= WallHang;
-            _playerStateInput.DashStart -= Dash;
-            _playerStateInput.HookStart -= Hook;
-            _playerStateInput.PunchStart -= Punch;
+            _playerStateInput.PunchEnd -= EndPunch;
         }
 
-        private void Dash(float _)
+        public override void EnterState()
         {
-            NextState = PlayerStateMachine.PlayerState.Dash;
-        }
-
-        private void WallHang()
-        {
-            NextState = PlayerStateMachine.PlayerState.WallHang;
+            base.EnterState();
+            PunchStart?.Invoke();
         }
 
         private void InvokeJumpStart(float jumpForce)
@@ -68,14 +59,9 @@ namespace WhereIsMyWife.Player.State
             FallSpeedCap?.Invoke(fallSpeedCap);
         }
 
-        private void Hook()
+        private void EndPunch()
         {
-            NextState = PlayerStateMachine.PlayerState.Hook;
-        }
-
-        private void Punch()
-        {
-            NextState = PlayerStateMachine.PlayerState.Punching;
+            NextState = PlayerStateMachine.PlayerState.Movement;
         }
     }
 }

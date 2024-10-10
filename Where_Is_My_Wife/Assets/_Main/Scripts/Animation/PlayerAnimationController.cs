@@ -13,6 +13,7 @@ namespace WhereIsMyWife.Controllers
         private IMovementStateEvents _movementStateEvents;
         private IWallHangStateEvents _wallHangStateEvents;
         private IDashStateEvents _dashStateEvents;
+        private IPunchingStateEvents _punchingStateEvents;
         
         private IPlayerStateIndicator _playerStateIndicator;
 
@@ -26,6 +27,7 @@ namespace WhereIsMyWife.Controllers
         private const string WALL_SLIDE_ANIMATION_STATE = "wall_slide";
         private const string LAND_ANIMATION_STATE = "land";
         private const string WALL_HIT_ANIMATION_STATE = "wall_hit";
+        private const string FORWARD_SMASH_STATE = "f_smash";
 
         private string _currentAnimationState = "";
 
@@ -41,12 +43,15 @@ namespace WhereIsMyWife.Controllers
             _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
             _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
             _dashStateEvents = PlayerManager.Instance.DashStateEvents;
+            _punchingStateEvents = PlayerManager.Instance.PunchingStateEvents;
             
             _movementStateEvents.JumpStart += Jump;
             _movementStateEvents.Run += Run;
 
             _wallHangStateEvents.StartWallHang += StartWallHang;
             _wallHangStateEvents.WallJumpStart += Fall;
+
+            _punchingStateEvents.PunchStart += Punch;
         }
 
         private void OnDestroy()
@@ -56,6 +61,8 @@ namespace WhereIsMyWife.Controllers
 
             _wallHangStateEvents.StartWallHang -= StartWallHang;
             _wallHangStateEvents.WallJumpStart -= Fall;
+            
+            _punchingStateEvents.PunchStart -= Punch;
         }
 
         private void Jump(float _)
@@ -94,6 +101,11 @@ namespace WhereIsMyWife.Controllers
             }
         }
 
+        private void Punch()
+        {
+            PlayAnimationState(FORWARD_SMASH_STATE);
+        }
+        
         private void StartWallHang()
         {
             PlayAnimationState(WALL_HIT_ANIMATION_STATE);

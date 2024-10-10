@@ -15,6 +15,7 @@ namespace WhereIsMyWife.Player.StateMachine
             Hook,
             WallHang,
             WallJump,
+            Punching,
         }
 
         public IMovementStateEvents MovementStateEvents { get; private set; }
@@ -22,6 +23,7 @@ namespace WhereIsMyWife.Player.StateMachine
         public IWallHangStateEvents WallHangStateEvents { get; private set; }
         public IWallJumpStateEvents WallJumpStateEvents { get; private set; }
         public IHookStateEvents HookStateEvents { get; private set; }
+        public IPunchingStateEvents PunchingStateEvents { get; private set; }
         
         protected void Awake()
         {
@@ -30,12 +32,14 @@ namespace WhereIsMyWife.Player.StateMachine
             States[PlayerState.WallHang] = new PlayerWallHangState();
             States[PlayerState.WallJump] = new PlayerWallJumpState();
             States[PlayerState.Hook] = new PlayerHookState();
+            States[PlayerState.Punching] = new PlayerPunchingState();
 
             MovementStateEvents = (IMovementStateEvents)States[PlayerState.Movement];
             DashStateEvents = (IDashStateEvents)States[PlayerState.Dash];
             WallHangStateEvents = (IWallHangStateEvents)States[PlayerState.WallHang];
             WallJumpStateEvents = (IWallJumpStateEvents)States[PlayerState.WallJump];
             HookStateEvents = (IHookStateEvents)States[PlayerState.Hook];
+            PunchingStateEvents = (IPunchingStateEvents)States[PlayerState.Punching];
             
             CurrentState = States[PlayerState.Movement];
         }

@@ -64,6 +64,15 @@ namespace WIMW.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Punch"",
+                    ""type"": ""Button"",
+                    ""id"": ""452f5cb8-ee2a-4b4f-9eac-d01b505c0d17"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +216,28 @@ namespace WIMW.Input
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Hook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0ffceba-40af-41cf-81ad-8fb54330ee5f"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Punch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f90e0f5-c37e-48a6-9d26-b4e38a24b49e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Punch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -416,6 +447,7 @@ namespace WIMW.Input
             m_Normal_Jump = m_Normal.FindAction("Jump", throwIfNotFound: true);
             m_Normal_Dash = m_Normal.FindAction("Dash", throwIfNotFound: true);
             m_Normal_Hook = m_Normal.FindAction("Hook", throwIfNotFound: true);
+            m_Normal_Punch = m_Normal.FindAction("Punch", throwIfNotFound: true);
             // Special
             m_Special = asset.FindActionMap("Special", throwIfNotFound: true);
             m_Special_Pause = m_Special.FindAction("Pause", throwIfNotFound: true);
@@ -489,6 +521,7 @@ namespace WIMW.Input
         private readonly InputAction m_Normal_Jump;
         private readonly InputAction m_Normal_Dash;
         private readonly InputAction m_Normal_Hook;
+        private readonly InputAction m_Normal_Punch;
         public struct NormalActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -497,6 +530,7 @@ namespace WIMW.Input
             public InputAction @Jump => m_Wrapper.m_Normal_Jump;
             public InputAction @Dash => m_Wrapper.m_Normal_Dash;
             public InputAction @Hook => m_Wrapper.m_Normal_Hook;
+            public InputAction @Punch => m_Wrapper.m_Normal_Punch;
             public InputActionMap Get() { return m_Wrapper.m_Normal; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -518,6 +552,9 @@ namespace WIMW.Input
                 @Hook.started += instance.OnHook;
                 @Hook.performed += instance.OnHook;
                 @Hook.canceled += instance.OnHook;
+                @Punch.started += instance.OnPunch;
+                @Punch.performed += instance.OnPunch;
+                @Punch.canceled += instance.OnPunch;
             }
 
             private void UnregisterCallbacks(INormalActions instance)
@@ -534,6 +571,9 @@ namespace WIMW.Input
                 @Hook.started -= instance.OnHook;
                 @Hook.performed -= instance.OnHook;
                 @Hook.canceled -= instance.OnHook;
+                @Punch.started -= instance.OnPunch;
+                @Punch.performed -= instance.OnPunch;
+                @Punch.canceled -= instance.OnPunch;
             }
 
             public void RemoveCallbacks(INormalActions instance)
@@ -665,6 +705,7 @@ namespace WIMW.Input
             void OnJump(InputAction.CallbackContext context);
             void OnDash(InputAction.CallbackContext context);
             void OnHook(InputAction.CallbackContext context);
+            void OnPunch(InputAction.CallbackContext context);
         }
         public interface ISpecialActions
         {

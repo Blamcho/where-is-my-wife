@@ -14,6 +14,7 @@ namespace WhereIsMyWife.Managers
         Action HookEndAction { get; set; }
         Action LookUpAction { get; set; }
         Action<bool> LookDownAction { get; set; }
+        Action PunchAction { get; set; }
     }
     
     public interface IUIInputEvent
