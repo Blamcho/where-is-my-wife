@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using WhereIsMyWife.Managers;
 
-namespace WhereIsMyWife.Controllers
+namespace WhereIsMyWife.SceneManagement
 {
     [RequireComponent(typeof(Button))]
     public class ChangeSceneButton : MonoBehaviour
