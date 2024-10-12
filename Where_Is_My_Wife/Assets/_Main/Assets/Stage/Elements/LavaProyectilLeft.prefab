@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2277712204599558933}
   - component: {fileID: 5051047076876285715}
   - component: {fileID: 2194109609118663086}
-  - component: {fileID: 8516607336859427444}
   - component: {fileID: 9153546816629449215}
   - component: {fileID: 6296964313508044692}
+  - component: {fileID: 845017283396958500}
   m_Layer: 0
   m_Name: LavaProyectilLeft
   m_TagString: Untagged
@@ -100,20 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a4e46c6a15fb047aa33b60d0731f5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8516607336859427444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5261639042334003703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3076a84dc898c9a4d978646af8d5edfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  tiempoDeVida: 3
 --- !u!50 &9153546816629449215
 Rigidbody2D:
   serializedVersion: 4
@@ -186,3 +172,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &845017283396958500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5261639042334003703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886f3c31ef82e7b4d90835db83c05cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  tiempoDeVida: 8
+  shootLeft: 1

@@ -1,30 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using WhereIsMyWife.Managers;
 
-public class LavaRise : MonoBehaviour
-{
-    public float riseSpeed = 2f;        
-    public float maxHeight = 10f;       
-
-    private Vector3 initialPosition;
-
-    void Start()
+    public class LavaRise : MonoBehaviour
     {
-        initialPosition = transform.position;
-    }
+         public float _riseSpeed = 1f;
+        [SerializeField] private Transform _maxHeightTransform;
+        [SerializeField] private Vector3 _initialPosition;
+        [SerializeField] private bool _isRising = false;
 
-    void Update()
-    {
-        if (transform.position.y < maxHeight)
+        void Start()
         {
-            transform.position += Vector3.up * riseSpeed * Time.deltaTime;
+            _initialPosition = transform.position;
+
+            PlayerManager.Instance.Respawn.RespawnAction += resetLava;
+        }
+
+        private void OnDestroy()
+        {
+            PlayerManager.Instance.Respawn.RespawnAction -= resetLava;
+        }
+
+        void Update()
+        {
+            Debug.Log($"_isRising: {_isRising}, PositionY: {transform.position.y}");
+            if (_isRising && transform.position.y < _maxHeightTransform.position.y)
+            {
+                transform.position += Vector3.up * _riseSpeed * Time.deltaTime;
+            }
+        }
+
+        public void StartRising()
+        {
+            _isRising = true;
+        }
+
+        private void resetLava(Vector3 _)
+        {
+            transform.position = _initialPosition;
+            _isRising = false;
         }
     }
 
-    public void ResetLava()
-    {
-        transform.position = initialPosition;
-    }
-}
 

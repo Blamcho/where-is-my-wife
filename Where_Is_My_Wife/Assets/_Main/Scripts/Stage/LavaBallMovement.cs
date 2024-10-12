@@ -1,19 +1,23 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class LavaBallMovement : MonoBehaviour
+namespace WhereIsMyWife.lava_ballvertical_motion
 {
-    public float speed = 2f;
-    public float height = 3f;
-    private Vector3 startPos;
+    public class LavaBallMovement : MonoBehaviour
+    { 
+        [SerializeField] private float _speed = 2f;
+        [SerializeField] private float _height = 3f;
+        private Vector3 _startPos;
 
-    void Start()
-    {
-        startPos = transform.position;
-    }
+        void Start()
+        {
+            _startPos = transform.position;
+        }
 
-    void Update()
-    {
-        float newY = Mathf.PingPong(Time.time * speed, height);
-        transform.position = new Vector3(startPos.x, startPos.y + newY, startPos.z);
+        void Update()
+        {
+            float newY = Mathf.PingPong(Time.time * _speed, _height);
+            transform.position = new Vector3(_startPos.x, _startPos.y + newY, _startPos.z);
+        }
     }
 }
