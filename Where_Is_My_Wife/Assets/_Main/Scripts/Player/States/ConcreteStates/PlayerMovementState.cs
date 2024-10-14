@@ -23,6 +23,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.WallHangStart += WallHang;
             _playerStateInput.DashStart += Dash;
             _playerStateInput.HookStart += Hook;
+            _playerStateInput.PunchStart += Punch;
         }
 
         protected override void UnsubscribeToObservables()
@@ -34,6 +35,7 @@ namespace WhereIsMyWife.Player.State
             _playerStateInput.WallHangStart -= WallHang;
             _playerStateInput.DashStart -= Dash;
             _playerStateInput.HookStart -= Hook;
+            _playerStateInput.PunchStart -= Punch;
         }
 
         private void Dash(float _)
@@ -69,6 +71,11 @@ namespace WhereIsMyWife.Player.State
         private void Hook()
         {
             NextState = PlayerStateMachine.PlayerState.Hook;
+        }
+
+        private void Punch()
+        {
+            NextState = PlayerStateMachine.PlayerState.Punching;
         }
     }
 }

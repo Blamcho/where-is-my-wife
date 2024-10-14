@@ -7,8 +7,7 @@ TagManager:
   - StageCollider
   - Hook
   - DoubleJump
-  - LavaStartTrigger
-  - LavaStopTrigger
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -54,4 +53,7 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 3199463203
+    locked: 0
+  - name: Tire
+    uniqueID: 3881497285
     locked: 0

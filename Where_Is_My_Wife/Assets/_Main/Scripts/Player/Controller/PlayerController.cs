@@ -23,6 +23,7 @@ namespace WhereIsMyWife.Controllers
         private IWallJumpStateEvents _wallJumpStateEvents;
         private IDashStateEvents _dashStateEvents;
         private IHookStateEvents _hookStateEvents;
+        private IPunchingStateEvents _punchingStateEvents;
 
         private IPlayerStateIndicator _playerStateIndicator;
         private IPlayerControllerEvent _playerControllerEvent;
@@ -47,6 +48,7 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents = PlayerManager.Instance.WallJumpStateEvents;
             _dashStateEvents = PlayerManager.Instance.DashStateEvents;
             _hookStateEvents = PlayerManager.Instance.HookStateEvents;
+            _punchingStateEvents = PlayerManager.Instance.PunchingStateEvents;
 
             _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
             _playerControllerEvent = PlayerManager.Instance.PlayerControllerEvent;
@@ -74,7 +76,7 @@ namespace WhereIsMyWife.Controllers
 
         private void SubscribeToObservables()
         {
-            _movementStateEvents.Run += Run;
+            _movementStateEvents.Run += RunAndFaceDirection;
             _movementStateEvents.JumpStart += JumpStart;
             _movementStateEvents.GravityScale += SetGravityScale;
             _movementStateEvents.FallSpeedCap += SetFallSpeedCap;
@@ -97,12 +99,17 @@ namespace WhereIsMyWife.Controllers
             _hookStateEvents.SetVelocity += SetVelocity;
             _hookStateEvents.SetPosition += SetPosition;
 
+            _punchingStateEvents.Run += Run;
+            _punchingStateEvents.JumpStart += JumpStart;
+            _punchingStateEvents.GravityScale += SetGravityScale;
+            _punchingStateEvents.FallSpeedCap += SetFallSpeedCap;
+            
             _respawn.RespawnAction += Respawn;
         }
 
         private void UnsubscribeToObservables()
         {
-            _movementStateEvents.Run -= Run;
+            _movementStateEvents.Run -= RunAndFaceDirection;
             _movementStateEvents.JumpStart -= JumpStart;
             _movementStateEvents.GravityScale -= SetGravityScale;
             _movementStateEvents.FallSpeedCap -= SetFallSpeedCap;
@@ -133,12 +140,17 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        private void Run(float runAcceleration)
+        private void RunAndFaceDirection(float runAcceleration)
         {
             FaceDirection(_playerStateIndicator.IsRunningRight);
-            _rigidbody2D.AddForce(Vector2.right * runAcceleration, ForceMode2D.Force);
+            Run(runAcceleration);
         }
 
+        private void Run(float runAcceleration)
+        {
+            _rigidbody2D.AddForce(Vector2.right * runAcceleration, ForceMode2D.Force);
+        }
+        
         private void SetPosition(Vector2 position)
         {
             _rigidbody2D.position = position;
