@@ -3,7 +3,7 @@ using UnityEngine.Serialization;
 
 namespace WhereIsMyWife.Lavacanon
 {
-public class LavaCannon : MonoBehaviour
+    public class LavaCannon : MonoBehaviour
 {
     [SerializeField] private GameObject _lavaProyectilPrefab; 
     [SerializeField] private Transform _firePoint;            

@@ -15,7 +15,3 @@ namespace WhereIsMyWife.LavaRiseTriggers
         }
     }
 }
-
- 
-
-

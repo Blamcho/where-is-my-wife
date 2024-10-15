@@ -13,17 +13,16 @@ using WhereIsMyWife.Managers;
         {
             _initialPosition = transform.position;
 
-            PlayerManager.Instance.Respawn.RespawnAction += resetLava;
+            PlayerManager.Instance.Respawn.RespawnAction += ResetLava;
         }
 
         private void OnDestroy()
         {
-            PlayerManager.Instance.Respawn.RespawnAction -= resetLava;
+            PlayerManager.Instance.Respawn.RespawnAction -= ResetLava;
         }
 
         void Update()
         {
-            Debug.Log($"_isRising: {_isRising}, PositionY: {transform.position.y}");
             if (_isRising && transform.position.y < _maxHeightTransform.position.y)
             {
                 transform.position += Vector3.up * _riseSpeed * Time.deltaTime;
@@ -35,7 +34,7 @@ using WhereIsMyWife.Managers;
             _isRising = true;
         }
 
-        private void resetLava(Vector3 _)
+        private void ResetLava(Vector3 _)
         {
             transform.position = _initialPosition;
             _isRising = false;
