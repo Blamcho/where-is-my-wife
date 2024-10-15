@@ -1,19 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
 using WhereIsMyWife.Managers;
+using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.SceneManagement
 {
-    [RequireComponent(typeof(Button))]
-    public class ChangeSceneButton : MonoBehaviour
+    public class ChangeSceneButton : MenuButton
     {
         [SerializeField] private string _sceneName;
 
-        private Button _button;
-        
-        private void Awake()
+        protected override void Awake()
         {
-            _button = gameObject.GetComponent<Button>();
+            base.Awake();
             _button.onClick.AddListener(ChangeScene);
         }
 
