@@ -2,22 +2,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using WhereIsMyWife.Managers;
 
-namespace WhereIsMyWife.Controllers
+namespace WhereIsMyWife.SceneManagement
 {
     [RequireComponent(typeof(Button))]
     public class ChangeSceneButton : MonoBehaviour
     {
         [SerializeField] private string _sceneName;
 
+        private Button _button;
+        
         private void Awake()
         {
-            gameObject.GetComponent<Button>().onClick.AddListener(ChangeScene);
+            _button = gameObject.GetComponent<Button>();
+            _button.onClick.AddListener(ChangeScene);
         }
 
         private void ChangeScene()
         {
+            _button.interactable = false;
             LevelManager.Instance.LoadScene(_sceneName);
-            Destroy(gameObject);
         }
     }
 }

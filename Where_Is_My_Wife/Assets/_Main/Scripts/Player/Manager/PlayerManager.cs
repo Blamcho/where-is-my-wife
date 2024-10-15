@@ -42,7 +42,7 @@ namespace WhereIsMyWife.Managers
 
         // Hook Attempt Flag
         private bool _canAttemptHook = false;
-
+        
         private void Start()
         {
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
