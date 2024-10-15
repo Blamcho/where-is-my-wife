@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.SceneManagement
 {
-    [RequireComponent(typeof(Button))]
-    public class QuitApplicationButton : MonoBehaviour
+    public class QuitApplicationButton : MenuButton
     {
-        private void Awake()
+        protected override void Awake()
         {
-            gameObject.GetComponent<Button>().onClick.AddListener(QuitApplication);
+            base.Awake();
+            _button.onClick.AddListener(QuitApplication);
         }
 
         private void QuitApplication()
