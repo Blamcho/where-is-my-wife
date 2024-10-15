@@ -24,6 +24,11 @@ namespace WhereIsMyWife.UI
             _originalColor = _text.color;
         }
 
+        private void OnDisable()
+        {
+            ResetColor();
+        }
+
         public void OnSelect(BaseEventData eventData)
         {
             _text.color = _selectedTextColor;
@@ -31,6 +36,11 @@ namespace WhereIsMyWife.UI
 
         public void OnDeselect(BaseEventData eventData)
         {   
+            ResetColor();
+        }
+        
+        private void ResetColor()
+        {
             _text.color = _originalColor;
         }
     }   
