@@ -417,7 +417,7 @@ namespace WIMW.Input
                 {
                     ""name"": """",
                     ""id"": ""2ccdb528-5c8f-4b41-89eb-f88b744c79d5"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

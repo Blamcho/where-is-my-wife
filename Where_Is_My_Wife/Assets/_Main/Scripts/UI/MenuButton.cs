@@ -12,10 +12,10 @@ namespace WhereIsMyWife.UI
     {
         protected Button _button;
         
-        private readonly Color _selectedTextColor = Color.white;
+        protected readonly Color _selectedTextColor = Color.white;
 
         private TextMeshProUGUI _text;
-        private Color _originalColor;
+        protected Color _originalColor;
         
         protected virtual void Awake()
         {
@@ -29,17 +29,17 @@ namespace WhereIsMyWife.UI
             ResetColor();
         }
 
-        public void OnSelect(BaseEventData eventData)
+        public virtual void OnSelect(BaseEventData eventData)
         {
             _text.color = _selectedTextColor;
         }
 
-        public void OnDeselect(BaseEventData eventData)
+        public virtual void OnDeselect(BaseEventData eventData)
         {   
             ResetColor();
         }
         
-        private void ResetColor()
+        protected virtual void ResetColor()
         {
             _text.color = _originalColor;
         }
