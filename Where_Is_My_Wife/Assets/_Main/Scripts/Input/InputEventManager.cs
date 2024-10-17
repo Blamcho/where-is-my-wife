@@ -227,8 +227,8 @@ namespace WhereIsMyWife.Managers
         
         private void ChangeControllerType(ControllerType controllerType)
         {
-            _currentControllerType = controllerType;
-             Debug.Log($"ControllerType: {_currentControllerType}");
+            _currentControllerType = controllerType; 
+            Debug.Log($"ControllerType: {_currentControllerType}");
         }
         
         private bool KeyboardInputWasMadeThisFrame()
