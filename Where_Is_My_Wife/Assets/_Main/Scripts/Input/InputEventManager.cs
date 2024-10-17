@@ -227,7 +227,7 @@ namespace WhereIsMyWife.Managers
         
         private void ChangeControllerType(ControllerType controllerType)
         {
-            _currentControllerType = controllerType;
+            _currentControllerType = controllerType; 
             Debug.Log($"ControllerType: {_currentControllerType}");
         }
         
