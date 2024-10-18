@@ -1,23 +1,34 @@
-using DG.Tweening;
+using Cinemachine;
 using UnityEngine;
 
 public class CameraTrigger : MonoBehaviour
 {
-   [SerializeField] private Transform _chamberTransform;
+   [SerializeField] private CameraAction _cameraAction;
+   
+   [Header("Move")]
+   [SerializeField] private Transform _nextPosition;
+
+   [Header("Change Camera")]
+   [SerializeField] private CinemachineVirtualCamera _nextCamera;
+   
+   private enum CameraAction
+   {
+      Move,
+      ChangeCamera,
+   }
    
    private void OnTriggerEnter2D(Collider2D other)
    {
       if (other.CompareTag("StageCollider"))
       {
-         PerformCameraAnimation();
+         switch (_cameraAction)
+         {
+            case CameraAction.Move:
+               CameraManager.Instance.MoveCameraToNextPosition(_nextPosition.position);
+               break;
+            default:
+               break;
+         }
       }
-   }
-
-   private void PerformCameraAnimation()
-   {
-      Vector3 nextPosition = _chamberTransform.position;
-      nextPosition.z = -10;
-         
-      Camera.main.transform.DOMove(nextPosition, 0.5f);
    }
 }
