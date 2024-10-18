@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 namespace WhereIsMyWife.Managers
 {
     public class LocalizationManager : Singleton<LocalizationManager>
     {
+        public event Action OnLanguageChanged;
+        
         [SerializeField] private Language _currentLanguage = Language.English;
         
         private Dictionary<string, Dictionary<string, string>> _localizedText;
@@ -18,6 +20,7 @@ namespace WhereIsMyWife.Managers
             Spanish,
             BrazilianPortuguese,
             French,
+            Max,
         }
         
         protected override void Awake()
@@ -80,12 +83,29 @@ namespace WhereIsMyWife.Managers
             }
 
             Debug.LogWarning($"Localization key '{key}' not found for language '{_currentLocaleCode}'.");
-            return key;
+            return "#ERROR";
         }
 
-        public void SetLanguage(Language language)
+        public void CycleLanguage(int direction)
         {
-            _currentLocaleCode = _localeCode[language];
+            _currentLanguage += direction;
+            
+            if (_currentLanguage < 0)
+            {
+                _currentLanguage = Language.Max - 1; 
+            }
+            else if (_currentLanguage >= Language.Max)
+            {
+                _currentLanguage = 0;
+            }
+            
+            RefreshLanguage();
+        }
+        
+        private void RefreshLanguage()
+        {
+            _currentLocaleCode = _localeCode[_currentLanguage];
+            OnLanguageChanged?.Invoke();
         }
     }
 }
