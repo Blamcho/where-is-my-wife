@@ -4884,7 +4884,7 @@ PrefabInstance:
       objectReference: {fileID: 1886357346904633996}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
-      value: ChamberTrigger
+      value: CameraTrigger
       objectReference: {fileID: 0}
     - target: {fileID: 8626848311044713122, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_LocalPosition.x
