@@ -2,13 +2,25 @@ using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 
-public class CameraManager : Singleton<CameraManager>
+namespace WhereIsMyWife.Managers
 {
-    [SerializeField] private CinemachineVirtualCamera _currentCamera;
-
-    public void MoveCameraToNextPosition(Vector3 nextPosition)
+    public class CameraManager : Singleton<CameraManager>
     {
-        nextPosition.z = -10;
-        _currentCamera.transform.DOMove(nextPosition, 0.5f);
+        [SerializeField] private CinemachineVirtualCamera _currentCamera;
+
+        public void MoveCameraToNextPosition(Vector3 nextPosition)
+        {
+            nextPosition.z = -10;
+            _currentCamera.transform.DOMove(nextPosition, 0.5f);
+        }
+
+        public void ChangeCamera(CinemachineVirtualCamera nextCamera)
+        {
+            if (_currentCamera == nextCamera) return;
+            
+            nextCamera.enabled = true;
+            _currentCamera.enabled = false;
+            _currentCamera = nextCamera;
+        }
     }
 }

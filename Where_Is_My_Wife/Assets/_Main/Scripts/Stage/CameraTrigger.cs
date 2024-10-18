@@ -1,33 +1,38 @@
 using Cinemachine;
 using UnityEngine;
+using WhereIsMyWife.Managers;
 
-public class CameraTrigger : MonoBehaviour
+namespace WhereIsMyWife.Controllers
 {
-   [SerializeField] private CameraAction _cameraAction;
+   public class CameraTrigger : MonoBehaviour
+   {
+      [SerializeField] private CameraAction _cameraAction;
    
-   [Header("Move")]
-   [SerializeField] private Transform _nextPosition;
+      [Header("Move")]
+      [SerializeField] private Transform _nextPosition;
 
-   [Header("Change Camera")]
-   [SerializeField] private CinemachineVirtualCamera _nextCamera;
+      [Header("Change Camera")]
+      [SerializeField] private CinemachineVirtualCamera _nextCamera;
    
-   private enum CameraAction
-   {
-      Move,
-      ChangeCamera,
-   }
-   
-   private void OnTriggerEnter2D(Collider2D other)
-   {
-      if (other.CompareTag("StageCollider"))
+      private enum CameraAction
       {
-         switch (_cameraAction)
+         Move,
+         ChangeCamera,
+      }
+   
+      private void OnTriggerEnter2D(Collider2D other)
+      {
+         if (other.CompareTag("StageCollider"))
          {
-            case CameraAction.Move:
-               CameraManager.Instance.MoveCameraToNextPosition(_nextPosition.position);
-               break;
-            default:
-               break;
+            switch (_cameraAction)
+            {
+               case CameraAction.Move:
+                  CameraManager.Instance.MoveCameraToNextPosition(_nextPosition.position);
+                  break;
+               case CameraAction.ChangeCamera:
+                  CameraManager.Instance.ChangeCamera(_nextCamera);
+                  break;
+            }
          }
       }
    }
