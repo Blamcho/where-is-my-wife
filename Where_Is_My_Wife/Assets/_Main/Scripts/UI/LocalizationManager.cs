@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace WhereIsMyWife.Managers
@@ -7,9 +8,10 @@ namespace WhereIsMyWife.Managers
     public class LocalizationManager : Singleton<LocalizationManager>
     {
         public event Action OnLanguageChanged;
-        
-        [SerializeField] private Language _currentLanguage = Language.English;
-        
+
+        [SerializeField]
+        private Language _currentLanguage = Language.English;
+
         private Dictionary<string, Dictionary<string, string>> _localizedText;
         private Dictionary<Language, string> _localeCode;
         private string _currentLocaleCode;
@@ -22,7 +24,7 @@ namespace WhereIsMyWife.Managers
             French,
             Max,
         }
-        
+
         protected override void Awake()
         {
             base.Awake();
@@ -34,7 +36,7 @@ namespace WhereIsMyWife.Managers
         private void SetLanguageKeys()
         {
             _localeCode = new Dictionary<Language, string>();
-            
+
             _localeCode[Language.English] = "en";
             _localeCode[Language.Spanish] = "es";
             _localeCode[Language.BrazilianPortuguese] = "pt-BR";
@@ -44,27 +46,30 @@ namespace WhereIsMyWife.Managers
         private void LoadLocalizationCSV()
         {
             _localizedText = new Dictionary<string, Dictionary<string, string>>();
-            TextAsset localizationFile = Resources.Load<TextAsset>("Localization"); 
+            TextAsset localizationFile = Resources.Load<TextAsset>("Localization");
 
             if (localizationFile != null)
             {
                 string[] lines = localizationFile.text.Split('\n');
-                string[] headers = lines[0].Split(',');
+                string[] headers = ParseCSVLine(lines[0]);
 
                 for (int i = 1; i < lines.Length; i++)
                 {
-                    string[] fields = lines[i].Split(',');
+                    string[] fields = ParseCSVLine(lines[i]);
 
                     if (fields.Length > 0)
                     {
                         string key = fields[0];
                         _localizedText[key] = new Dictionary<string, string>();
 
-                        for (int j = 1; j < headers.Length; j++)
+                        for (int localeIndex = 1; localeIndex < headers.Length; localeIndex++)
                         {
-                            string lang = headers[j].Trim();
-                            string text = fields[j].Trim();
-                            _localizedText[key][lang] = text;
+                            string localeCode = headers[localeIndex].Trim();
+                            if (localeIndex < fields.Length)
+                            {
+                                string text = fields[localeIndex].Trim();
+                                _localizedText[key][localeCode] = text;
+                            }
                         }
                     }
                 }
@@ -73,6 +78,63 @@ namespace WhereIsMyWife.Managers
             {
                 Debug.LogError("Localization CSV not found.");
             }
+        }
+
+        private string[] ParseCSVLine(string csvLine)
+        {
+            List<string> parsedLine = new List<string>();
+            bool isInQuotes = false;
+            StringBuilder currentField = new StringBuilder();
+
+            for (int characterIndex = 0; characterIndex < csvLine.Length; characterIndex++)
+            {
+                char currentCharacter = csvLine[characterIndex];
+
+                if (isInQuotes)
+                {
+                    if (currentCharacter == '"')
+                    {
+                        if (CharacterIsEscapedQuote(csvLine, characterIndex))
+                        {
+                            currentField.Append('"');
+                            characterIndex++;
+                        }
+                        else
+                        {
+                            isInQuotes = false; 
+                        }
+                    }
+                    else
+                    {
+                        currentField.Append(currentCharacter);
+                    }
+                }
+                else
+                {
+                    switch (currentCharacter)
+                    {
+                        case '"':
+                            isInQuotes = true;
+                            break;
+                        case ',':
+                            parsedLine.Add(currentField.ToString());
+                            currentField.Clear();
+                            break;
+                        default:
+                            currentField.Append(currentCharacter);
+                            break;
+                    }
+                }
+            }
+
+            parsedLine.Add(currentField.ToString());
+
+            return parsedLine.ToArray();
+        }
+
+        private static bool CharacterIsEscapedQuote(string csvLine, int characterIndex)
+        {
+            return characterIndex + 1 < csvLine.Length && csvLine[characterIndex + 1] == '"';
         }
 
         public string GetLocalizedValue(string key)
@@ -89,19 +151,19 @@ namespace WhereIsMyWife.Managers
         public void CycleLanguage(int direction)
         {
             _currentLanguage += direction;
-            
+
             if (_currentLanguage < 0)
             {
-                _currentLanguage = Language.Max - 1; 
+                _currentLanguage = Language.Max - 1;
             }
             else if (_currentLanguage >= Language.Max)
             {
                 _currentLanguage = 0;
             }
-            
+
             RefreshLanguage();
         }
-        
+
         private void RefreshLanguage()
         {
             _currentLocaleCode = _localeCode[_currentLanguage];
