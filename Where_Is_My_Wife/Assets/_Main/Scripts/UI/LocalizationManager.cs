@@ -9,43 +9,27 @@ namespace WhereIsMyWife.Managers
     {
         public event Action OnLanguageChanged;
 
-        [SerializeField]
-        private Language _currentLanguage = Language.English;
+        private readonly Dictionary<string, Dictionary<string, string>> LocalizationDatabase = new ();
 
-        private Dictionary<string, Dictionary<string, string>> _localizedText;
-        private Dictionary<Language, string> _localeCode;
-        private string _currentLocaleCode;
-
-        public enum Language
+        private readonly string[] LanguageCodes =
         {
-            English,
-            Spanish,
-            BrazilianPortuguese,
-            French,
-            Max,
-        }
+            "en",
+            "es",
+            "pt-BR",
+            "fr"
+        };
 
+        private int _currentLanguageIndex = 0;
+        
         protected override void Awake()
         {
             base.Awake();
-            SetLanguageKeys();
-            _currentLocaleCode = _localeCode[_currentLanguage];
+            //TODO: Set current language from save data
             LoadLocalizationCSV();
         }
-
-        private void SetLanguageKeys()
-        {
-            _localeCode = new Dictionary<Language, string>();
-
-            _localeCode[Language.English] = "en";
-            _localeCode[Language.Spanish] = "es";
-            _localeCode[Language.BrazilianPortuguese] = "pt-BR";
-            _localeCode[Language.French] = "fr";
-        }
-
+        
         private void LoadLocalizationCSV()
         {
-            _localizedText = new Dictionary<string, Dictionary<string, string>>();
             TextAsset localizationFile = Resources.Load<TextAsset>("Localization");
 
             if (localizationFile != null)
@@ -60,7 +44,7 @@ namespace WhereIsMyWife.Managers
                     if (fields.Length > 0)
                     {
                         string key = fields[0];
-                        _localizedText[key] = new Dictionary<string, string>();
+                        LocalizationDatabase[key] = new Dictionary<string, string>();
 
                         for (int localeIndex = 1; localeIndex < headers.Length; localeIndex++)
                         {
@@ -68,7 +52,7 @@ namespace WhereIsMyWife.Managers
                             if (localeIndex < fields.Length)
                             {
                                 string text = fields[localeIndex].Trim();
-                                _localizedText[key][localeCode] = text;
+                                LocalizationDatabase[key][localeCode] = text;
                             }
                         }
                     }
@@ -139,34 +123,30 @@ namespace WhereIsMyWife.Managers
 
         public string GetLocalizedValue(string key)
         {
-            if (_localizedText.ContainsKey(key) && _localizedText[key].ContainsKey(_currentLocaleCode))
+            string currentLocaleCode = LanguageCodes[_currentLanguageIndex];
+            
+            if (LocalizationDatabase.ContainsKey(key) && LocalizationDatabase[key].ContainsKey(currentLocaleCode))
             {
-                return _localizedText[key][_currentLocaleCode];
+                return LocalizationDatabase[key][currentLocaleCode];
             }
 
-            Debug.LogWarning($"Localization key '{key}' not found for language '{_currentLocaleCode}'.");
+            Debug.LogWarning($"Localization key '{key}' not found for language '{currentLocaleCode}'.");
             return "#ERROR";
         }
 
         public void CycleLanguage(int direction)
         {
-            _currentLanguage += direction;
+            _currentLanguageIndex += direction;
 
-            if (_currentLanguage < 0)
+            if (_currentLanguageIndex < 0)
             {
-                _currentLanguage = Language.Max - 1;
+                _currentLanguageIndex = LanguageCodes.Length - 1;
             }
-            else if (_currentLanguage >= Language.Max)
+            else if (_currentLanguageIndex >= LanguageCodes.Length)
             {
-                _currentLanguage = 0;
+                _currentLanguageIndex = 0;
             }
 
-            RefreshLanguage();
-        }
-
-        private void RefreshLanguage()
-        {
-            _currentLocaleCode = _localeCode[_currentLanguage];
             OnLanguageChanged?.Invoke();
         }
     }
