@@ -19,6 +19,7 @@ namespace WhereIsMyWife.Managers
             if (_currentCamera == nextCamera) return;
             
             nextCamera.enabled = true;
+            
             _currentCamera.enabled = false;
             _currentCamera = nextCamera;
         }
