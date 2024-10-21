@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db133b21bf94d264ebb092d16d0ec6b3, type: 3}
+  m_Name: Credits
+  m_EditorClassIdentifier: 
+  Name:
+  - Ivan Herrera
+  - Fernando, Ricardo
+  - Ricardo
+  - Fernando
+  - Fernando
+  - Fernando,Abraham,Ricardo,Jair
+  - Abraham
+  - Jair,Abraham
+  - Abraham
+  - Fernando
+  - Jair
+  - Jair
+  - Ivan Herrera
+  - Fernando, Ricardo
+  - Ricardo
+  - Fernando
+  - Fernando
+  - Fernando,Abraham,Ricardo,Jair
+  - Abraham
+  - Jair,Abraham
+  - Abraham
+  - Fernando
+  - Jair
+  - Jair
+  Rol:
+  - Project Manager, Technical Reviewer
+  - UI
+  - ' Creditos'
+  - " Sistema de c\xE1mara"
+  - " Localizaci\xF3n"
+  - " Integraci\xF3n de arte"
+  - ' Sistema de guardado'
+  - " Dise\xF1o y Armado del Tutorial"
+  - " Dise\xF1o y Armado del Nivel 1"
+  - " Dise\xF1o y Armado del Nivel 2"
+  - " Dise\xF1o y Armado del Nivel 3"
+  - " Dise\xF1o y Armado del Jefe"
+  - Project Manager, Technical Reviewer
+  - UI
+  - ' Creditos'
+  - " Sistema de c\xE1mara"
+  - " Localizaci\xF3n"
+  - " Integraci\xF3n de arte"
+  - ' Sistema de guardado'
+  - " Dise\xF1o y Armado del Tutorial"
+  - " Dise\xF1o y Armado del Nivel 1"
+  - " Dise\xF1o y Armado del Nivel 2"
+  - " Dise\xF1o y Armado del Nivel 3"
+  - " Dise\xF1o y Armado del Jefe"
+  _agredecimientos: gracias
