@@ -1,7 +1,6 @@
-using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.SceneManagement
@@ -9,7 +8,8 @@ namespace WhereIsMyWife.SceneManagement
     public class SplashScreen : MonoBehaviour
     {
         [SerializeField] private string _mainMenuSceneName = "MainMenu";
-        
+        [SerializeField] private CanvasGroup _canvasGroup;
+
         private void Start()
         {
             SplashScreenAsync().Forget();
@@ -17,8 +17,10 @@ namespace WhereIsMyWife.SceneManagement
 
         private async UniTaskVoid SplashScreenAsync()
         {
-            // TODO: Add splash screen animation 
-            
+            Sequence _splashScreen = DOTween.Sequence();
+            _splashScreen.Append(_canvasGroup.DOFade(1, 2f));
+            await _splashScreen.AsyncWaitForCompletion();
+
             LevelManager.Instance.LoadScene(_mainMenuSceneName);
         }
     }
