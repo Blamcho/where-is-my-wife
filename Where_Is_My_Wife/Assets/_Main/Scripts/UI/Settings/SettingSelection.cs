@@ -5,7 +5,7 @@ using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.Setting
 {
-    public class SettingSelection : MenuButton, ISelectHandler, IDeselectHandler
+    public class SettingSelection : MenuButton
     {
         protected IUIInputEvent _uiInputEvent;
 
@@ -14,19 +14,19 @@ namespace WhereIsMyWife.Setting
             _uiInputEvent = InputEventManager.Instance.UIInputEvent;
         }
     
-        public virtual void OnSelect(BaseEventData eventData)
+        public override void OnSelect(BaseEventData eventData)
         {
             base.OnSelect(eventData);
             SubscribeToActions();
         }
     
-        public virtual void OnDeselect(BaseEventData eventData)
+        public override void OnDeselect(BaseEventData eventData)
         {
             base.OnDeselect(eventData);
             SelectedUnsubscribeFromActions();
         }
 
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
             SelectedUnsubscribeFromActions();
         }

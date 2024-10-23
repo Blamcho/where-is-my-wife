@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,7 +20,8 @@ namespace WhereIsMyWife.SceneManagement
         {
             _nextSceneButton.interactable = false;
             
-            // TODO: Add story board animation 
+            // TODO: Add story board animation and delete following line
+            await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
             
             _nextSceneButton.interactable = true;
             _nextSceneButton.Select();
