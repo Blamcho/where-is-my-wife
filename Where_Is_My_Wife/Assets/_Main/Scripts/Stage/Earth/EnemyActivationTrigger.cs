@@ -10,7 +10,7 @@ public class EnemyActivationTrigger : MonoBehaviour
 
     private void Start()
     {
-        PlayerManager.Instance.RespawnAction += Reset;
+        PlayerManager.Instance.RespawnStartAction += Reset;
     }
 
     private void Reset(Vector3 _)

@@ -40,7 +40,7 @@ namespace WhereIsMyWife.Controllers
 
         [SerializeField]
         private Transform _wallHangCheckDownTransform = null;
-
+        
         private void Start()
         {
             _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
@@ -56,12 +56,14 @@ namespace WhereIsMyWife.Controllers
 
             _playerControllerEvent.SetPlayerControllerData(this);
 
-            SubscribeToObservables();
+            SubscribeToStateEvents();
+            SubscribeToRespawnEvents();
         }
 
         private void OnDestroy()
         {
-            UnsubscribeToObservables();
+            UnsubscribeFromStateEvents();
+            UnsubscribeFromRespawnEvents();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -74,7 +76,7 @@ namespace WhereIsMyWife.Controllers
             TriggerExitEvent?.Invoke(collision);
         }
 
-        private void SubscribeToObservables()
+        private void SubscribeToStateEvents()
         {
             _movementStateEvents.Run += RunAndFaceDirection;
             _movementStateEvents.JumpStart += JumpStart;
@@ -103,11 +105,9 @@ namespace WhereIsMyWife.Controllers
             _punchingStateEvents.JumpStart += JumpStart;
             _punchingStateEvents.GravityScale += SetGravityScale;
             _punchingStateEvents.FallSpeedCap += SetFallSpeedCap;
-            
-            _respawn.RespawnAction += Respawn;
         }
 
-        private void UnsubscribeToObservables()
+        private void UnsubscribeFromStateEvents()
         {
             _movementStateEvents.Run -= RunAndFaceDirection;
             _movementStateEvents.JumpStart -= JumpStart;
@@ -131,10 +131,22 @@ namespace WhereIsMyWife.Controllers
             _hookStateEvents.GravityScale += SetGravityScale;
             _hookStateEvents.SetVelocity += SetVelocity;
             _hookStateEvents.SetPosition += SetPosition;
-
-            _respawn.RespawnAction -= Respawn;
         }
 
+        private void SubscribeToRespawnEvents()
+        {
+            _respawn.DeathAction += Die;
+            _respawn.RespawnStartAction += StartRespawn;
+            _respawn.RespawnCompleteAction += CompleteRespawn;
+        }
+        
+        private void UnsubscribeFromRespawnEvents()
+        {
+            _respawn.DeathAction -= Die;
+            _respawn.RespawnStartAction -= StartRespawn;
+            _respawn.RespawnCompleteAction -= CompleteRespawn;
+        }
+        
         private void JumpStart(float jumpForce)
         {
             _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -215,9 +227,21 @@ namespace WhereIsMyWife.Controllers
             transform.localScale = scale;
         }
 
-        private void Respawn(Vector3 respawnPosition)
+        private void Die()
         {
+            gameObject.SetActive(false);
+            UnsubscribeFromStateEvents();
+        }
+        
+        private void StartRespawn(Vector3 respawnPosition)
+        {
+            gameObject.SetActive(true);
             transform.position = respawnPosition;
+        }
+        
+        private void CompleteRespawn()
+        {
+            SubscribeToStateEvents();
         }
     }
 }
