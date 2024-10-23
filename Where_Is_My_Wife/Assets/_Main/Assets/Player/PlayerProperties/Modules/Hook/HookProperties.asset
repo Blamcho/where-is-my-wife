@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: HookProperties
   m_EditorClassIdentifier: 
   <ThrustForce>k__BackingField: 35
-  <TimeToReachHookPosition>k__BackingField: 1
+  <TimeToReachHookPosition>k__BackingField: 0.15
   <TimeAllowedToPerformLaunch>k__BackingField: 0.15
