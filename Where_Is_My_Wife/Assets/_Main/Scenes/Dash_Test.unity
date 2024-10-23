@@ -468,15 +468,7 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 5.51
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _respawnTransform
-      value: 
-      objectReference: {fileID: 1886357347701761469}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
       objectReference: {fileID: 1886357347701761469}
@@ -1022,14 +1014,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 5.036339
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
-      objectReference: {fileID: 1317253682}
+      objectReference: {fileID: 1698597630}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger 6
@@ -1860,11 +1848,11 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 253.972, y: 70.918, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2029911068}
+  m_Father: {fileID: 928645539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &538381486
 PrefabInstance:
@@ -2838,14 +2826,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 5.036339
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
-      objectReference: {fileID: 1111995142}
+      objectReference: {fileID: 1317253682}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger 7
@@ -2916,14 +2900,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.9405714
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
-      objectReference: {fileID: 659222918}
+      objectReference: {fileID: 1759852572}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger 4
@@ -3181,14 +3161,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2205077737770124660}
     m_Modifications:
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
-      objectReference: {fileID: 1759852572}
+      objectReference: {fileID: 1765744799}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger 3
@@ -3262,14 +3238,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.8193054
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
-      objectReference: {fileID: 1316509141}
+      objectReference: {fileID: 1111995142}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger  8
@@ -3856,14 +3828,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2205077737770124660}
     m_Modifications:
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
-      objectReference: {fileID: 1698597630}
+      objectReference: {fileID: 659222918}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger 5
@@ -5420,11 +5388,7 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 5.1375237
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
       objectReference: {fileID: 1316509141}
@@ -5636,7 +5600,7 @@ Transform:
   m_GameObject: {fileID: 1765744798}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 249.78, y: 64.18, z: 0}
+  m_LocalPosition: {x: 109.6, y: 3.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6017,14 +5981,6 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _playerRespawnTransform
-      value: 
-      objectReference: {fileID: 1765744799}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
       value: ChamberTrigger
@@ -6167,7 +6123,6 @@ Transform:
   m_Children:
   - {fileID: 2058829828}
   - {fileID: 619394802}
-  - {fileID: 519420032}
   - {fileID: 928645539}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14638,11 +14593,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 408039819057657938, guid: e8fde86a435cb4e439bb225e10522fbe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 235.4
+      value: -18.3
       objectReference: {fileID: 0}
     - target: {fileID: 408039819057657938, guid: e8fde86a435cb4e439bb225e10522fbe, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 66.34
+      value: -3.8
       objectReference: {fileID: 0}
     - target: {fileID: 408039819057657938, guid: e8fde86a435cb4e439bb225e10522fbe, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14702,7 +14657,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 408039819057657938, guid: e8fde86a435cb4e439bb225e10522fbe, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 519420032}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8fde86a435cb4e439bb225e10522fbe, type: 3}
 --- !u!1 &1189663874897749058
@@ -36696,15 +36654,7 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _chamberTransform
-      value: 
-      objectReference: {fileID: 519420032}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
-      propertyPath: _respawnTransform
-      value: 
-      objectReference: {fileID: 7097722569289383685}
-    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+    - target: {fileID: 6575281000949375709, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _playerRespawnTransform
       value: 
       objectReference: {fileID: 7097722569289383685}
@@ -36714,7 +36664,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8626848311044713122, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.4
+      value: 26.13
       objectReference: {fileID: 0}
     - target: {fileID: 8626848311044713122, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -43438,7 +43388,7 @@ Transform:
   m_GameObject: {fileID: 5749515419378790255}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.2, y: -0.6, z: 0}
+  m_LocalPosition: {x: 23.55, y: -0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
