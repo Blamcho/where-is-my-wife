@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 13b99d26b3b01de428ec81f93f4a28bd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _playerRespawnTransform: {fileID: 6370665495932332669, guid: 75922a0547eb76746bab9659cd1ed290, type: 3}
+  - _respawnPanel: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
