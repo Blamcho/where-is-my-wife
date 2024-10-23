@@ -45,6 +45,22 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents = PlayerManager.Instance.DashStateEvents;
             _punchingStateEvents = PlayerManager.Instance.PunchingStateEvents;
             
+            SubscribeToStateEvents();
+
+            PlayerManager.Instance.DeathAction += Die;
+            PlayerManager.Instance.RespawnCompleteAction += CompleteRespawn;
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromStateEvents();
+            
+            PlayerManager.Instance.DeathAction -= Die;
+            PlayerManager.Instance.RespawnCompleteAction -= CompleteRespawn;
+        }
+
+        private void SubscribeToStateEvents()
+        {
             _movementStateEvents.JumpStart += Jump;
             _movementStateEvents.Run += Run;
 
@@ -53,8 +69,8 @@ namespace WhereIsMyWife.Controllers
 
             _punchingStateEvents.PunchStart += Punch;
         }
-
-        private void OnDestroy()
+        
+        private void UnsubscribeFromStateEvents()
         {
             _movementStateEvents.JumpStart -= Jump;
             _movementStateEvents.Run -= Run;
@@ -118,6 +134,17 @@ namespace WhereIsMyWife.Controllers
             _animator.Play(newState);
 
             _currentAnimationState = newState;
+        }
+        
+        private void Die()
+        {
+            UnsubscribeFromStateEvents();
+            PlayAnimationState(IDLE_ANIMATION_STATE);
+        }
+
+        private void CompleteRespawn()
+        {
+            SubscribeToStateEvents();
         }
     }
 }

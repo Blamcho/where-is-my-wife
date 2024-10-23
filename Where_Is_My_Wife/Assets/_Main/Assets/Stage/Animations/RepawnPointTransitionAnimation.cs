@@ -10,7 +10,7 @@ public class RespawPointTrasition : MonoBehaviour
     [SerializeField] private Transform _playerRespawnTransform;
     [SerializeField] private GameObject _respawnPanel;  
      public Animator _respawnAnimator;
-
+     
     private void Start()
     {
         if (PlayerManager.Instance != null && PlayerManager.Instance.Respawn != null)

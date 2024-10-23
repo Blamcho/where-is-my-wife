@@ -8,14 +8,14 @@ public class EnemyController : MonoBehaviour
     
     private void Start()
     {
-        PlayerManager.Instance.RespawnAction += Deactivate;
+        PlayerManager.Instance.RespawnStartAction += Deactivate;
             
         gameObject.SetActive(false);    
     }
 
     private void OnDestroy()
     {
-        PlayerManager.Instance.RespawnAction += Deactivate;
+        PlayerManager.Instance.RespawnStartAction += Deactivate;
     }
     
     public virtual void Activate(Vector2 position)
