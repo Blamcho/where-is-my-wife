@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8626848311044713122}
   - component: {fileID: 2307463633613223652}
-  - component: {fileID: 4270536373805715950}
+  - component: {fileID: 6575281000949375709}
   m_Layer: 0
   m_Name: ChamberTrigger
   m_TagString: Untagged
@@ -78,7 +78,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 4}
   m_EdgeRadius: 0
---- !u!114 &4270536373805715950
+--- !u!114 &6575281000949375709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,8 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7189761198007123611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a1f046c75f33cd44bc89369c415be53, type: 3}
+  m_Script: {fileID: 11500000, guid: 13b99d26b3b01de428ec81f93f4a28bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerRespawnTransform: {fileID: 0}
-  _chamberTransform: {fileID: 0}
+  _playerRespawnTransform: {fileID: 6370665495932332669, guid: 75922a0547eb76746bab9659cd1ed290, type: 3}
