@@ -19,6 +19,12 @@ namespace WhereIsMyWife.Setting
             TickUpdateTimer();
         }
 
+        public override void OnSelect(BaseEventData eventData)
+        {
+            base.OnSelect(eventData);
+            _sliderValueText.color = _selectedTextColor;
+        }
+
         public override void OnDeselect(BaseEventData eventData)
         {
             base.OnDeselect(eventData);
@@ -57,6 +63,12 @@ namespace WhereIsMyWife.Setting
                 UpdateSliderValue();
                 _updateTimer = 0;
             }
+        }
+
+        protected override void ResetColor()
+        {
+            base.ResetColor();
+            _sliderValueText.color = _originalColor;
         }
     }
 }

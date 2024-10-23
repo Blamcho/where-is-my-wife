@@ -285,11 +285,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2445905630114213479, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 382.9
       objectReference: {fileID: 0}
     - target: {fileID: 2445905630114213479, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2445905630114213479, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -339,9 +339,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5649454589383279135, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6571414672521134505, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
       propertyPath: m_Name
       value: 'Button '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912653732608687801, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_margin.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912653732608687801, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_fontStyle
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912653732608687801, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
