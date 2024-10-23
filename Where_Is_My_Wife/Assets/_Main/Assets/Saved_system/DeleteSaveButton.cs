@@ -14,16 +14,7 @@ namespace WhereIsMyWife.Managers
 
         private void DeleteSave()
         {
-            if (SavedManager.Instance != null)
-            {
-                PlayerPrefs.DeleteKey("saved-data"); 
-                SavedManager.Instance.Load();
-                Debug.Log("Saved data deleted.");
-            }
-            else
-            {
-                Debug.LogError("SavedManager instance not found.");
-            }
+            SaveManager.Instance.ClearData();
         }
     }
 }
