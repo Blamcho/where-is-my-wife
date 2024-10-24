@@ -1,31 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName= "Credits",menuName = "Creditos")]
-public class Credits : ScriptableObject
+public class Credits : MonoBehaviour
 {
-   public string[]  Name;
-   public string[]  Rol;
-   public string _agredecimientos;
-   
-   public void AddCredit(string name , string rol)
-   {
-      string[] _newNames = new string[Name.Length + 1];
-      string[] _newRol= new string[Rol.Length + 1];
-
-      for (int i = 0; i < Name.Length; i++)
-      {
-         _newNames[i] = Name[i];
-         _newRol[i] = Rol[i];
-      }
-
-      _newNames[_newNames.Length - 1] = name;
-      _newRol[_newRol.Length - 1] = rol;
-
-      Name = _newNames;
-      Rol = _newRol;
-   }
-   
-}
+    private Vector3 _initialPosition;
+    public float _speed = 5f;
+    private float _destroyY = 1080f;
+    public RectTransform _rectTransform;
+    private bool _isResetting = false;
+  
+    
+    void Start()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        _initialPosition = _rectTransform.anchoredPosition;
+    }
 
     
-
+    void Update()
+    {
+        _rectTransform.anchoredPosition += Vector2.up * _speed * Time.deltaTime;
+        
+        if (_rectTransform.anchoredPosition.y > _destroyY && !_isResetting)
+        {
+            StartCoroutine(ResetPositionWithDelay());
+        }
+    }
+    IEnumerator ResetPositionWithDelay()
+    {
+        _isResetting = true; 
+        yield return new WaitForSeconds(3); 
+        _rectTransform.anchoredPosition = _initialPosition; 
+        _isResetting = false; 
+    }
+    
+}
