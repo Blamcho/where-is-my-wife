@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Credits : MonoBehaviour
+{
+    private Vector3 _initialPosition;
+    public float _speed = 5f;
+    private float _destroyY = 1080f;
+    public RectTransform _rectTransform;
+    private bool _isResetting = false;
+  
+    
+    void Start()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        _initialPosition = _rectTransform.anchoredPosition;
+    }
+
+    
+    void Update()
+    {
+        _rectTransform.anchoredPosition += Vector2.up * _speed * Time.deltaTime;
+        
+        if (_rectTransform.anchoredPosition.y > _destroyY && !_isResetting)
+        {
+            StartCoroutine(ResetPositionWithDelay());
+        }
+    }
+    IEnumerator ResetPositionWithDelay()
+    {
+        _isResetting = true; 
+        yield return new WaitForSeconds(3); 
+        _rectTransform.anchoredPosition = _initialPosition; 
+        _isResetting = false; 
+    }
+    
+}
