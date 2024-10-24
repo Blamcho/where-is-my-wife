@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.Setting  
 {
-    public class ToggleSetting : MonoBehaviour
+    public class ToggleSetting : MenuButton
     {
         [SerializeField] private Toggle _toggle;
 
