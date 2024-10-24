@@ -6,7 +6,10 @@ namespace WhereIsMyWife.Controllers
     public interface IRespawn
     {
         public void SetRespawnPoint(Vector3 respawnPoint);
-        public void TriggerRespawn();
-        public Action<Vector3> RespawnAction { get; set; }
+        public void TriggerRespawnStart();
+        public void TriggerDeath();
+        public Action DeathAction { get; set; }
+        public Action<Vector3> RespawnStartAction { get; set; }
+        public Action RespawnCompleteAction { get; set; }
     }
 }

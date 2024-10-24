@@ -6,6 +6,7 @@ using WhereIsMyWife.Player.State;
 using WhereIsMyWife.Player.StateMachine;
 using WhereIsMyWife.UI;
 
+
 namespace WhereIsMyWife.Managers
 {
     /// <summary>
@@ -504,16 +505,28 @@ namespace WhereIsMyWife.Managers
 
         private Vector3 _respawnPoint;
 
-        public Action<Vector3> RespawnAction { get; set; }
+        public Action DeathAction { get; set; }
+        public Action<Vector3> RespawnStartAction { get; set; }
+        public Action RespawnCompleteAction { get; set; }
 
         public void SetRespawnPoint(Vector3 respawnPoint)
         {
             _respawnPoint = respawnPoint;
         }
-
-        public void TriggerRespawn()
+        
+        public void TriggerDeath()
         {
-            RespawnAction?.Invoke(_respawnPoint);
+            DeathAction?.Invoke();  
+        }
+
+        public void TriggerRespawnStart()
+        {
+            RespawnStartAction?.Invoke(_respawnPoint);
+        }
+
+        public void TriggerRespawnComplete()
+        {
+            RespawnCompleteAction?.Invoke();
         }
     }
 }
