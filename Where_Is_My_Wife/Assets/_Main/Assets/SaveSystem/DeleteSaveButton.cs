@@ -14,7 +14,7 @@ namespace WhereIsMyWife.Managers
 
         private void DeleteSave()
         {
-            SaveManager.Instance.ClearData();
+            
         }
     }
 }

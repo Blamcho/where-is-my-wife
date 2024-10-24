@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace WhereIsMyWife.Managers
 {
-    public class SaveManager : Singleton<SaveManager>
+    public class DataSaveManager : Singleton<DataSaveManager>
     {
         private const string SaveKey = "saved-data";
         private Dictionary<string, object> savedData;
@@ -48,12 +48,6 @@ namespace WhereIsMyWife.Managers
                 savedData = JsonConvert.DeserializeObject<Dictionary<string, object>>(json); 
             }
             Debug.Log("Game data loaded properly.");
-        }
-
-        public void ClearData()
-        {
-            PlayerPrefs.DeleteKey(SaveKey);
-            savedData.Clear();
         }
     }
 }
