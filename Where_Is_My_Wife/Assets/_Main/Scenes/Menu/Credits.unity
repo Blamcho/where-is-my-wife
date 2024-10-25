@@ -657,7 +657,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200.9951, y: 118.6563}
+  m_SizeDelta: {x: 1200.9951, y: 63.9812}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &551332577
 MonoBehaviour:
@@ -692,7 +692,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Abraham
+  m_Text: Abraham Torres
 --- !u!222 &551332578
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1338,13 +1338,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
-  m_Text: 'Fernando
-
-    Abraham
-
-    Jair
-
-    Ricardo'
+  m_Text: "Fernando Gonzalez\nAbraham Torres \nJair Medina\nRicardo Maginniss"
 --- !u!222 &1002881107
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1637,13 +1631,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
-  m_Text: 'Fernando
+  m_Text: 'Fernando Gonzalez
 
-    Abraham
+    Abraham Torres
 
-    Jair
+    Jair Medina
 
-    Ricardo'
+    Ricardo Maginniss'
 --- !u!222 &1148649376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1758,9 +1752,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
-  m_Text: 'Fernando
+  m_Text: 'Fernando Gonzalez
 
-    Ricardo'
+    Ricardo Maginniss'
 --- !u!222 &1376654962
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1911,7 +1905,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200.9951, y: 251.3323}
+  m_SizeDelta: {x: 1200.9951, y: 186.0225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1448057227
 MonoBehaviour:
@@ -1946,11 +1940,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
-  m_Text: 'Fernando
+  m_Text: 'Fernando Gonzalez
 
-    Abraham
+    Abraham Torres
 
-    Jair'
+    Jair Medina'
 --- !u!222 &1448057228
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2635,7 +2629,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200.9951, y: 118.6563}
+  m_SizeDelta: {x: 1200.9951, y: 63.981}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2064682095
 MonoBehaviour:
@@ -2670,7 +2664,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Fernando
+  m_Text: Fernando Gonzalez
 --- !u!222 &2064682096
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2821,7 +2815,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200.9951, y: 118.6563}
+  m_SizeDelta: {x: 1200.9951, y: 63.981}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2112379960
 MonoBehaviour:
@@ -2856,7 +2850,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Fernando
+  m_Text: Fernando Gonzalez
 --- !u!222 &2112379961
 CanvasRenderer:
   m_ObjectHideFlags: 0

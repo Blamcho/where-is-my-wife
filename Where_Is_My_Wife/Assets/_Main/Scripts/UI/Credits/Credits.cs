@@ -1,30 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Credits : MonoBehaviour
+namespace WhereIsMyWife.UI
 {
-    private Vector3 _initialPosition;
-    public float _speed = 250f;
-    private float _destroyY = 1080f;
-    public RectTransform _rectTransform;
-    private bool _isResetting = false;
-  
-    
-    void Start()
+    public class Credits : MonoBehaviour
     {
-        _rectTransform = GetComponent<RectTransform>();
-        _initialPosition = _rectTransform.anchoredPosition;
-    }
-
-    
-    void Update()
-    {
-        _rectTransform.anchoredPosition += Vector2.up * _speed * Time.deltaTime;
+        private Vector3 _initialPosition;
+        public float _speed = 250f;
+        private float _destroyY = 1080f;
+        public RectTransform _rectTransform;
+        private bool _isResetting = false;
         
-        if (_rectTransform.anchoredPosition.y > _destroyY && !_isResetting)
+        void Start()
         {
-            _rectTransform.anchoredPosition = _initialPosition; 
+            _rectTransform = GetComponent<RectTransform>();
+            _initialPosition = _rectTransform.anchoredPosition;
+        }
+
+        void Update()
+        {
+            _rectTransform.anchoredPosition += Vector2.up * (_speed * Time.deltaTime);
+        
+            if (_rectTransform.anchoredPosition.y > _destroyY && !_isResetting)
+            {
+                _rectTransform.anchoredPosition = _initialPosition; 
+            }
         }
     }
 }
+
