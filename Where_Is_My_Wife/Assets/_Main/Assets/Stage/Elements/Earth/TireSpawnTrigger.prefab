@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53afa460f3987e4e9cb729f09b349d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tirePrefab: {fileID: 5189654470362143659, guid: 565162daa4377e74ea489717c7520d7d, type: 3}
+  _enemyController: {fileID: 0}
   _spawnTransform: {fileID: 7181353184278045715}
 --- !u!212 &8156332038916611782
 SpriteRenderer:
@@ -136,7 +136,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.28465402, g: 1, b: 0, a: 0.46666667}
+  m_Color: {r: 1, g: 0, b: 0.033491135, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
