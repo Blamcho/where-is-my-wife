@@ -5,7 +5,7 @@ using UnityEngine;
 public class Credits : MonoBehaviour
 {
     private Vector3 _initialPosition;
-    public float _speed = 5f;
+    public float _speed = 250f;
     private float _destroyY = 1080f;
     public RectTransform _rectTransform;
     private bool _isResetting = false;
@@ -24,15 +24,7 @@ public class Credits : MonoBehaviour
         
         if (_rectTransform.anchoredPosition.y > _destroyY && !_isResetting)
         {
-            StartCoroutine(ResetPositionWithDelay());
+            _rectTransform.anchoredPosition = _initialPosition; 
         }
     }
-    IEnumerator ResetPositionWithDelay()
-    {
-        _isResetting = true; 
-        yield return new WaitForSeconds(3); 
-        _rectTransform.anchoredPosition = _initialPosition; 
-        _isResetting = false; 
-    }
-    
 }
