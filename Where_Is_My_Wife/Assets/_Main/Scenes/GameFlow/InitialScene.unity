@@ -149,15 +149,15 @@ RectTransform:
   m_GameObject: {fileID: 330763556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 7.2, y: 8, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1959648893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5202293, y: 0.661}
-  m_AnchorMax: {x: 0.5202293, y: 0.661}
-  m_AnchoredPosition: {x: 5, y: -37}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &330763558
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2739a04a69dc5904e919350873f41f36, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 98698cb483df0554190ae8cfdb8535f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -452,6 +452,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainMenuSceneName: MainMenu
   _canvasGroup: {fileID: 1959648895}
+  _fadeDuration: 0.5
+  _stayDuration: 2
 --- !u!225 &1959648895
 CanvasGroup:
   m_ObjectHideFlags: 0
