@@ -51,16 +51,7 @@ namespace WhereIsMyWife.Controllers
             await _rightPanel.rectTransform.DOAnchorPosX(0, _animationDuration)
                 .SetEase(_ease).AsyncWaitForCompletion();
 
-            await RespawnPointTransitionAnimation.RespawnComplete();
-        }
-    }
-
-    public static class RespawnPointTransitionAnimation
-    {
-        public static async UniTask RespawnComplete()
-        {
             PlayerManager.Instance.TriggerRespawnComplete();
-            await UniTask.Yield();  
         }
     }
 }
