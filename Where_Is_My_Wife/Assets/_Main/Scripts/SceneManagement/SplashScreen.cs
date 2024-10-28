@@ -9,6 +9,8 @@ namespace WhereIsMyWife.SceneManagement
     {
         [SerializeField] private string _mainMenuSceneName = "MainMenu";
         [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private float _completelyVisibleTime = 2f;
+        [SerializeField] private float _fadeTime = 1f;
 
         private void Start()
         {
@@ -17,8 +19,11 @@ namespace WhereIsMyWife.SceneManagement
 
         private async UniTaskVoid SplashScreenAsync()
         {
+            _canvasGroup.alpha = 0;
             Sequence _splashScreen = DOTween.Sequence();
-            _splashScreen.Append(_canvasGroup.DOFade(1, 2f));
+            _splashScreen.Append(_canvasGroup.DOFade(1, _fadeTime));
+            _splashScreen.AppendInterval(_completelyVisibleTime);
+            _splashScreen.Append(_canvasGroup.DOFade(0, _fadeTime));
             await _splashScreen.AsyncWaitForCompletion();
 
             LevelManager.Instance.LoadScene(_mainMenuSceneName);
