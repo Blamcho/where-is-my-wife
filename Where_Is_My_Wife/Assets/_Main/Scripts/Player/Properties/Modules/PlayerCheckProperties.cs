@@ -6,7 +6,8 @@ namespace WhereIsMyWife.Managers.Properties
     {
         public Vector2 GroundCheckSize { get; }
         public Vector2 WallHangCheckSize { get; }
-        public LayerMask GroundLayer { get; }
+        public LayerMask GroundCheckLayerMask { get; }
+        public LayerMask WallHangCheckLayerMask { get; }
     }
 
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/Modules/CheckProperties", 
@@ -17,6 +18,7 @@ namespace WhereIsMyWife.Managers.Properties
         
         [field:SerializeField] public Vector2 GroundCheckSize { get; private set; }
         [field:SerializeField] public Vector2 WallHangCheckSize { get; private set; }
-        [field:SerializeField] public LayerMask GroundLayer { get; private set; }
+        [field:SerializeField] public LayerMask GroundCheckLayerMask { get; private set; }
+        [field:SerializeField] public LayerMask WallHangCheckLayerMask { get; private set; }
     }
 }

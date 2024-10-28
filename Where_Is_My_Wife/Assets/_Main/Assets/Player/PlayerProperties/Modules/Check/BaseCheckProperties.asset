@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GroundCheckSize>k__BackingField: {x: 0.3, y: 0.03}
   <WallHangCheckSize>k__BackingField: {x: 0.1, y: 0.1}
-  <GroundLayer>k__BackingField:
+  <GroundCheckLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 72
+  <WallHangCheckLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 8
