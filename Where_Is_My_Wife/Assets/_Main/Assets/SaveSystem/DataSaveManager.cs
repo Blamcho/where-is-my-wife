@@ -39,7 +39,7 @@ namespace WhereIsMyWife.Managers
         private void Load()
         {
             string json = PlayerPrefs.GetString(SaveKey,null);
-            if (json == null)
+            if (json == null || json == "")
             {
                 savedData = new Dictionary<string, object>();
             }
