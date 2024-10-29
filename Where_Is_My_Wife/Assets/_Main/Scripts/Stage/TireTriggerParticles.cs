@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class TireTriggerParticles : MonoBehaviour
+namespace WhereIsMyWife.Stage
 {
-    [SerializeField] private ParticleSystem _particleSystem;
-    [SerializeField] private GameObject _parentGameObject;
-    
-    private void Awake()
+    public class TireTriggerParticles : MonoBehaviour
     {
-        var shape = _particleSystem.shape;
-        shape.radius = _parentGameObject.transform.localScale.x / 2;
+        [SerializeField] private ParticleSystem _particleSystem;
+        [SerializeField] private GameObject _parentGameObject;
+    
+        private void Awake()
+        {
+            var shape = _particleSystem.shape;
+            shape.radius = _parentGameObject.transform.localScale.x / 2;
         
-        var emission = _particleSystem.emission;
-        emission.rateOverTime = new ParticleSystem.MinMaxCurve(emission.rateOverTime.constant * _parentGameObject.transform.localScale.x);
+            var emission = _particleSystem.emission;
+            emission.rateOverTime = new ParticleSystem.MinMaxCurve(emission.rateOverTime.constant * _parentGameObject.transform.localScale.x);
+        }
     }
 }
