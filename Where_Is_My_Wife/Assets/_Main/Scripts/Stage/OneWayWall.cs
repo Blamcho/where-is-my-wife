@@ -1,4 +1,6 @@
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace WhereIsMyWife.Stage
 {
@@ -7,6 +9,8 @@ namespace WhereIsMyWife.Stage
     {
         [SerializeField] private bool _wallIsOnRightSide;
         [SerializeField] private int _targetLayer;
+        [SerializeField] private Tilemap _tilemap;
+        [SerializeField] private float _fadeInDuration = 0.15f;
         
         private Collider2D _collider2D;
 
@@ -17,6 +21,7 @@ namespace WhereIsMyWife.Stage
 
         private void OnTriggerExit2D(Collider2D other)
         {
+            Debug.Log("Exiting");
             if (!other.CompareTag("Player")) return;
             
             bool playerExitedFromTheRight = other.transform.position.x > transform.position.x;
@@ -25,6 +30,8 @@ namespace WhereIsMyWife.Stage
             {
                 _collider2D.isTrigger = false;
                 gameObject.layer = _targetLayer;
+                Color currentColor = _tilemap.color;
+                DOTween.To(() => _tilemap.color, x => _tilemap.color = x, Color.white, _fadeInDuration);
             }
         }
     }
