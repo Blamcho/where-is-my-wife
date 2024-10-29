@@ -15,7 +15,7 @@ public class Hazard : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _respawn.TriggerRespawn();
+            _respawn.TriggerDeath();
         }
     }
 }

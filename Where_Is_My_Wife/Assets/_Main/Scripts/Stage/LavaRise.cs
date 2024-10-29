@@ -13,12 +13,12 @@ using WhereIsMyWife.Managers;
         {
             _initialPosition = transform.position;
 
-            PlayerManager.Instance.Respawn.RespawnAction += ResetLava;
+            PlayerManager.Instance.Respawn.RespawnStartAction += ResetLava;
         }
 
         private void OnDestroy()
         {
-            PlayerManager.Instance.Respawn.RespawnAction -= ResetLava;
+            PlayerManager.Instance.Respawn.RespawnStartAction -= ResetLava;
         }
 
         void Update()
