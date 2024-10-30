@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 namespace WhereIsMyWife.SceneManagement
 {
@@ -10,7 +11,7 @@ namespace WhereIsMyWife.SceneManagement
         [SerializeField] private Button _nextSceneButton;
         [SerializeField] private Image[] comicImages; 
         [SerializeField] private float fadeDuration = 1f; 
-        [SerializeField] private float intervalBetweenImages = 2f; 
+        [SerializeField] private float intervalBetweenImages = 2f;
 
         private void Start()
         {

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 namespace WhereIsMyWife.UI
 {
     [RequireComponent(typeof(Button))]
-    public class MenuButton : MonoBehaviour, ISelectHandler, IDeselectHandler
+    public abstract class MenuButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         protected Button _button;
         
