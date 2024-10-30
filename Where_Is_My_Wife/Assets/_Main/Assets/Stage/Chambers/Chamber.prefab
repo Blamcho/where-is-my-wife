@@ -2682,7 +2682,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -3173,7 +3173,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -3338,7 +3338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4753255668408539456
 Transform:
   m_ObjectHideFlags: 0
@@ -3618,7 +3618,7 @@ Tilemap:
     m_Data: {r: 6.756e-41, g: 6.756e-41, b: 6.756e-41, a: 6.756e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.011764706}
   m_Origin: {x: -23, y: -15, z: 0}
   m_Size: {x: 45, y: 30, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -3737,7 +3737,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5736148595722373116
 Transform:
   m_ObjectHideFlags: 0
@@ -4017,7 +4017,7 @@ Tilemap:
     m_Data: {r: 6.756e-41, g: 6.756e-41, b: 6.756e-41, a: 6.756e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4716981, g: 0.461876, b: 0.44277322, a: 1}
   m_Origin: {x: -23, y: -15, z: 0}
   m_Size: {x: 45, y: 30, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -4385,7 +4385,7 @@ Tilemap:
     m_Data: {r: 6.756e-41, g: 6.756e-41, b: 6.756e-41, a: 6.756e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.019607844}
   m_Origin: {x: -23, y: -15, z: 0}
   m_Size: {x: 45, y: 30, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -4511,7 +4511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9154599072364946827
 Transform:
   m_ObjectHideFlags: 0
@@ -4791,7 +4791,7 @@ Tilemap:
     m_Data: {r: 6.756e-41, g: 6.756e-41, b: 6.756e-41, a: 6.756e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47058824, g: 0.4627451, b: 0.44313726, a: 1}
   m_Origin: {x: -23, y: -15, z: 0}
   m_Size: {x: 45, y: 30, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}

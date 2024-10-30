@@ -137,7 +137,7 @@ namespace WhereIsMyWife.Managers
                 PlayerControllerData.GroundCheckPosition,
                 Properties.Check.GroundCheckSize,
                 0,
-                Properties.Check.GroundLayer
+                Properties.Check.GroundCheckLayerMask
             );
         }
 
@@ -165,13 +165,13 @@ namespace WhereIsMyWife.Managers
                     PlayerControllerData.WallHangCheckUpPosition,
                     Properties.Check.WallHangCheckSize,
                     0,
-                    Properties.Check.GroundLayer
+                    Properties.Check.WallHangCheckLayerMask
                 )
                 && Physics2D.OverlapBox(
                     PlayerControllerData.WallHangCheckDownPosition,
                     Properties.Check.WallHangCheckSize,
                     0,
-                    Properties.Check.GroundLayer
+                    Properties.Check.WallHangCheckLayerMask
                 )
             );
         }

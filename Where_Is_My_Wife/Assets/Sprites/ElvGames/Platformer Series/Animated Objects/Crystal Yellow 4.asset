@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: Crystal Yellow 4
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -877370628, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  - {fileID: -910882086, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  - {fileID: 1683719531, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  - {fileID: -612977794, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  - {fileID: 106878992, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  - {fileID: -1712386129, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  - {fileID: -795456185, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  - {fileID: 1723071678, guid: bdca9860f7c219346a3b182825cf2fd8, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 8
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 2
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0

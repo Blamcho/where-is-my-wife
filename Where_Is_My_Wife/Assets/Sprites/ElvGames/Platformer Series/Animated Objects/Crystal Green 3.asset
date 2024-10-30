@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: Crystal Green 3
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: 1475195700, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  - {fileID: -2095650557, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  - {fileID: 339253117, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  - {fileID: -678837899, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  - {fileID: 53797256, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  - {fileID: 368884031, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  - {fileID: -1393592862, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  - {fileID: -1272430868, guid: f7036133dc163374dbe79ac5099959ff, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 8
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 4
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0
