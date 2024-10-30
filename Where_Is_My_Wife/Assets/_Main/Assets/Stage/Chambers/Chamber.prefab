@@ -4871,6 +4871,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 2205077736419873349}
     m_Modifications:
     - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
+      propertyPath: _nextPosition
+      value: 
+      objectReference: {fileID: 2205077736419873349}
+    - target: {fileID: 4270536373805715950, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: _chamberTransform
       value: 
       objectReference: {fileID: 2205077736419873349}
@@ -4884,7 +4888,7 @@ PrefabInstance:
       objectReference: {fileID: 1886357346904633996}
     - target: {fileID: 7189761198007123611, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_Name
-      value: ChamberTrigger
+      value: CameraTrigger
       objectReference: {fileID: 0}
     - target: {fileID: 8626848311044713122, guid: 1841561dee4d8a343ad7490fede3da5e, type: 3}
       propertyPath: m_LocalPosition.x
