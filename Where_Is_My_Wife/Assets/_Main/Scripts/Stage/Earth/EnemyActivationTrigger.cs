@@ -5,6 +5,7 @@ public class EnemyActivationTrigger : MonoBehaviour
 {
     [SerializeField] private EnemyController _enemyController;
     [SerializeField] private Transform _spawnTransform;
+    [SerializeField] private ParticleSystem _particleSystem;
     
     private bool _hasBeenTriggeredAlready;
 
@@ -16,6 +17,7 @@ public class EnemyActivationTrigger : MonoBehaviour
     private void Reset(Vector3 _)
     {
         _hasBeenTriggeredAlready = false;
+        _particleSystem.Play();
     }
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,6 +26,7 @@ public class EnemyActivationTrigger : MonoBehaviour
         {
             _hasBeenTriggeredAlready = true;
             _enemyController.Activate(_spawnTransform.position);
+            _particleSystem.Stop();
         }
     }
 }

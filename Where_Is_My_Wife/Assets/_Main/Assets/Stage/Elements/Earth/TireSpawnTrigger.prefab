@@ -50,7 +50,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -4940,6 +4940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyController: {fileID: 0}
   _spawnTransform: {fileID: 7181353184278045715}
+  _particleSystem: {fileID: 5825214839166056991}
 --- !u!212 &8156332038916611782
 SpriteRenderer:
   m_ObjectHideFlags: 0
