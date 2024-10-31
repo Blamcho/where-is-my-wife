@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1f3b9bf440aef4f8ad0f74483d8f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lava: {fileID: 780671523416600034}
+  _lava: {fileID: 780671523416600034}
 --- !u!1 &3974394922753358383
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,5 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6444e59af1eeab4381858ba50df0447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riseSpeed: 3
+  _riseSpeed: 1
   _maxHeightTransform: {fileID: 1035849196787219641}
+  _initialPosition: {x: 0, y: 0, z: 0}
+  _isRising: 0

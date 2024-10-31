@@ -6,9 +6,10 @@ namespace WhereIsMyWife.Platforms_fade_away
 {
     public class CrumblingPlatform : MonoBehaviour
     {
-        [SerializeField] private float timeBeforeFade = 2f;
-        [SerializeField] private float fadeDuration = 1f;
-        [SerializeField] private float respawnTime = 5f;
+        [SerializeField] private float _timeBeforeFade = 2f;
+        [SerializeField] private float _fadeDuration = 1f;
+        [SerializeField] private float _respawnTime = 5f;
+        [SerializeField] private bool _shouldTimerResetsWhenPlayerLeavesPlatform = true;
         
         private SpriteRenderer _spriteRenderer;
         private Collider2D _platformCollider;
@@ -26,9 +27,9 @@ namespace WhereIsMyWife.Platforms_fade_away
             if (_isPlayerOnPlatform)
             {
                 _timeOnPlatform += Time.deltaTime;
-                if (_timeOnPlatform >= timeBeforeFade)
+                if (_timeOnPlatform >= _timeBeforeFade)
                 {
-                    float alpha = Mathf.Lerp(1f, 0f, (_timeOnPlatform - timeBeforeFade) / fadeDuration);
+                    float alpha = Mathf.Lerp(1f, 0f, (_timeOnPlatform - _timeBeforeFade) / _fadeDuration);
                     _spriteRenderer.color = new Color(1f, 1f, 1f, alpha);
                     if (alpha <= 0f)
                     {
@@ -50,7 +51,7 @@ namespace WhereIsMyWife.Platforms_fade_away
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.CompareTag("Player"))
+            if (collision.CompareTag("Player") && _shouldTimerResetsWhenPlayerLeavesPlatform)
             {
                 _isPlayerOnPlatform = false;
                 _timeOnPlatform = 0f;
@@ -60,7 +61,8 @@ namespace WhereIsMyWife.Platforms_fade_away
 
         private IEnumerator RespawnPlatform()
         {
-            yield return new WaitForSeconds(respawnTime);
+            yield return new WaitForSeconds(_respawnTime);
+            _isPlayerOnPlatform = false;
             _spriteRenderer.enabled = true;
             _platformCollider.enabled = true;
             _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
