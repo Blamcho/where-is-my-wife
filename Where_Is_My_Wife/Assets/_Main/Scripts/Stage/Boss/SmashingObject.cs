@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Stage
@@ -9,7 +10,7 @@ namespace WhereIsMyWife.Stage
     {
         [SerializeField] private Transform _objectPivot;
         [SerializeField] private SpriteRenderer _spriteRenderer;
-        [SerializeField] private Hazard _hazardComponent;
+        [SerializeField] private Collider2D _hazardCollider;
         [SerializeField] private float _fadeTime;
         [SerializeField] private float _smashAnticipationTime;
         [SerializeField] private float _smashActionTime;
@@ -49,9 +50,9 @@ namespace WhereIsMyWife.Stage
 
             sequence.Append(_objectPivot.DOShakePosition(_smashAnticipationTime, _shakeStrength))
                 .Join(_spriteRenderer.DOFade(1f, _smashAnticipationTime));
-            sequence.AppendCallback(() => { _hazardComponent.enabled = true; });
+            sequence.AppendCallback(() => { _hazardCollider.enabled = true; });
             sequence.Append(_objectPivot.DOMoveY(transform.position.y, _smashActionTime));
-            sequence.AppendCallback(() => { _hazardComponent.enabled = false; });
+            sequence.AppendCallback(() => { _hazardCollider.enabled = false; });
             sequence.Append(_spriteRenderer.DOFade(0f, _smashAnticipationTime));
 
             Deactivate();
@@ -60,7 +61,7 @@ namespace WhereIsMyWife.Stage
         private void Deactivate()
         {
             _isActive = false;
-            _hazardComponent.enabled = false;
+            _hazardCollider.enabled = false;
             _objectPivot.position = _originalPosition;
         }
 

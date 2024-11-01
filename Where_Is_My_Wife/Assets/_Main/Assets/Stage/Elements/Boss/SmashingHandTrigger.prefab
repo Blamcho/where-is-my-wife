@@ -93,9 +93,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectPivot: {fileID: 4804233638404906101}
   _spriteRenderer: {fileID: 2648410812385042361}
-  _hazardComponent: {fileID: 7944893498043980460}
+  _hazardCollider: {fileID: 3853137579670024341}
   _fadeTime: 0.3
-  _smashAnticipationTime: 0.6
+  _smashAnticipationTime: 0.8
   _smashActionTime: 0.2
   _shakeStrength: 0.25
 --- !u!1 &4975630160443689592
@@ -223,7 +223,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7592909059470613846}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7592909059470613846}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05a4e46c6a15fb047aa33b60d0731f5a, type: 3}
   m_Name: 
