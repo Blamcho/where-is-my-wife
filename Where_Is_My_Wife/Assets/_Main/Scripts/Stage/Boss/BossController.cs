@@ -44,11 +44,7 @@ public class BossController : MonoBehaviour
         _firingSequence = DOTween.Sequence();
 
         _firingSequence.AppendInterval(Random.Range(_minProjectileSpawnInterval, _maxProjectileSpawnInterval));
-        
-        _firingSequence.AppendCallback(() =>
-        {
-            Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
-        });
+        _firingSequence.AppendCallback(() => { Instantiate(_projectilePrefab, transform.position, Quaternion.identity);});
 
         _firingSequence.SetLoops(-1, LoopType.Restart);
     }
