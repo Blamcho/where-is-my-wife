@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -6,19 +7,20 @@ namespace WhereIsMyWife.Platforms_fade_away
 {
     public class CrumblingPlatform : MonoBehaviour
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private float _shakeStrength = 1f;
         [SerializeField] private float _timeBeforeFade = 2f;
         [SerializeField] private float _fadeDuration = 1f;
         [SerializeField] private float _respawnTime = 5f;
         [SerializeField] private bool _shouldTimerResetsWhenPlayerLeavesPlatform = true;
-        
-        private SpriteRenderer _spriteRenderer;
+
+        private Tween _shakeTween;
         private Collider2D _platformCollider;
         private bool _isPlayerOnPlatform = false;
         private float _timeOnPlatform = 0f;
 
         void Start()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _platformCollider = GetComponent<Collider2D>();
         }
 
@@ -45,6 +47,7 @@ namespace WhereIsMyWife.Platforms_fade_away
         {
             if (collision.CompareTag("Player"))
             {
+                _shakeTween = _spriteRenderer.transform.DOShakePosition(_timeBeforeFade, _shakeStrength);
                 _isPlayerOnPlatform = true;
             }
         }
@@ -53,6 +56,7 @@ namespace WhereIsMyWife.Platforms_fade_away
         {
             if (collision.CompareTag("Player") && _shouldTimerResetsWhenPlayerLeavesPlatform)
             {
+                _shakeTween.Kill();
                 _isPlayerOnPlatform = false;
                 _timeOnPlatform = 0f;
                 _spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
@@ -62,6 +66,7 @@ namespace WhereIsMyWife.Platforms_fade_away
         private IEnumerator RespawnPlatform()
         {
             yield return new WaitForSeconds(_respawnTime);
+            _shakeTween.Kill();
             _isPlayerOnPlatform = false;
             _spriteRenderer.enabled = true;
             _platformCollider.enabled = true;
