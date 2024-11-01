@@ -12,15 +12,21 @@ namespace WhereIsMyWife.Managers
         
         public event Action StartFiringEvent;
         public event Action StopFiringEvent;
+        public event Action StartSwayingEvent;
+        public event Action StopSwayingEvent;
 
         public void ClearStage(int clearedStageNumber)
         {
+            Debug.Log($"Cleared stage {clearedStageNumber}");
+            
             if (clearedStageNumber >= _bossStagesAmount)
             {
+                Debug.Log("Boss Defeated");
                 Die();
             }
             else
             {
+                Debug.Log($"Advancing to stage {clearedStageNumber + 1}");
                 GoToNextStageEvent?.Invoke(clearedStageNumber + 1);
             }
         }
@@ -35,10 +41,26 @@ namespace WhereIsMyWife.Managers
             StopFiringEvent?.Invoke();
         }
 
+        public void StartSwaying()
+        {
+            StartSwayingEvent?.Invoke();
+        }
+
+        public void StopSwaying()
+        {
+            StopSwayingEvent?.Invoke();
+        }
+        
         private void Die()
         {
             // TODO: Add or call death/defeat animation
             LevelManager.Instance.LoadScene(_storyEndSceneName);
+        }
+        
+        public enum BossAction
+        {
+            Swaying,
+            Firing,
         }
     }
 }

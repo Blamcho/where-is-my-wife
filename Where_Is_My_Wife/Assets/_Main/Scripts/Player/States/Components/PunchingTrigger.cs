@@ -6,7 +6,10 @@ public class PunchingTrigger : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemyController>()?.Deactivate();
+            foreach (IPunchable punchable in other.GetComponents<IPunchable>())
+            {
+                punchable.Punch();
+            }
         }
     }
 }

@@ -1,29 +1,42 @@
-using System;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using WhereIsMyWife.Managers;
-using Random = UnityEngine.Random;
 
 public class BossController : MonoBehaviour
 {
+    [Header("Swaying")]
+    [SerializeField] private float _swayDistance = 2f; 
+    [SerializeField] private float _cycleDuration = 1f;
+    [SerializeField] private Ease _ease = Ease.InOutSine;
+    
+    [Header("Projectile Spawning")]
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private float _minProjectileSpawnInterval = 1f;
     [SerializeField] private float _maxProjectileSpawnInterval = 3f;
+
+    private Vector3 _originalPosition; 
     
+    private Sequence _swaySequence;
     private Sequence _firingSequence;
+    
+    private BossManager _bossManager;
     
     private void Start()
     {
-        BossManager.Instance.StartFiringEvent += StartFiring;
-        BossManager.Instance.StopFiringEvent += StopFiring;
+        _bossManager = BossManager.Instance;
+        _bossManager.StartFiringEvent += StartFiring;
+        _bossManager.StopFiringEvent += StopFiring;
+        _bossManager.StartSwayingEvent += StartSwaying;
+        _bossManager.StopSwayingEvent += StopSwaying;
     }
 
     private void OnDestroy()
     {
-        BossManager.Instance.StartFiringEvent -= StartFiring;
-        BossManager.Instance.StopFiringEvent -= StopFiring;
+        _bossManager.StartFiringEvent -= StartFiring;
+        _bossManager.StopFiringEvent -= StopFiring;
+        _bossManager.StartSwayingEvent -= StartSwaying;
+        _bossManager.StopSwayingEvent -= StopSwaying;
     }
 
     private void StartFiring()
@@ -43,5 +56,26 @@ public class BossController : MonoBehaviour
     private void StopFiring()
     {
         _firingSequence.Kill();
+    }
+
+    private void StartSwaying()
+    {
+        Vector3 startPosition = transform.localPosition;
+        startPosition.x = _swayDistance;
+        transform.localPosition = startPosition;
+        
+        _swaySequence = DOTween.Sequence();
+        
+        _swaySequence.Append(transform.DOLocalMoveX(-_swayDistance, _cycleDuration / 2).SetEase(_ease));
+        _swaySequence.Append(transform.DOLocalMoveX(_swayDistance, _cycleDuration / 2).SetEase(_ease));
+        
+        _swaySequence.SetLoops(-1, LoopType.Restart);
+    }
+
+    private void StopSwaying()
+    {
+        _swaySequence.Kill();
+        
+        transform.DOLocalMoveX(0, 0.5f).SetEase(_ease);
     }
 }

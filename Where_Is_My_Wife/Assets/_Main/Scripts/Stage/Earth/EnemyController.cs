@@ -1,7 +1,7 @@
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IPunchable
 {
     protected Vector2 _playerPosition;
     protected bool _isMovingTowardsPlayer;
@@ -45,5 +45,10 @@ public class EnemyController : MonoBehaviour
     protected void UpdatePlayerPosition()
     {
         _playerPosition = PlayerManager.Instance.PlayerControllerData.RigidbodyPosition;
+    }
+
+    public void Punch()
+    {
+        Deactivate();
     }
 }
