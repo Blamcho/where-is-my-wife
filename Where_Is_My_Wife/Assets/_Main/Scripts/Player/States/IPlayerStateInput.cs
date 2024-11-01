@@ -15,7 +15,6 @@ namespace WhereIsMyWife.Player.State
         Action<float> FallSpeedCap { get; set; }
         Action Land { get; set; }
         Action HookStart { get; set; }
-        Action<Vector2> HookEnd { get; set; }
         Action PunchStart { get; set; }
         Action PunchEnd { get; set; }
     }

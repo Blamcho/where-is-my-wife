@@ -77,7 +77,6 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.canceled += OnMoveCancel;
             _playerInputActions.Normal.Dash.performed += OnDash;
             _playerInputActions.Normal.Hook.started += OnHookStart;
-            _playerInputActions.Normal.Hook.canceled += OnHookCancel;
             _playerInputActions.Normal.Punch.started += OnPunchStarted;
 
             _playerInputActions.Special.Pause.started += OnPauseStart;
@@ -96,7 +95,6 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
             _playerInputActions.Normal.Dash.performed -= OnDash;
             _playerInputActions.Normal.Hook.started -= OnHookStart;
-            _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
             _playerInputActions.Normal.Punch.started -= OnPunchStarted;
             
             _playerInputActions.Special.Pause.started -= OnPauseStart;
@@ -160,12 +158,7 @@ namespace WhereIsMyWife.Managers
         private void OnHookStart(InputAction.CallbackContext context)
         {
             HookStartAction?.Invoke();
-        }
-
-        private void OnHookCancel(InputAction.CallbackContext context)
-        {
-            HookEndAction?.Invoke();
-        }       
+        }      
         
         private void OnPunchStarted(InputAction.CallbackContext context)
         {

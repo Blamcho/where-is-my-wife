@@ -18,7 +18,7 @@ namespace WhereIsMyWife.Managers
         public float DashSpeed { get; }
         public bool IsInQTEWindow { get; }
         public Vector2 HookPosition { get; }
-        public Vector2 HookLaunchVelocity { get; }
+        public Vector2 HookLaunchImpulse { get; }
         public bool IsOnJumpInputBuffer();
         public bool IsFastFalling();
         public bool IsOnGround();

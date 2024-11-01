@@ -98,7 +98,7 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.FallingSpeed += SetFallSpeed;
 
             _hookStateEvents.GravityScale += SetGravityScale;
-            _hookStateEvents.SetVelocity += SetVelocity;
+            _hookStateEvents.AddImpulse += AddImpulse;
             _hookStateEvents.SetPosition += SetPosition;
 
             _punchingStateEvents.Run += Run;
@@ -129,7 +129,7 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
 
             _hookStateEvents.GravityScale += SetGravityScale;
-            _hookStateEvents.SetVelocity += SetVelocity;
+            _hookStateEvents.AddImpulse += AddImpulse;
             _hookStateEvents.SetPosition += SetPosition;
         }
 
@@ -168,9 +168,10 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.position = position;
         }
 
-        private void SetVelocity(Vector2 velocity)
+        private void AddImpulse(Vector2 velocity)
         {
-            _rigidbody2D.velocity = velocity;
+            _rigidbody2D.velocity = Vector2.zero;
+            _rigidbody2D.AddForce(velocity, ForceMode2D.Impulse);
         }
 
         private void SetGravityScale(float gravityScale)
