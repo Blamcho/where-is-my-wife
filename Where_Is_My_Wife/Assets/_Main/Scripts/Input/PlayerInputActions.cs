@@ -202,7 +202,7 @@ namespace WIMW.Input
                     ""id"": ""fad5dad9-aa0e-45fb-bf76-c0ea04756bb7"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": """",
                     ""action"": ""Hook"",
                     ""isComposite"": false,

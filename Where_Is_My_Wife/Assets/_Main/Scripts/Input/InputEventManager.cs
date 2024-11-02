@@ -42,6 +42,8 @@ namespace WhereIsMyWife.Managers
         private float _axisControllerDetectionThreshold = 0.1f;
         private float _horizontalDeadZone = 0.5f;
         private float _lookDownThreshold = 0.7f;
+
+        private bool _isPressingHook = false;
         
         protected override void Awake()
         {
@@ -159,14 +161,16 @@ namespace WhereIsMyWife.Managers
 
         private void OnHookStart(InputAction.CallbackContext context)
         {
+            if (_isPressingHook) { return; }
+            _isPressingHook = true;
             HookStartAction?.Invoke();
         }
 
         private void OnHookCancel(InputAction.CallbackContext context)
         {
-            HookEndAction?.Invoke();
-        }       
-        
+            _isPressingHook = false;
+        }
+
         private void OnPunchStarted(InputAction.CallbackContext context)
         {
             PunchAction?.Invoke();

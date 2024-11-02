@@ -23,7 +23,6 @@ namespace WhereIsMyWife.Managers
         public IPlayerProperties Properties => _propertiesSO.Properties;
 
         private IPlayerInputEvent _playerInputEvent;
-        private IHookUIEvents _hookUIEvents;
 
         private IRunningMethods _runningMethods = new RunningMethods().Methods;
         private IJumpingMethods _jumpingMethods = new JumpingMethods().Methods;
@@ -43,11 +42,11 @@ namespace WhereIsMyWife.Managers
 
         // Hook Attempt Flag
         private bool _canAttemptHook = false;
+        private bool _isExecutingHook = false;
         
         private void Start()
         {
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
-            _hookUIEvents = HookUIBar.Instance.HookUIEvents;
 
             SubscribeToObservables();
 
@@ -148,6 +147,7 @@ namespace WhereIsMyWife.Managers
                 if (ShouldStartWallHang())
                 {
                     IsOnWallHang = true;
+                    _isExecutingHook = false;
                     WallHangStart?.Invoke();
                 }
             }
@@ -212,6 +212,7 @@ namespace WhereIsMyWife.Managers
             {
                 IsJumpCut = false;
                 IsJumpFalling = false;
+                _isExecutingHook = false;
                 Land?.Invoke();
             }
         }
@@ -231,8 +232,13 @@ namespace WhereIsMyWife.Managers
 
         private void GravityShifts()
         {
+            if (_isExecutingHook)
+            {
+                SetGravityScale(Properties.Gravity.Scale * Properties.Gravity.HookMultiplier);
+                SetFallSpeedCap(Properties.Gravity.MaxFastFallSpeed);
+            }
             // Make player fall faster if holding down
-            if (IsFastFalling())
+            else if (IsFastFalling())
             {
                 SetGravityScale(Properties.Gravity.Scale * Properties.Gravity.FastFallMultiplier);
                 SetFallSpeedCap(Properties.Gravity.MaxFastFallSpeed);
@@ -279,11 +285,7 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.DashAction += ExecuteDashStartEvent;
             _playerInputEvent.LookDownAction += ExecuteLookDownEvent;
             _playerInputEvent.HookStartAction += ExecuteHookStartEvent;
-            _playerInputEvent.HookEndAction += ExecuteHookEndEvent;
             _playerInputEvent.PunchAction += ExecutePunchStartEvent;
-
-            _hookUIEvents.QTEStateEvent += SetIsInQTEWindow;
-            _hookUIEvents.QTETimeExpired += QTETimeHasExpired;
         }
 
         private void UnsubscribeToObservables()
@@ -294,14 +296,10 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.DashAction -= ExecuteDashStartEvent;
             _playerInputEvent.LookDownAction -= ExecuteLookDownEvent;
             _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
-            _playerInputEvent.HookEndAction -= ExecuteHookEndEvent;
             _playerInputEvent.PunchAction -= ExecutePunchStartEvent;
 
             PlayerControllerData.TriggerEnterEvent -= TriggerEnter;
             PlayerControllerData.TriggerExitEvent -= TriggerExit;
-
-            _hookUIEvents.QTEStateEvent -= SetIsInQTEWindow;
-            _hookUIEvents.QTETimeExpired -= QTETimeHasExpired;
         }
     }
 
@@ -322,7 +320,7 @@ namespace WhereIsMyWife.Managers
         public bool IsInHookRange { get; private set; } = false;
         public bool IsInQTEWindow { get; private set; } = false;
         public Vector2 HookPosition { get; private set; }
-        public Vector2 HookLaunchVelocity { get; private set; }
+        public Vector2 HookLaunchImpulse { get; private set; }
 
         public float DashSpeed { get; private set; } = 0f;
         public bool IsInDoubleJumpTrigger { get; private set; } = false;
@@ -392,7 +390,6 @@ namespace WhereIsMyWife.Managers
         public Action<float> FallSpeedCap { get; set; }
         public Action Land { get; set; }
         public Action HookStart { get; set; }
-        public Action<Vector2> HookEnd { get; set; }
         public Action PunchStart { get; set; }
         public Action PunchEnd { get; set; }
 
@@ -429,6 +426,7 @@ namespace WhereIsMyWife.Managers
             if (InAir() && _canDash)
             {
                 DashSpeed = dashDirection * Properties.Dash.Speed;
+                _isExecutingHook = false;
                 DashStart?.Invoke(DashSpeed);
                 _canDash = false;
             }
@@ -445,42 +443,22 @@ namespace WhereIsMyWife.Managers
             {
                 if (IsInHookRange)
                 {
-                    HookLaunchVelocity = GetHookLaunchVelocity();
+                    HookLaunchImpulse = GetHookLaunchImpulse();
+                    _isExecutingHook = true;
+                    GravityShifts();
                     HookStart?.Invoke();
                 }
             }
         }
 
-        private Vector2 GetHookLaunchVelocity()
+        private Vector2 GetHookLaunchImpulse()
         {
-            Vector2 _calculatedLaunchVelocity = HookPosition - PlayerControllerData.RigidbodyPosition;
-            _calculatedLaunchVelocity.Normalize();
-            _calculatedLaunchVelocity *= Properties.Hook.ThrustForce;
-            return _calculatedLaunchVelocity;
-        }
-
-        private void ExecuteHookEndEvent()
-        {
-            if (_canAttemptHook)
-            {
-                LaunchHookEndEvent();
-            }
+            return (HookPosition - PlayerControllerData.RigidbodyPosition).normalized * Properties.Hook.ThrustForce;
         }
 
         private void ExecutePunchStartEvent()
         {
             PunchStart?.Invoke();
-        }
-        
-        private void QTETimeHasExpired()
-        {
-            LaunchHookEndEvent();
-        }
-
-        private void LaunchHookEndEvent()
-        {
-            _canAttemptHook = false;
-            HookEnd?.Invoke(PlayerControllerData.RigidbodyPosition);
         }
     }
 
@@ -521,6 +499,7 @@ namespace WhereIsMyWife.Managers
 
         public void TriggerRespawnStart()
         {
+            _isExecutingHook = false;
             RespawnStartAction?.Invoke(_respawnPoint);
         }
 

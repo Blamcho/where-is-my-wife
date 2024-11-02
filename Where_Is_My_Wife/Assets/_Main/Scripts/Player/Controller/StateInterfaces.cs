@@ -30,11 +30,9 @@ namespace WhereIsMyWife.Controllers
 
     public interface IHookStateEvents
     {
-        Action StartQTE { get; set; }
-        Action StopQTE { get; set; }
         Action<Vector2> SetPosition { get; set; }
         Action<float> GravityScale { get; set; }
-        Action<Vector2> SetVelocity { get; set; }
+        Action<Vector2> AddImpulse { get; set; }
     }
 
     public interface IWallHangStateEvents

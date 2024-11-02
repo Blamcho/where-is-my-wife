@@ -11,6 +11,7 @@ namespace WhereIsMyWife.Managers.Properties
         public float FastFallMultiplier { get; }
         public float JumpCutMultiplier { get; }
         public float JumpHangMultiplier { get; }
+        public float HookMultiplier { get; }
     }
     
     [CreateAssetMenu(menuName = "ScriptableObjects/PlayerProperties/Modules/GravityProperties", fileName = "GravityProperties")]
@@ -25,5 +26,6 @@ namespace WhereIsMyWife.Managers.Properties
         [field:SerializeField] public float FastFallMultiplier { get; private set; }
         [field:SerializeField] public float JumpCutMultiplier { get; private set; }
         [field:SerializeField] public float JumpHangMultiplier { get; private set; }
+        [field:SerializeField] public float HookMultiplier { get; private set; }
     }
 }
