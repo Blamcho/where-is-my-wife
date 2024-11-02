@@ -42,6 +42,8 @@ namespace WhereIsMyWife.Managers
         private float _axisControllerDetectionThreshold = 0.1f;
         private float _horizontalDeadZone = 0.5f;
         private float _lookDownThreshold = 0.7f;
+
+        private bool _isPressingHook = false;
         
         protected override void Awake()
         {
@@ -77,6 +79,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.canceled += OnMoveCancel;
             _playerInputActions.Normal.Dash.performed += OnDash;
             _playerInputActions.Normal.Hook.started += OnHookStart;
+            _playerInputActions.Normal.Hook.canceled += OnHookCancel;
             _playerInputActions.Normal.Punch.started += OnPunchStarted;
 
             _playerInputActions.Special.Pause.started += OnPauseStart;
@@ -95,6 +98,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
             _playerInputActions.Normal.Dash.performed -= OnDash;
             _playerInputActions.Normal.Hook.started -= OnHookStart;
+            _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
             _playerInputActions.Normal.Punch.started -= OnPunchStarted;
             
             _playerInputActions.Special.Pause.started -= OnPauseStart;
@@ -157,9 +161,16 @@ namespace WhereIsMyWife.Managers
 
         private void OnHookStart(InputAction.CallbackContext context)
         {
+            if (_isPressingHook) { return; }
+            _isPressingHook = true;
             HookStartAction?.Invoke();
-        }      
-        
+        }
+
+        private void OnHookCancel(InputAction.CallbackContext context)
+        {
+            _isPressingHook = false;
+        }
+
         private void OnPunchStarted(InputAction.CallbackContext context)
         {
             PunchAction?.Invoke();

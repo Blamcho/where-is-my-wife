@@ -19,3 +19,4 @@ MonoBehaviour:
   <FastFallMultiplier>k__BackingField: 4
   <JumpCutMultiplier>k__BackingField: 3
   <JumpHangMultiplier>k__BackingField: 3
+  <HookMultiplier>k__BackingField: 2

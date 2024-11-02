@@ -233,17 +233,22 @@ namespace WhereIsMyWife.Managers
 
         private void GravityShifts()
         {
-            // Scale gravity up if jump button released
-            if (IsJumpCut || _isExecutingHook)
+            if (_isExecutingHook)
             {
-                SetGravityScale(Properties.Gravity.Scale * Properties.Gravity.JumpCutMultiplier);
-                SetFallSpeedCap(Properties.Gravity.MaxBaseFallSpeed);
+                SetGravityScale(Properties.Gravity.Scale * Properties.Gravity.HookMultiplier);
+                SetFallSpeedCap(Properties.Gravity.MaxFastFallSpeed);
             }
             // Make player fall faster if holding down
             else if (IsFastFalling())
             {
                 SetGravityScale(Properties.Gravity.Scale * Properties.Gravity.FastFallMultiplier);
                 SetFallSpeedCap(Properties.Gravity.MaxFastFallSpeed);
+            }
+            // Scale gravity up if jump button released
+            else if (IsJumpCut)
+            {
+                SetGravityScale(Properties.Gravity.Scale * Properties.Gravity.JumpCutMultiplier);
+                SetFallSpeedCap(Properties.Gravity.MaxBaseFallSpeed);
             }
             // Higher gravity when near jump height apex
             else if (IsInJumpHang())
