@@ -46,7 +46,6 @@ namespace WhereIsMyWife.Managers
         
         private void Start()
         {
-            //Time.timeScale = 0.7f;
             _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
 
             SubscribeToObservables();
