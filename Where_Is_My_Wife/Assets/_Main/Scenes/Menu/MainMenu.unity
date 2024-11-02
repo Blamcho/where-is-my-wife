@@ -3192,6 +3192,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Tutorial
       objectReference: {fileID: 0}
+    - target: {fileID: 6313299861211621520, guid: 8bb7aa70dbc4f774b9709f6bcf876400, type: 3}
+      propertyPath: _sceneName
+      value: LevelTutorial
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3965,6 +3969,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Freeplay
       objectReference: {fileID: 0}
+    - target: {fileID: 7430512438026310643, guid: f90404577d7d8f24caa284963cc28d4a, type: 3}
+      propertyPath: _sceneName
+      value: LevelTutorial
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8991783561900030221, guid: f90404577d7d8f24caa284963cc28d4a, type: 3}
     m_RemovedGameObjects:
@@ -4059,4 +4067,3 @@ SceneRoots:
   - {fileID: 215178167}
   - {fileID: 1435852571}
   - {fileID: 1738227599}
-  - {fileID: 133982914}

@@ -12,14 +12,14 @@ EditorBuildSettings:
     path: Assets/_Main/Scenes/Menu/MainMenu.unity
     guid: 5b08731e59c4e4a46ad25553ec8dfbd8
   - enabled: 1
+    path: Assets/_Main/Scenes/Levels/LevelTutorial.unity
+    guid: bc9337d3aad308f43a7f8428da5e4eee
+  - enabled: 1
     path: Assets/_Main/Scenes/Levels/Level2.unity
     guid: 5e9f9d787d976d24781aa49ae870cb50
   - enabled: 1
     path: Assets/_Main/Scenes/Menu/EndScreen.unity
     guid: 3ab5b467455be2a41b0f72dbebc3b7f4
-  - enabled: 1
-    path: Assets/_Main/Scenes/Levels/Placeholder/P_Level0.unity
-    guid: e072a6709b44570408863e702825c680
   - enabled: 1
     path: Assets/_Main/Scenes/Levels/Placeholder/P_Level1.unity
     guid: b55711ff5248fa349b55a6033ee212df
