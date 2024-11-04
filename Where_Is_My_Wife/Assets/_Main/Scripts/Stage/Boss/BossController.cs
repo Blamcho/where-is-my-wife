@@ -19,7 +19,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private float _minProjectileSpawnInterval = 1f;
     [SerializeField] private float _maxProjectileSpawnInterval = 3f;
 
-    private Vector3 _originalPosition; 
+    private Vector3 _originalLocalPosition; 
     
     private Sequence _swaySequence;
     private Sequence _firingSequence;
@@ -33,6 +33,8 @@ public class BossController : MonoBehaviour
         _bossManager.StopFiringEvent += StopFiring;
         _bossManager.StartSwayingEvent += StartSwaying;
         _bossManager.StopSwayingEvent += StartIdling;
+
+        _originalLocalPosition = transform.localPosition;
     }
 
     private void OnDestroy()
@@ -60,13 +62,21 @@ public class BossController : MonoBehaviour
 
     private void StartSwaying()
     {
+        StartSwayingAsync().Forget();
+    }
+    
+    private async UniTaskVoid StartSwayingAsync()
+    {
         _swaySequence.Kill();
         
-        _swaySequence = DOTween.Sequence();
-        
-        Vector3 startPosition = transform.localPosition;
+        Vector3 startPosition = _originalLocalPosition;
+        Debug.Log(startPosition);
         startPosition.x = _swayDistance;
-        transform.localPosition = startPosition;
+        
+        await transform.DOLocalMove(startPosition, 0.5f)
+            .SetEase(_ease).AsyncWaitForCompletion();
+        
+        _swaySequence = DOTween.Sequence();
         
         _swaySequence.Append(transform.DOLocalMoveX(-_swayDistance, _cycleDuration / 2).SetEase(_ease));
         _swaySequence.Append(transform.DOLocalMoveX(_swayDistance, _cycleDuration / 2).SetEase(_ease));
