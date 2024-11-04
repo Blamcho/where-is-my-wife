@@ -95,9 +95,9 @@ MonoBehaviour:
   _spriteRenderer: {fileID: 2648410812385042361}
   _hazardCollider: {fileID: 3853137579670024341}
   _fadeTime: 0.3
-  _smashAnticipationTime: 0.8
+  _smashAnticipationTime: 1
   _smashActionTime: 0.2
-  _shakeStrength: 0.25
+  _shakeStrength: 0.5
 --- !u!1 &4975630160443689592
 GameObject:
   m_ObjectHideFlags: 0

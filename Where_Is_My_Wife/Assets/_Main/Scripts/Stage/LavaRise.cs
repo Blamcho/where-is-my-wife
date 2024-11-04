@@ -34,6 +34,13 @@ using WhereIsMyWife.Managers;
             _isRising = true;
         }
 
+        public void PositionBelowCamera()
+        {
+            Vector3 nextPosition = transform.position;
+            nextPosition.y = Camera.main.transform.position.y - Camera.main.orthographicSize;
+            transform.position = nextPosition;
+        }
+
         private void ResetLava(Vector3 _)
         {
             transform.position = _initialPosition;

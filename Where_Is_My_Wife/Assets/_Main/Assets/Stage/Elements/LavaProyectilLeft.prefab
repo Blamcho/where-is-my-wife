@@ -185,5 +185,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  tiempoDeVida: 8
+  timelife: 8
   shootLeft: 1

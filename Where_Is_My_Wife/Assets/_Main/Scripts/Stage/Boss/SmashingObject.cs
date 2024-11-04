@@ -49,7 +49,7 @@ namespace WhereIsMyWife.Stage
             Sequence sequence = DOTween.Sequence();
 
             sequence.Append(_objectPivot.DOShakePosition(_smashAnticipationTime, _shakeStrength))
-                .Join(_spriteRenderer.DOFade(1f, _smashAnticipationTime));
+                .Join(_spriteRenderer.DOFade(1f, _fadeTime));
             sequence.AppendCallback(() => { _hazardCollider.enabled = true; });
             sequence.Append(_objectPivot.DOMoveY(transform.position.y, _smashActionTime));
             sequence.AppendCallback(() => { _hazardCollider.enabled = false; });
