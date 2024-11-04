@@ -113,8 +113,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lavaProyectilPrefab: {fileID: 5261639042334003703, guid: e469a28486108ba44a30be76c589e838, type: 3}
   _firePoint: {fileID: 3803532669776928978}
-  _minFireRate: 3
-  _maxFireRate: 5
+  _minFireRate: 5
+  _maxFireRate: 7
   _shootLeft: 1
 --- !u!4 &7907009254552884195 stripped
 Transform:

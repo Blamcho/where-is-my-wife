@@ -118,6 +118,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lavaProyectilPrefab: {fileID: 7387792577456416679, guid: 894e2783797934f4382a62c7fd631660, type: 3}
   _firePoint: {fileID: 4945254514084557645}
-  _minFireRate: 3
-  _maxFireRate: 5
+  _minFireRate: 5
+  _maxFireRate: 7
   _shootLeft: 1
