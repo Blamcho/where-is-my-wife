@@ -199,11 +199,11 @@ namespace WhereIsMyWife.Managers
 
         private void JumpingCheck()
         {
-            if (IsJumping && PlayerControllerData.RigidbodyVelocity.y < 0)
-            {
-                IsJumping = false;
-                IsJumpFalling = true;
-            }
+            const float tolerance = 0.001f;
+            if (!IsJumping || !(PlayerControllerData.RigidbodyVelocity.y <= tolerance)) return;
+            
+            IsJumping = false;
+            IsJumpFalling = true;
         }
 
         private void LandCheck()
@@ -221,7 +221,7 @@ namespace WhereIsMyWife.Managers
         {
             ResetJumpTimers();
 
-            JumpStart?.Invoke(_jumpingMethods.GetJumpForce(PlayerControllerData.RigidbodyVelocity.y));
+            JumpStart?.Invoke(_jumpingMethods.GetJumpForce());
         }
 
         private void ResetJumpTimers()
@@ -506,6 +506,7 @@ namespace WhereIsMyWife.Managers
         public void TriggerRespawnComplete()
         {
             RespawnCompleteAction?.Invoke();
+            _playerStateMachine.Reset();
         }
     }
 }

@@ -128,9 +128,14 @@ namespace WhereIsMyWife.Controllers
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
 
-            _hookStateEvents.GravityScale += SetGravityScale;
-            _hookStateEvents.AddImpulse += AddImpulse;
-            _hookStateEvents.SetPosition += SetPosition;
+            _hookStateEvents.GravityScale -= SetGravityScale;
+            _hookStateEvents.AddImpulse -= AddImpulse;
+            _hookStateEvents.SetPosition -= SetPosition;
+
+            _punchingStateEvents.Run -= Run;
+            _punchingStateEvents.JumpStart -= JumpStart;
+            _punchingStateEvents.GravityScale -= SetGravityScale;
+            _punchingStateEvents.FallSpeedCap -= SetFallSpeedCap;
         }
 
         private void SubscribeToRespawnEvents()
@@ -149,6 +154,7 @@ namespace WhereIsMyWife.Controllers
         
         private void JumpStart(float jumpForce)
         {
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
             _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 

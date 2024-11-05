@@ -223,7 +223,7 @@ namespace WhereIsMyWife.Managers
                 
                 if (_currentControllerType != currentGamepadType)
                 {
-                    Debug.Log($"Current gamepad name: {Gamepad.current.name}");
+                    //Debug.Log($"Current gamepad name: {Gamepad.current.name}");
                     ChangeControllerType(currentGamepadType);
                 }
             }
@@ -232,7 +232,7 @@ namespace WhereIsMyWife.Managers
         private void ChangeControllerType(ControllerType controllerType)
         {
             _currentControllerType = controllerType; 
-            Debug.Log($"ControllerType: {_currentControllerType}");
+            //Debug.Log($"ControllerType: {_currentControllerType}");
         }
         
         private bool KeyboardInputWasMadeThisFrame()
