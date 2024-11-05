@@ -32,7 +32,7 @@ namespace WhereIsMyWife.Controllers
     {
         Action<Vector2> SetPosition { get; set; }
         Action<float> GravityScale { get; set; }
-        Action<Vector2> AddImpulse { get; set; }
+        Action<Vector2> HookStart { get; set; }
     }
 
     public interface IWallHangStateEvents
