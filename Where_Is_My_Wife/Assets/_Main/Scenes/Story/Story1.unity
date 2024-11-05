@@ -832,6 +832,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Start Level
       objectReference: {fileID: 0}
+    - target: {fileID: 4634807015035488050, guid: cccd0447183e8bc4db99886e05e37c4e, type: 3}
+      propertyPath: _sceneName
+      value: Level1
+      objectReference: {fileID: 0}
     - target: {fileID: 5392637377754277711, guid: cccd0447183e8bc4db99886e05e37c4e, type: 3}
       propertyPath: m_Name
       value: Story
