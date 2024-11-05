@@ -119,7 +119,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Punch()
         {
-            PlayAnimationState(FORWARD_SMASH_STATE);
+            PlayAnimationState(FORWARD_SMASH_STATE, true);
         }
         
         private void StartWallHang()
@@ -127,11 +127,11 @@ namespace WhereIsMyWife.Controllers
             PlayAnimationState(WALL_HIT_ANIMATION_STATE);
         }
         
-        private void PlayAnimationState(string newState)
+        private void PlayAnimationState(string newState, bool canCallItself = false)
         {
-            if (_currentAnimationState == newState) return;
+            if (_currentAnimationState == newState && !canCallItself) return;
             
-            _animator.Play(newState);
+            _animator.Play(newState, 0, 0f);
 
             _currentAnimationState = newState;
         }
