@@ -23,6 +23,7 @@ public class BossController : MonoBehaviour
     
     private Sequence _swaySequence;
     private Sequence _firingSequence;
+    private Sequence _resettingSequence;
     
     private BossManager _bossManager;
     
@@ -57,55 +58,39 @@ public class BossController : MonoBehaviour
 
     private void StopFiring()
     {
-        _firingSequence.Kill();
+        _firingSequence?.Kill();
     }
 
     private void StartSwaying()
     {
-        StartSwayingAsync().Forget();
-    }
-    
-    private async UniTaskVoid StartSwayingAsync()
-    {
-        _swaySequence.Kill();
-        
+        _resettingSequence?.Kill();
+        _resettingSequence = DOTween.Sequence();
+
         Vector3 startPosition = _originalLocalPosition;
-        Debug.Log(startPosition);
         startPosition.x = _swayDistance;
-        
-        await transform.DOLocalMove(startPosition, 0.5f)
-            .SetEase(_ease).AsyncWaitForCompletion();
-        
+
+        _resettingSequence.Append(transform.DOLocalMove(startPosition, 0.5f).SetEase(_ease));
+
         _swaySequence = DOTween.Sequence();
-        
         _swaySequence.Append(transform.DOLocalMoveX(-_swayDistance, _cycleDuration / 2).SetEase(_ease));
         _swaySequence.Append(transform.DOLocalMoveX(_swayDistance, _cycleDuration / 2).SetEase(_ease));
-        
-        _swaySequence.SetLoops(-1);
+
+        _resettingSequence.Append(_swaySequence.SetLoops(-1));
     }
 
     private void StartIdling()
     {
-        StartIdlingAsync().Forget();
-    }
-    
-    private async UniTaskVoid StartIdlingAsync()
-    {
-        _swaySequence.Kill();
-        
-        Vector3 initialPosition = transform.localPosition;
-        
-        await transform.DOLocalMove(new Vector3(0, initialPosition.y + _idleDistance, initialPosition.z), 0.5f)
-            .SetEase(_ease).AsyncWaitForCompletion();
-        
-        _swaySequence = DOTween.Sequence();
+        _resettingSequence?.Kill();
+        _resettingSequence = DOTween.Sequence();
 
-        _swaySequence.Append(transform.DOLocalMoveY(initialPosition.y - _idleDistance, _idleDuration / 2)
-            .SetEase(_ease)).
-            Append(transform.DOLocalMoveY(initialPosition.y + _idleDistance, _idleDuration / 2)
-            .SetEase(_ease));
-            
-        
-        _swaySequence.SetLoops(-1, LoopType.Yoyo);
+        Vector3 initialPosition = transform.localPosition;
+
+        _resettingSequence.Append(transform.DOLocalMove(new Vector3(0, initialPosition.y + _idleDistance, initialPosition.z), 0.5f).SetEase(_ease));
+
+        _swaySequence = DOTween.Sequence();
+        _swaySequence.Append(transform.DOLocalMoveY(initialPosition.y - _idleDistance, _idleDuration / 2).SetEase(_ease));
+        _swaySequence.Append(transform.DOLocalMoveY(initialPosition.y + _idleDistance, _idleDuration / 2).SetEase(_ease));
+
+        _resettingSequence.Append(_swaySequence.SetLoops(-1, LoopType.Yoyo));
     }
 }
