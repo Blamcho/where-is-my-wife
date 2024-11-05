@@ -506,6 +506,7 @@ namespace WhereIsMyWife.Managers
         public void TriggerRespawnComplete()
         {
             RespawnCompleteAction?.Invoke();
+            _playerStateMachine.Reset();
         }
     }
 }

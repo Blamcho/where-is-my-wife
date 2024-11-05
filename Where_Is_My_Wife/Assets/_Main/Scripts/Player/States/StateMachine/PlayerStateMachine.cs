@@ -43,5 +43,10 @@ namespace WhereIsMyWife.Player.StateMachine
             
             CurrentState = States[PlayerState.Movement];
         }
+
+        public void Reset()
+        {
+            CurrentState = States[PlayerState.Movement];
+        }
     }
 }
