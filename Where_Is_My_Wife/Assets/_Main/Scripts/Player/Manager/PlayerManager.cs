@@ -221,7 +221,7 @@ namespace WhereIsMyWife.Managers
         {
             ResetJumpTimers();
 
-            JumpStart?.Invoke(_jumpingMethods.GetJumpForce(PlayerControllerData.RigidbodyVelocity.y));
+            JumpStart?.Invoke(_jumpingMethods.GetJumpForce());
         }
 
         private void ResetJumpTimers()

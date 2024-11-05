@@ -3,7 +3,7 @@ using WhereIsMyWife.Managers.Properties;
 
 public interface IJumpingMethods
 {
-    public float GetJumpForce(float currentVelocityY);
+    public float GetJumpForce();
 }
 
 public class JumpingMethods : IJumpingMethods
@@ -15,15 +15,8 @@ public class JumpingMethods : IJumpingMethods
     private IPlayerJumpProperties _jumpProperties => PlayerManager.Instance.Properties.Jump;
 
 
-    public float GetJumpForce(float currentVelocityY)
+    public float GetJumpForce()
     {
-        float force = _jumpProperties.ForceMagnitude;
-
-        if (currentVelocityY < 0)
-        {
-            force -= currentVelocityY; // To always jump the same amount.
-        }
-
-        return force;
+        return _jumpProperties.ForceMagnitude;
     }
 }

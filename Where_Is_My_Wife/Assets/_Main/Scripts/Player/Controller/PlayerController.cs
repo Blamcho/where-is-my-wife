@@ -149,6 +149,7 @@ namespace WhereIsMyWife.Controllers
         
         private void JumpStart(float jumpForce)
         {
+            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
             _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
