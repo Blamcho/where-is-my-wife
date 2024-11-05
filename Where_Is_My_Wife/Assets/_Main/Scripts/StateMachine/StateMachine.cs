@@ -36,7 +36,7 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         CurrentState.FixedUpdateState();
     }
 
-    private void TransitionToState(EState nextStateKey)
+    protected void TransitionToState(EState nextStateKey)
     {
         IsTransitioningState = true;
         CurrentState.ExitState();

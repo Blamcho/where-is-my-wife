@@ -1,7 +1,7 @@
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
-public class PunchingEvents : MonoBehaviour
+public class AnimationEvents : MonoBehaviour
 {
     public void EndPunch()
     {
