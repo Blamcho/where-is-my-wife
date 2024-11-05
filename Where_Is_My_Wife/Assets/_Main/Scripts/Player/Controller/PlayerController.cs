@@ -92,13 +92,13 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
             _wallJumpStateEvents.DoubleJump += JumpStart;
 
-            _dashStateEvents.Dash += SetHorizontalSpeed;
+            _dashStateEvents.Dash += Dash;
             _dashStateEvents.GravityScale += SetGravityScale;
             _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
             _dashStateEvents.FallingSpeed += SetFallSpeed;
 
             _hookStateEvents.GravityScale += SetGravityScale;
-            _hookStateEvents.AddImpulse += AddImpulse;
+            _hookStateEvents.HookStart += HookStart;
             _hookStateEvents.SetPosition += SetPosition;
 
             _punchingStateEvents.Run += Run;
@@ -123,13 +123,13 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _wallJumpStateEvents.DoubleJump -= JumpStart;
 
-            _dashStateEvents.Dash -= SetHorizontalSpeed;
+            _dashStateEvents.Dash -= Dash;
             _dashStateEvents.GravityScale -= SetGravityScale;
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
 
             _hookStateEvents.GravityScale -= SetGravityScale;
-            _hookStateEvents.AddImpulse -= AddImpulse;
+            _hookStateEvents.HookStart -= HookStart;
             _hookStateEvents.SetPosition -= SetPosition;
 
             _punchingStateEvents.Run -= Run;
@@ -174,6 +174,12 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.position = position;
         }
 
+        private void HookStart(Vector2 velocity)
+        {
+            FaceDirection(velocity.x > 0);
+            AddImpulse(velocity);
+        }
+        
         private void AddImpulse(Vector2 velocity)
         {
             _rigidbody2D.velocity = Vector2.zero;
@@ -198,6 +204,12 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -fallSpeed);
         }
 
+        private void Dash(float speed)
+        {
+            FaceDirection(speed > 0);
+            SetHorizontalSpeed(speed);
+        }
+        
         private void SetHorizontalSpeed(float speed)
         {
             _rigidbody2D.velocity = new Vector2(speed, _rigidbody2D.velocity.y);

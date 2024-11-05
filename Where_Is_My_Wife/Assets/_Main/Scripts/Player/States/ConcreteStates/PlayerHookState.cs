@@ -10,7 +10,7 @@ namespace WhereIsMyWife.Player.State
     public class PlayerHookState : PlayerState, IHookState, IHookStateEvents
     {
         public PlayerHookState() : base(PlayerStateMachine.PlayerState.Hook) { }
-        public Action<Vector2> AddImpulse { get; set; }
+        public Action<Vector2> HookStart { get; set; }
         public Action<Vector2> SetPosition { get; set; }
         public Action<float> GravityScale { get; set; }
 
@@ -29,7 +29,7 @@ namespace WhereIsMyWife.Player.State
         public override void EnterState()
         {
             base.EnterState();
-            AddImpulse?.Invoke(_playerStateIndicator.HookLaunchImpulse);
+            HookStart?.Invoke(_playerStateIndicator.HookLaunchImpulse);
             ExecuteHookEnd().Forget();
         }
 
