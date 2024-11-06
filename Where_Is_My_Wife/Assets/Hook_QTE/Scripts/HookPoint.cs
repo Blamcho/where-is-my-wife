@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.Overlays;
 using UnityEngine;
 using WhereIsMyWife.Controllers;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.UI
 {
@@ -16,6 +17,7 @@ namespace WhereIsMyWife.UI
         private Vector3 _playerLocalPosition = default;
         private Vector3 _arrowLocalPosition = default;
         private bool _playerInTriggerZone = false;
+        private IPlayerInputEvent _playerInputEvent;
 
         private void Start()
         {
@@ -27,6 +29,7 @@ namespace WhereIsMyWife.UI
             if (other.CompareTag("Player"))
             {
                 _playerInTriggerZone = true;
+                SubscribeToObservables();
                 AssignPlayerPosition(other);
                 AssignArrowPositionAndRotation();
                 SwitchArrowSpriteRenderer(true);
@@ -37,9 +40,7 @@ namespace WhereIsMyWife.UI
         {
             if (other.CompareTag("Player"))
             {
-                _playerInTriggerZone = false;
-                SwitchArrowSpriteRenderer(false);
-                ResetArrowPosition();
+                FinishingGizmoInteraction();
             }
         }
 
@@ -92,6 +93,30 @@ namespace WhereIsMyWife.UI
         private void ResetArrowPosition()
         {
             _arrowGizmo.transform.position = _hookGameObject.transform.position;
+        }
+
+        private void FinishingGizmoInteraction()
+        {
+            _playerInTriggerZone = false;
+            SwitchArrowSpriteRenderer(false);
+            ResetArrowPosition();
+            UnsubscribeToObservables();
+        }
+
+        private void SubscribeToObservables()
+        {
+            _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
+            _playerInputEvent.HookStartAction += ExecuteHookStartEvent;
+        }
+
+        private void UnsubscribeToObservables()
+        {
+            _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
+        }
+
+        private void ExecuteHookStartEvent()
+        {
+            FinishingGizmoInteraction();
         }
     }
 }
