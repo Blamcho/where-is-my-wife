@@ -59,11 +59,11 @@ namespace WhereIsMyWife.Setting
             switch (_settingType)
             {
                 case SettingType.Music:
-                    AudioManager.Instance.SetVolume(_slider.value, true);
+                    AudioManager.Instance.VolumeMusic(_slider.value);
                     
                     break;
                 case  SettingType.SFX:
-                    AudioManager.Instance.SetVolume(_slider.value, false);
+                    AudioManager.Instance.VolumeSFX(_slider.value);
                     break;
             }
         }

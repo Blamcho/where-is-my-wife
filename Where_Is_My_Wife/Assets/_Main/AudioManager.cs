@@ -88,12 +88,13 @@ namespace WhereIsMyWife.Managers
             
             FadeOutMusic(() => SceneManager.LoadScene(sceneName));
         }
-        public void SetVolume(float volume, bool isMusic)
+        public void VolumeMusic(float volume)
         {
-            if (isMusic)
-                _musicSource.volume = volume;
-            else
-                _sfxSource.volume = volume;
+            _musicSource.volume = volume;
+        }
+        public void VolumeSFX(float volume)
+        {
+            _sfxSource.volume = volume;
         }
     }
 
