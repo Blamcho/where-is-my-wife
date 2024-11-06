@@ -54,16 +54,17 @@ namespace WhereIsMyWife.Setting
         {
             _slider.value += _horizontalValue * _valueStep;
             _sliderValueText.text = _slider.value.ToString();
-            Debug.Log("Slider Value: " + _slider.value); 
-            Debug.Log("Setting Type: " + _settingType); 
+
+            float normalizedValue = Mathf.InverseLerp(_slider.minValue, _slider.maxValue, _slider.value);
+            
             switch (_settingType)
             {
                 case SettingType.Music:
-                    AudioManager.Instance.VolumeMusic(_slider.value);
-                    
+                    AudioManager.Instance.SetMixerVolume(normalizedValue,"Music");
                     break;
-                case  SettingType.SFX:
-                    AudioManager.Instance.VolumeSFX(_slider.value);
+                
+                case SettingType.SFX:
+                    AudioManager.Instance.SetMixerVolume(normalizedValue, "SFX");
                     break;
             }
         }

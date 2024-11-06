@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 namespace WhereIsMyWife.Managers
@@ -9,6 +10,7 @@ namespace WhereIsMyWife.Managers
     {
         public Sounds[] _music, _sfx;
         public AudioSource _musicSource, _sfxSource;
+        public AudioMixer _mixer;
 
         public float fadeDuration = 1f;
         private bool isFading = false;
@@ -85,16 +87,13 @@ namespace WhereIsMyWife.Managers
 
         public void ChangeSceneWithFadeOut(string sceneName)
         {
-            
             FadeOutMusic(() => SceneManager.LoadScene(sceneName));
         }
-        public void VolumeMusic(float volume)
+        
+        public void SetMixerVolume(float volume, string mixerChannel)
         {
-            _musicSource.volume = volume;
-        }
-        public void VolumeSFX(float volume)
-        {
-            _sfxSource.volume = volume;
+            volume += 0.0001f; // Never reach to zero
+            _mixer.SetFloat(mixerChannel,Mathf.Log10(volume)*20);
         }
     }
 
