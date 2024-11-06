@@ -2,11 +2,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Setting
 {
     public class SliderSetting : SettingSelection
     {
+        [SerializeField] private SettingType _settingType;
         [SerializeField] private Slider _slider;
         [SerializeField] private TextMeshProUGUI _sliderValueText;
         [SerializeField] private int _valueStep;
@@ -52,6 +54,18 @@ namespace WhereIsMyWife.Setting
         {
             _slider.value += _horizontalValue * _valueStep;
             _sliderValueText.text = _slider.value.ToString();
+            Debug.Log("Slider Value: " + _slider.value); 
+            Debug.Log("Setting Type: " + _settingType); 
+            switch (_settingType)
+            {
+                case SettingType.Music:
+                    AudioManager.Instance.SetVolume(_slider.value, true);
+                    
+                    break;
+                case  SettingType.SFX:
+                    AudioManager.Instance.SetVolume(_slider.value, false);
+                    break;
+            }
         }
     
         private void TickUpdateTimer()
@@ -69,6 +83,12 @@ namespace WhereIsMyWife.Setting
         {
             base.ResetColor();
             _sliderValueText.color = _originalColor;
+        }
+
+        private enum SettingType
+        {
+            Music,
+            SFX
         }
     }
 }
