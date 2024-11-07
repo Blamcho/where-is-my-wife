@@ -53,7 +53,7 @@ namespace WhereIsMyWife.Controllers
 
         private void PlayParticleSystem(ParticleSystem particleSystem, bool isOneShot = false)
         {
-            if (_currentParticleSystem == particleSystem) return;
+            if (_currentParticleSystem == particleSystem || particleSystem == null) return; //TODO: Remove null once all particles are created
             
             if (!isOneShot)
             {
@@ -66,6 +66,8 @@ namespace WhereIsMyWife.Controllers
 
         private void KillParticles()
         {
+            if (_currentParticleSystem == null) return;
+            
             _currentParticleSystem.Stop();
             _currentParticleSystem = null;
         }
