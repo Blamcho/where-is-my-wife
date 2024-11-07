@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2015584208934203337
 Transform:
   m_ObjectHideFlags: 0
@@ -39,7 +39,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3063392929808703447}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 6527336307872339471}
   - component: {fileID: 4583941951160192233}
   - component: {fileID: 73465057061401557}
+  - component: {fileID: 495872358124821737}
   m_Layer: 0
   m_Name: HookPoint
   m_TagString: Hook
@@ -290,3 +291,17 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3
+--- !u!114 &495872358124821737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8639050258229008424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 849fcc0f4a077654aaa8555e1439b731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hookGameObject: {fileID: 8639050258229008424}
+  _arrowGizmo: {fileID: 3063392929808703447}

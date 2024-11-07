@@ -192,6 +192,7 @@ namespace WhereIsMyWife.Managers
                 IsJumpCut = false;
                 IsJumpFalling = false;
                 IsRunFalling = false;
+                _isExecutingHook = false;
 
                 Jump();
             }
