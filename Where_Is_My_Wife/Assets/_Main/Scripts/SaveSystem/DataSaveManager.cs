@@ -64,6 +64,7 @@ namespace WhereIsMyWife.Managers
         public void DeleteSaveData()
         {
             SetData(LastUnlockedLevelNumberKey, 0);
+            SetData(LastUnlockedLevelSceneNameKey, null);
         }
 
         public void SetLastUnlockedLevel(int levelNumber, string sceneName)
