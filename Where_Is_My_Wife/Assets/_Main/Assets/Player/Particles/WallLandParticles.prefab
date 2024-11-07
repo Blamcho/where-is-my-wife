@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1093336653910527939, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_Name
-      value: LandParticles
+      value: WallLandParticles
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.04
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.14
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalPosition.z
@@ -26,23 +26,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -50,11 +50,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4305498298897475557, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4858010381987835725, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
       propertyPath: lengthInSec
       value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858010381987835725, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858010381987835725, guid: e551cbd286c27c2468fc79419c13afaa, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

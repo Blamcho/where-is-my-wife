@@ -14,7 +14,7 @@ namespace WhereIsMyWife.Controllers
         [SerializeField] private ParticleSystem _wallJumpStartParticles;
         [SerializeField] private ParticleSystem _wallHangParticles;
         [SerializeField] private ParticleSystem _landParticles;
-        [SerializeField] private ParticleSystem _deathParticles;
+        [SerializeField] private ParticleSystem _deathParticlesPrefab;
         
         private IPlayerStateIndicator _playerStateIndicator;
         private IPlayerStateInput _playerStateInput;
@@ -124,7 +124,7 @@ namespace WhereIsMyWife.Controllers
         {
             UnsubscribeFromStateEvents();
             KillParticles();
-            PlayParticleSystem(_deathParticles, true);
+            Instantiate(_deathParticlesPrefab, transform.position, Quaternion.identity);
         }
         
         private void CompleteRespawn()
