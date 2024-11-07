@@ -9,14 +9,11 @@ namespace WhereIsMyWife.Controllers
     {
         [SerializeField] private ParticleSystem _runningParticles;
         [SerializeField] private ParticleSystem _jumpStartParticles;
-        [SerializeField] private ParticleSystem _jumpingParticles;
-        [SerializeField] private ParticleSystem _fallingParticles;
         [SerializeField] private ParticleSystem _dashingParticles;
         [SerializeField] private ParticleSystem _wallSlideParticles;
         [SerializeField] private ParticleSystem _wallJumpStartParticles;
         [SerializeField] private ParticleSystem _wallHangParticles;
         [SerializeField] private ParticleSystem _landParticles;
-        [SerializeField] private ParticleSystem _hookParticles;
         [SerializeField] private ParticleSystem _deathParticles;
         
         private IPlayerStateIndicator _playerStateIndicator;
@@ -57,7 +54,7 @@ namespace WhereIsMyWife.Controllers
             
             if (!isOneShot)
             {
-                _currentParticleSystem.Stop();
+                _currentParticleSystem?.Stop();
                 _currentParticleSystem = particleSystem;
             }
             
@@ -78,38 +75,28 @@ namespace WhereIsMyWife.Controllers
             {
                 if (_playerStateIndicator.IsRunFalling)
                 {
-                    PlayParticleSystem(_fallingParticles);
+                    KillParticles();
                 }
                 else if (_playerStateIndicator.IsAccelerating)
                 {
                     PlayParticleSystem(_runningParticles);
                 }
-                else
-                {
-                    KillParticles();
-                }
             }
             else
             {
-                PlayParticleSystem(_jumpingParticles);
+                KillParticles();    
             }
         }
         
         private void Jump(float _)
         {
-            if (_playerStateIndicator.IsOnWallHang)
-            {
-                PlayParticleSystem(_wallJumpStartParticles, true);
-            }
-            else
-            {
-                PlayParticleSystem(_jumpStartParticles, true);
-            }
+            PlayParticleSystem(_jumpStartParticles, true);
         }
         
-        private void Fall(float _)
+        private void WallJumpStart(float _)
         {
-            PlayParticleSystem(_fallingParticles);
+            PlayParticleSystem(_wallJumpStartParticles, true);
+            KillParticles();
         }
         
         private void Land()
@@ -130,7 +117,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Hook(Vector2 _)
         {
-            PlayParticleSystem(_hookParticles);
+            KillParticles();
         }
         
         private void Die()
@@ -151,7 +138,7 @@ namespace WhereIsMyWife.Controllers
             _movementStateEvents.Run += Run;
 
             _wallHangStateEvents.StartWallHang += StartWallHang;
-            _wallHangStateEvents.WallJumpStart += Fall;
+            _wallHangStateEvents.WallJumpStart += WallJumpStart;
 
             _dashStateEvents.Dash += Dash;
 
@@ -166,7 +153,7 @@ namespace WhereIsMyWife.Controllers
             _movementStateEvents.Run -= Run;
 
             _wallHangStateEvents.StartWallHang -= StartWallHang;
-            _wallHangStateEvents.WallJumpStart -= Fall;
+            _wallHangStateEvents.WallJumpStart -= WallJumpStart;
 
             _dashStateEvents.Dash -= Dash;
 
