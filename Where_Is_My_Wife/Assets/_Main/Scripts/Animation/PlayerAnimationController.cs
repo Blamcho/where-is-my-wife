@@ -1,5 +1,6 @@
 using UnityEngine;
 using WhereIsMyWife.Managers;
+using WhereIsMyWife.Player.State;
 
 namespace WhereIsMyWife.Controllers
 {
@@ -16,8 +17,6 @@ namespace WhereIsMyWife.Controllers
         private IPunchingStateEvents _punchingStateEvents;
         
         private IPlayerStateIndicator _playerStateIndicator;
-
-        private Rigidbody2D _rigidbody2D;
         
         private const string RUN_ANIMATION_STATE = "walk";
         private const string IDLE_ANIMATION_STATE = "idle";
@@ -30,11 +29,6 @@ namespace WhereIsMyWife.Controllers
         private const string FORWARD_SMASH_STATE = "f_smash";
 
         private string _currentAnimationState = "";
-
-        private void Awake()
-        {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-        }
 
         private void Start()
         {
@@ -134,11 +128,6 @@ namespace WhereIsMyWife.Controllers
             _animator.Play(newState, 0, 0f);
 
             _currentAnimationState = newState;
-        }
-
-        private void Land()
-        {
-            
         }
         
         private void Die()
