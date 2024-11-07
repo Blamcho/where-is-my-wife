@@ -15,7 +15,7 @@ namespace WhereIsMyWife.SceneManagement
             if (other.CompareTag("Player") && !_hasBeenTriggered)
             {   
                 _hasBeenTriggered = true;
-                DataSaveManager.Instance.SetLastUnlockedLevel(_nextLevelNumber);
+                DataSaveManager.Instance.SetLastUnlockedLevel(_nextLevelNumber, _nextLevelInitialScene);
                 LevelManager.Instance.LoadScene(_nextLevelInitialScene);
             }
         }

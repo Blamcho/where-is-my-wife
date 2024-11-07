@@ -10,7 +10,8 @@ namespace WhereIsMyWife.Managers
         private const string SaveKey = "saved-data";
         private Dictionary<string, object> savedData;
 
-        public const string LastUnlockedLevelKey = "current-level";
+        public const string LastUnlockedLevelNumberKey = "last-unlocked-level-number";
+        public const string LastUnlockedLevelSceneNameKey = "last-unlocked-level-scene-name";
         
         protected override void Awake()
         {
@@ -62,14 +63,15 @@ namespace WhereIsMyWife.Managers
 
         public void DeleteSaveData()
         {
-            SetData(LastUnlockedLevelKey, 0);
+            SetData(LastUnlockedLevelNumberKey, 0);
         }
 
-        public void SetLastUnlockedLevel(int level)
+        public void SetLastUnlockedLevel(int levelNumber, string sceneName)
         {
-            if (level > GetData<int>(LastUnlockedLevelKey))
+            if (levelNumber > GetData<int>(LastUnlockedLevelNumberKey))
             {
-                SetData(LastUnlockedLevelKey, level);
+                SetData(LastUnlockedLevelNumberKey, levelNumber);
+                SetData(LastUnlockedLevelSceneNameKey, sceneName);
             }
         }
     }

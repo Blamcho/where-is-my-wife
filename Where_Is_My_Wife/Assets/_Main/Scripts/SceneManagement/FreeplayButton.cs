@@ -13,7 +13,7 @@ namespace WhereIsMyWife.SceneManagement
         
         private void Start()
         {
-            if (DataSaveManager.Instance.GetData<int>(DataSaveManager.LastUnlockedLevelKey) < _levelNumber)
+            if (DataSaveManager.Instance.GetData<int>(DataSaveManager.LastUnlockedLevelNumberKey) < _levelNumber)
             {
                 _text.gameObject.SetActive(false);
                 _hiddenText.gameObject.SetActive(true);
