@@ -15,6 +15,7 @@ namespace WhereIsMyWife.Controllers
         private IWallHangStateEvents _wallHangStateEvents;
         private IDashStateEvents _dashStateEvents;
         private IPunchingStateEvents _punchingStateEvents;
+        private IHookStateEvents _hookStateEvents;
         
         private IPlayerStateIndicator _playerStateIndicator;
         
@@ -38,6 +39,7 @@ namespace WhereIsMyWife.Controllers
             _wallHangStateEvents = PlayerManager.Instance.WallHangStateEvents;
             _dashStateEvents = PlayerManager.Instance.DashStateEvents;
             _punchingStateEvents = PlayerManager.Instance.PunchingStateEvents;
+            _hookStateEvents = PlayerManager.Instance.HookStateEvents;
             
             SubscribeToStateEvents();
 
@@ -58,9 +60,13 @@ namespace WhereIsMyWife.Controllers
             _movementStateEvents.JumpStart += Jump;
             _movementStateEvents.Run += Run;
 
+            _dashStateEvents.DashStart += Dash;
+
             _wallHangStateEvents.StartWallHang += StartWallHang;
             _wallHangStateEvents.WallJumpStart += Fall;
 
+            _hookStateEvents.HookStart += Hook;
+            
             _punchingStateEvents.PunchStart += Punch;
         }
         
@@ -68,13 +74,17 @@ namespace WhereIsMyWife.Controllers
         {
             _movementStateEvents.JumpStart -= Jump;
             _movementStateEvents.Run -= Run;
+            
+            _dashStateEvents.DashStart -= Dash;
 
             _wallHangStateEvents.StartWallHang -= StartWallHang;
             _wallHangStateEvents.WallJumpStart -= Fall;
             
+            _hookStateEvents.HookStart -= Hook;
+            
             _punchingStateEvents.PunchStart -= Punch;
         }
-
+        
         private void Jump(float _)
         {
             PlayAnimationState(JUMP_ANIMATION_STATE);
@@ -119,6 +129,16 @@ namespace WhereIsMyWife.Controllers
         private void StartWallHang()
         {
             PlayAnimationState(WALL_HIT_ANIMATION_STATE);
+        }
+
+        private void Dash(float _)
+        {
+            PlayAnimationState(FALL_ANIMATION_STATE);
+        }
+        
+        private void Hook(Vector2 obj)
+        {
+                PlayAnimationState(FALL_ANIMATION_STATE);  
         }
         
         private void PlayAnimationState(string newState, bool canCallItself = false)

@@ -9,7 +9,6 @@ namespace WhereIsMyWife.Controllers
     {
         [SerializeField] private ParticleSystem _runningParticles;
         [SerializeField] private ParticleSystem _jumpStartParticles;
-        [SerializeField] private ParticleSystem _dashingParticles;
         [SerializeField] private ParticleSystem _wallSlideParticles;
         [SerializeField] private ParticleSystem _wallJumpStartParticles;
         [SerializeField] private ParticleSystem _wallHangParticles;
@@ -103,11 +102,6 @@ namespace WhereIsMyWife.Controllers
         {
             PlayParticleSystem(_landParticles, true);
         }
-
-        private void Dash(float _)
-        {
-            PlayParticleSystem(_dashingParticles);
-        }
         
         private void StartWallHang()
         {
@@ -139,9 +133,7 @@ namespace WhereIsMyWife.Controllers
 
             _wallHangStateEvents.StartWallHang += StartWallHang;
             _wallHangStateEvents.WallJumpStart += WallJumpStart;
-
-            _dashStateEvents.Dash += Dash;
-
+            
             _hookStateEvents.HookStart += Hook;
             
             _playerStateInput.Land += Land;
@@ -154,9 +146,7 @@ namespace WhereIsMyWife.Controllers
 
             _wallHangStateEvents.StartWallHang -= StartWallHang;
             _wallHangStateEvents.WallJumpStart -= WallJumpStart;
-
-            _dashStateEvents.Dash -= Dash;
-
+            
             _hookStateEvents.HookStart -= Hook;
             
             _playerStateInput.Land -= Land;

@@ -92,7 +92,7 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
             _wallJumpStateEvents.DoubleJump += JumpStart;
 
-            _dashStateEvents.Dash += Dash;
+            _dashStateEvents.DashStart += Dash;
             _dashStateEvents.GravityScale += SetGravityScale;
             _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
             _dashStateEvents.FallingSpeed += SetFallSpeed;
@@ -123,7 +123,7 @@ namespace WhereIsMyWife.Controllers
             _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _wallJumpStateEvents.DoubleJump -= JumpStart;
 
-            _dashStateEvents.Dash -= Dash;
+            _dashStateEvents.DashStart -= Dash;
             _dashStateEvents.GravityScale -= SetGravityScale;
             _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
             _dashStateEvents.FallingSpeed -= SetFallSpeed;
