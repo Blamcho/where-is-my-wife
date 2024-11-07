@@ -12,7 +12,6 @@ namespace WhereIsMyWife.SceneManagement
         [SerializeField] private float _completelyVisibleTime = 2f;
         [SerializeField] private float _fadeTime = 1f;
         
-
         private void Start()
         {
             SplashScreenAsync().Forget();
@@ -27,8 +26,6 @@ namespace WhereIsMyWife.SceneManagement
             _splashScreen.Append(_canvasGroup.DOFade(0, _fadeTime));
             await _splashScreen.AsyncWaitForCompletion();
             LevelManager.Instance.LoadScene(_mainMenuSceneName);
-
-
         }
     }
 }
