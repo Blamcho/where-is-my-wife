@@ -20,7 +20,7 @@ namespace WhereIsMyWife.Managers
 
             if (string.IsNullOrEmpty(lastUnlockedLevel))
             {
-                LevelManager.Instance.LoadScene(_firstLevelName);
+                lastUnlockedLevel = _firstLevelName;
             }
             
             LevelManager.Instance.LoadScene(lastUnlockedLevel);
