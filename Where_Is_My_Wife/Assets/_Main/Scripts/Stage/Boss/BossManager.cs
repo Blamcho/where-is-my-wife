@@ -17,16 +17,12 @@ namespace WhereIsMyWife.Managers
 
         public void ClearStage(int clearedStageNumber)
         {
-            Debug.Log($"Cleared stage {clearedStageNumber}");
-            
             if (clearedStageNumber >= _bossStagesAmount)
             {
-                Debug.Log("Boss Defeated");
                 Die();
             }
             else
             {
-                Debug.Log($"Advancing to stage {clearedStageNumber + 1}");
                 GoToNextStageEvent?.Invoke(clearedStageNumber + 1);
             }
         }

@@ -1,46 +1,48 @@
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
-public class BossActionTrigger : MonoBehaviour
+namespace WhereIsMyWife.Stage
 {
-    //TODO: Add different cases if boss action gets added
-    [SerializeField] private BossManager.BossAction _bossAction;
+    public class BossActionTrigger : MonoBehaviour
+    {
+        [SerializeField] private BossManager.BossAction _bossAction;
 
-    private BossManager _bossManager;
+        private BossManager _bossManager;
     
-    private void Start()
-    {
-        _bossManager = BossManager.Instance;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
+        private void Start()
         {
-            switch (_bossAction)
+            _bossManager = BossManager.Instance;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Player"))
             {
-                case BossManager.BossAction.Firing:
-                    _bossManager.StartFiring();
-                    break;
-                case BossManager.BossAction.Swaying:
-                    _bossManager.StartSwaying();
-                    break;
+                switch (_bossAction)
+                {
+                    case BossManager.BossAction.Firing:
+                        _bossManager.StartFiring();
+                        break;
+                    case BossManager.BossAction.Swaying:
+                        _bossManager.StartSwaying();
+                        break;
+                }
             }
         }
-    }
     
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
+        private void OnTriggerExit2D(Collider2D other)
         {
-            switch (_bossAction)
+            if (other.CompareTag("Player"))
             {
-                case BossManager.BossAction.Firing:
-                    _bossManager.StopFiring();
-                    break;
-                case BossManager.BossAction.Swaying:
-                    _bossManager.StopSwaying();
-                    break;
+                switch (_bossAction)
+                {
+                    case BossManager.BossAction.Firing:
+                        _bossManager.StopFiring();
+                        break;
+                    case BossManager.BossAction.Swaying:
+                        _bossManager.StopSwaying();
+                        break;
+                }
             }
         }
     }

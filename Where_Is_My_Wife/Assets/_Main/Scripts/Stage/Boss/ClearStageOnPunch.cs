@@ -1,12 +1,15 @@
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
-public class ClearStageOnPunch : MonoBehaviour, IPunchable
+namespace WhereIsMyWife.Stage
 {
-    [SerializeField] private int _stageToClear;
-    
-    public void Punch()
+    public class ClearStageOnPunch : MonoBehaviour, IPunchable
     {
-        BossManager.Instance.ClearStage(_stageToClear);
+        [SerializeField] private int _stageToClear;
+    
+        public void Punch()
+        {
+            BossManager.Instance.ClearStage(_stageToClear);
+        }
     }
 }

@@ -1,12 +1,10 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Stage
 {
-    public class SmashingObject : MonoBehaviour
+    public class CrushingHazard : MonoBehaviour
     {
         [SerializeField] private Transform _objectPivot;
         [SerializeField] private SpriteRenderer _spriteRenderer;
