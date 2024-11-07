@@ -1,6 +1,5 @@
 using UnityEngine;
 using WhereIsMyWife.Managers;
-using WhereIsMyWife.Player.State;
 
 namespace WhereIsMyWife.Controllers
 {
@@ -138,7 +137,7 @@ namespace WhereIsMyWife.Controllers
         
         private void Hook(Vector2 obj)
         {
-                PlayAnimationState(FALL_ANIMATION_STATE);  
+            PlayAnimationState(FALL_ANIMATION_STATE);  
         }
         
         private void PlayAnimationState(string newState, bool canCallItself = false)

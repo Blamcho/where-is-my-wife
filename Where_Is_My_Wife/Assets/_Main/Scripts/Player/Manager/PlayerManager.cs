@@ -4,8 +4,6 @@ using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
 using WhereIsMyWife.Player.StateMachine;
-using WhereIsMyWife.UI;
-
 
 namespace WhereIsMyWife.Managers
 {
