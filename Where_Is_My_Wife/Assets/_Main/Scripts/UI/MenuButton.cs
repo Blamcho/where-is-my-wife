@@ -14,7 +14,7 @@ namespace WhereIsMyWife.UI
         
         protected readonly Color _selectedTextColor = Color.white;
 
-        private TextMeshProUGUI _text;
+        protected TextMeshProUGUI _text;
         protected Color _originalColor;
         
         protected virtual void Awake()
