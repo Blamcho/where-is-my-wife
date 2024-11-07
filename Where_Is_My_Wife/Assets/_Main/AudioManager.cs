@@ -12,9 +12,9 @@ namespace WhereIsMyWife.Managers
         [SerializeField] private AudioSource _musicSource, _sfxSource;
         [SerializeField] private AudioMixer _mixer;
         [SerializeField] private float _fadeDuration = 1f;
-        
-        private bool _isFading = false;
 
+        private Sequence _fadeSequence;
+        
         private void Start()
         {
             PlayMusic(SceneManager.GetActiveScene().name, true);
@@ -28,25 +28,22 @@ namespace WhereIsMyWife.Managers
 
         public void PlayMusic(string name, bool fadeIn = false)
         {
-            MusicClip s = Array.Find(_music, x => x.name == name);
-            if (s == null)
+            MusicClip musicClip = Array.Find(_music, x => x.name == name);
+            if (musicClip == null)
             {
-                Debug.Log("The clip has been found");
+                Debug.Log("The clip wasn't found");
                 return;
             }
-
-            _musicSource.clip = s.Clip;
-
-            if (fadeIn)
-            {
-                _musicSource.volume = 0;
+            
+            _fadeSequence?.Kill();
+            _fadeSequence = DOTween.Sequence();
+            _fadeSequence.Append(_musicSource.DOFade(0, _fadeDuration));
+            _fadeSequence.AppendCallback(() =>
+            { 
+                _musicSource.clip = musicClip.Clip;
                 _musicSource.Play();
-                FadeInMusic();
-            }
-            else
-            {
-                _musicSource.Play();
-            }
+            });
+            _fadeSequence.Append(_musicSource.DOFade(1, _fadeDuration));
         }
 
         public void PlaySFX(string name)
@@ -54,39 +51,13 @@ namespace WhereIsMyWife.Managers
             MusicClip s = Array.Find(_sfx, x => x.name == name);
             if (s == null)
             {
-                Debug.Log("The clip has been found");
+                Debug.Log("The clip wasn't found");
             }
             else
             {
                 _sfxSource.clip = s.Clip;
                 _sfxSource.Play();
             }
-        }
-
-        public void FadeOutMusic(Action onComplete = null)
-        {
-            if (_isFading) return;
-
-            _isFading = true;
-            _musicSource.DOFade(0, _fadeDuration).OnComplete(() =>
-            {
-                _musicSource.Stop();
-                _isFading = false;
-                onComplete?.Invoke();
-            });
-        }
-
-        public void FadeInMusic()
-        {
-            if (_isFading) return;
-
-            _isFading = true;
-            _musicSource.DOFade(1, _fadeDuration).OnComplete(() => _isFading = false);
-        }
-
-        public void ChangeSceneWithFadeOut(string sceneName)
-        {
-            FadeOutMusic(() => SceneManager.LoadScene(sceneName));
         }
         
         public void SetMixerVolume(float volume, string mixerChannel)
@@ -102,5 +73,4 @@ namespace WhereIsMyWife.Managers
         public string name;
         public AudioClip Clip;
     }
-    
 }

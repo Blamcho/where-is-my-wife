@@ -7,9 +7,4 @@ public class LevelMusicChanger : MonoBehaviour
     {
         AudioManager.Instance.PlayMusic(SceneManager.GetActiveScene().name,true);
     }
-    
-    public void ChangeSceneWithMusic(string sceneName)
-    {
-        AudioManager.Instance.ChangeSceneWithFadeOut(sceneName);
-    }
 }
