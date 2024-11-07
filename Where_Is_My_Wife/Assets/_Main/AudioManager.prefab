@@ -41,12 +41,12 @@ AudioSource:
   m_GameObject: {fileID: 5821958248036173656}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1933938670774270338, guid: 6515f99057dab2f44803e0780d698d0f, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -176,13 +176,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shouldDestroyOnLoad: 0
   _music:
-  - name: 
+  - name: MainMenu
     Clip: {fileID: 8300000, guid: f1f7b437123ced24ebcb3192ab41bad7, type: 3}
-  - name: 
+  - name: LevelTutorial
     Clip: {fileID: 8300000, guid: 97d4621e9c15c144ea0c96114786a4ab, type: 3}
+  - name: Level1
+    Clip: {fileID: 8300000, guid: fce1ebc21d3323244935b2fd19024ecc, type: 3}
+  - name: Level2
+    Clip: {fileID: 8300000, guid: 85f059ef9660d2a41a9422adec1e8ebc, type: 3}
+  - name: MountainLevel
+    Clip: {fileID: 8300000, guid: f78ff76f234cc364dbfe7fc159cf163b, type: 3}
+  - name: Story0
+    Clip: {fileID: 8300000, guid: f78ff76f234cc364dbfe7fc159cf163b, type: 3}
+  - name: Story1
+    Clip: {fileID: 8300000, guid: 85f059ef9660d2a41a9422adec1e8ebc, type: 3}
+  - name: Story2
+    Clip: {fileID: 8300000, guid: 023b4d2db2e47ff469379f05a4e4e7e7, type: 3}
+  - name: Story3
+    Clip: {fileID: 8300000, guid: 536f369bb41447841a51566c711c89a8, type: 3}
+  - name: Story4
+    Clip: {fileID: 8300000, guid: f78ff76f234cc364dbfe7fc159cf163b, type: 3}
+  - name: EndScreen
+    Clip: {fileID: 8300000, guid: 023b4d2db2e47ff469379f05a4e4e7e7, type: 3}
   _sfx: []
   _musicSource: {fileID: 4389905421455569850}
   _sfxSource: {fileID: 5211502812393655881}
+  _mixer: {fileID: 24100000, guid: 6515f99057dab2f44803e0780d698d0f, type: 2}
+  _fadeDuration: 1
 --- !u!1 &9028721514310946268
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,12 +244,12 @@ AudioSource:
   m_GameObject: {fileID: 9028721514310946268}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -3803818668101033237, guid: 6515f99057dab2f44803e0780d698d0f, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
