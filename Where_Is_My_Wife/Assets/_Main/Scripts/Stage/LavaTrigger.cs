@@ -6,11 +6,27 @@ namespace WhereIsMyWife.LavaRiseTriggers
     public class LavaTrigger : MonoBehaviour
     {
         [SerializeField] private LavaRise _lava;
+        [SerializeField] private LavaAction _action = LavaAction.Rise;
+
+        private enum LavaAction
+        {
+            Rise,
+            PositionBelowCamera,
+        }
+        
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Player"))
             {
-                _lava.StartRising();
+                switch (_action)
+                {
+                    case LavaAction.Rise:
+                        _lava.StartRising();
+                        break;
+                    case LavaAction.PositionBelowCamera:
+                        _lava.PositionBelowCamera();
+                        break;
+                }
             }
         }
     }
