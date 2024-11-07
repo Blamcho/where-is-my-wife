@@ -135,6 +135,11 @@ namespace WhereIsMyWife.Controllers
 
             _currentAnimationState = newState;
         }
+
+        private void Land()
+        {
+            
+        }
         
         private void Die()
         {
