@@ -1,28 +1,28 @@
 using UnityEngine;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.UI
 {
     public class Credits : MonoBehaviour
     {
-        private Vector3 _initialPosition;
+        [SerializeField] private string _mainMenuSceneName = "MainMenu";
+        
         public float _speed = 250f;
-        private float _destroyY = 1080f;
+        private float _endCreditsYPosition = 1080f;
         public RectTransform _rectTransform;
-        private bool _isResetting = false;
         
         void Start()
         {
             _rectTransform = GetComponent<RectTransform>();
-            _initialPosition = _rectTransform.anchoredPosition;
         }
 
         void Update()
         {
             _rectTransform.anchoredPosition += Vector2.up * (_speed * Time.deltaTime);
         
-            if (_rectTransform.anchoredPosition.y > _destroyY && !_isResetting)
+            if (_rectTransform.anchoredPosition.y > _endCreditsYPosition)
             {
-                _rectTransform.anchoredPosition = _initialPosition; 
+                LevelManager.Instance.LoadScene(_mainMenuSceneName);
             }
         }
     }

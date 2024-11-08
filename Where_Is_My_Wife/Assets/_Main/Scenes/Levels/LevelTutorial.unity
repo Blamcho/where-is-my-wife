@@ -62669,6 +62669,14 @@ PrefabInstance:
       propertyPath: _sceneName
       value: Story1
       objectReference: {fileID: 0}
+    - target: {fileID: 4346682904101057654, guid: efb3468444ad0fb42809614a7761dc83, type: 3}
+      propertyPath: _nextLevelNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4346682904101057654, guid: efb3468444ad0fb42809614a7761dc83, type: 3}
+      propertyPath: _nextLevelInitialScene
+      value: Story1
+      objectReference: {fileID: 0}
     - target: {fileID: 6302060987922574848, guid: efb3468444ad0fb42809614a7761dc83, type: 3}
       propertyPath: m_LocalPosition.x
       value: 64
@@ -63173,7 +63181,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -92.315, y: -93.47, z: -10}
+  m_LocalPosition: {x: -93.23219, y: -93.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
