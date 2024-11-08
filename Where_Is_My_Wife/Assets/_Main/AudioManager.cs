@@ -24,7 +24,7 @@ namespace WhereIsMyWife.Managers
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             PlayMusic(scene.name, true);
-        }
+        }   
 
         public void PlayMusic(string name, bool fadeIn = false)
         {

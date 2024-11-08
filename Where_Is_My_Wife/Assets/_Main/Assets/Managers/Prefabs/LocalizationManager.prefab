@@ -45,4 +45,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shouldDestroyOnLoad: 0
-  _currentLanguage: 1

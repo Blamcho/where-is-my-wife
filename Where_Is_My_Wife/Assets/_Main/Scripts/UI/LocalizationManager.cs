@@ -20,6 +20,18 @@ namespace WhereIsMyWife.Managers
         };
 
         private int _currentLanguageIndex = 0;
+
+#if UNITY_EDITOR 
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                CycleLanguage(1);
+            }
+        }
+
+#endif
         
         protected override void Awake()
         {
