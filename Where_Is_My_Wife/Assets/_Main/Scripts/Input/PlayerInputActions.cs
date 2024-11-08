@@ -189,7 +189,7 @@ namespace WIMW.Input
                 {
                     ""name"": """",
                     ""id"": ""d69615cd-eecb-4b7b-a0bc-08e293e1dccb"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -211,7 +211,7 @@ namespace WIMW.Input
                 {
                     ""name"": """",
                     ""id"": ""34d7c13f-da55-4a84-af6a-7d2557850272"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""path"": ""<Keyboard>/k"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -222,7 +222,7 @@ namespace WIMW.Input
                 {
                     ""name"": """",
                     ""id"": ""c0ffceba-40af-41cf-81ad-8fb54330ee5f"",
-                    ""path"": ""<Keyboard>/k"",
+                    ""path"": ""<Keyboard>/l"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
