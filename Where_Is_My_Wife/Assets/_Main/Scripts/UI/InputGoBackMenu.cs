@@ -20,6 +20,6 @@ public class InputGoBackMenu : MonoBehaviour
 
     private void ExitMenu()
     {
-        MenuManager.Instance.ChangeMenu(_nextMenu, MenuManager.MenuChangeAnimation.MoveOut, _nextButton);
+        MenuManager.Instance.ChangeMenu(_nextMenu, MenuManager.MenuChangeAnimation.MoveOut, _nextButton).Forget();
     }
 }

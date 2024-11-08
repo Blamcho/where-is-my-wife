@@ -16,6 +16,6 @@ public class ChangeMenuButton : MenuButton
 
     private void ChangeMenu()
     {
-        MenuManager.Instance.ChangeMenu(_nextMenu, _menuChangeAnimation, _nextButton);
+        MenuManager.Instance.ChangeMenu(_nextMenu, _menuChangeAnimation, _nextButton).Forget();
     }
 }
