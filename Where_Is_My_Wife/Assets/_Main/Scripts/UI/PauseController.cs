@@ -36,6 +36,7 @@ namespace WhereIsMyWife.Managers
         {
             paused = true;
             _canvas.SetActive(true);
+            _button.Select();
             Time.timeScale = 0;
         }
         
