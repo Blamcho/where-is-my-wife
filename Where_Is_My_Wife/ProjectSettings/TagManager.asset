@@ -8,6 +8,8 @@ TagManager:
   - Hook
   - DoubleJump
   - Enemy
+  - LavaStartTrigger
+  - LavaStopTrigger
   layers:
   - Default
   - TransparentFX
@@ -50,6 +52,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 4273560889
+    locked: 0
+  - name: PlayerParticles
+    uniqueID: 3235885369
     locked: 0
   - name: Ground
     uniqueID: 3199463203

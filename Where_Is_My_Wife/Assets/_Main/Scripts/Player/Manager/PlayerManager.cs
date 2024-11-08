@@ -4,8 +4,6 @@ using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Managers.Properties;
 using WhereIsMyWife.Player.State;
 using WhereIsMyWife.Player.StateMachine;
-using WhereIsMyWife.UI;
-
 
 namespace WhereIsMyWife.Managers
 {
@@ -39,6 +37,7 @@ namespace WhereIsMyWife.Managers
         private float _lastPressedJumpTime = 0;
         
         private bool _canDash = true;
+        private bool _hasLanded = false;
 
         // Hook Attempt Flag
         private bool _canAttemptHook = false;
@@ -211,10 +210,19 @@ namespace WhereIsMyWife.Managers
         {
             if (_lastOnGroundTime > 0 && !IsJumping)
             {
-                IsJumpCut = false;
-                IsJumpFalling = false;
-                _isExecutingHook = false;
-                Land?.Invoke();
+                if (!_hasLanded)
+                {
+                    IsJumpCut = false;
+                    IsJumpFalling = false;
+                    _isExecutingHook = false;
+                    Land?.Invoke();
+                }
+                
+                _hasLanded = true;
+            }
+            else
+            {
+                _hasLanded = false;
             }
         }
 

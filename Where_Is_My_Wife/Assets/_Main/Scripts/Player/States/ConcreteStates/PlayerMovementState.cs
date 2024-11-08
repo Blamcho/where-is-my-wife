@@ -13,7 +13,7 @@ namespace WhereIsMyWife.Player.State
         public Action<float> Run { get; set; }
         public Action<float> GravityScale { get; set; }
         public Action<float> FallSpeedCap { get; set; }
-        
+
         protected override void SubscribeToObservables()
         {
             _playerStateInput.JumpStart += InvokeJumpStart;
