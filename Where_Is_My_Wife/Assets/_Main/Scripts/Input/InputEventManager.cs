@@ -181,8 +181,6 @@ namespace WhereIsMyWife.Managers
         
         private void OnPauseStart(InputAction.CallbackContext context)
         {
-            if (SceneManager.GetActiveScene().name != "MainMenu") 
-                LevelManager.Instance.LoadScene("MainMenu"); //TODO: Remove
             PauseStartAction?.Invoke();
         }
 
