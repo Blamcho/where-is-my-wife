@@ -18,13 +18,15 @@ namespace WhereIsMyWife.Managers
         {
             _loadingBackground.alpha = 0;
             _loadingBackground.gameObject.SetActive(true);
-            await _loadingBackground.DOFade(1f, 0.5f).AsyncWaitForCompletion();
+            await _loadingBackground.DOFade(1f, 0.5f).SetUpdate(true).AsyncWaitForCompletion();
             
             var asyncOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
             await asyncOperation.ToUniTask();
 
-            await _loadingBackground.DOFade(0f, 0.5f).AsyncWaitForCompletion();
+            await _loadingBackground.DOFade(0f, 0.5f).SetUpdate(true).AsyncWaitForCompletion();
             _loadingBackground.gameObject.SetActive(false);
+
+            Time.timeScale = 1;
         }
     }
 }
