@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
-using UnityEngine.SceneManagement;
 using WIMW.Input;
 
 namespace WhereIsMyWife.Managers

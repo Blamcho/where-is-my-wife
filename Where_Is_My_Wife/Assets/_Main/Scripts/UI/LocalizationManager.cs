@@ -21,7 +21,7 @@ namespace WhereIsMyWife.Managers
 
         private int _currentLanguageIndex = 0;
 
-#if UNITY_EDITOR 
+#if UNITY_EDITOR // To test that all the UI elements are being displayed correctly on all languages
 
         private void Update()
         {
