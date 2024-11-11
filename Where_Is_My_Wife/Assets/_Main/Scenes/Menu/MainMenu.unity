@@ -825,7 +825,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6313299861211621520, guid: 8bb7aa70dbc4f774b9709f6bcf876400, type: 3}
       propertyPath: _levelNumber
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1073,7 +1073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6313299861211621520, guid: 8bb7aa70dbc4f774b9709f6bcf876400, type: 3}
       propertyPath: _levelNumber
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1280,7 +1280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6313299861211621520, guid: 8bb7aa70dbc4f774b9709f6bcf876400, type: 3}
       propertyPath: _levelNumber
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1309,7 +1309,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc44e8fd9851f04fbb66623c202519d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _firstLevelName: Story0
 --- !u!1001 &906297820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3029,7 +3028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6313299861211621520, guid: 8bb7aa70dbc4f774b9709f6bcf876400, type: 3}
       propertyPath: _levelNumber
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3556,6 +3555,10 @@ PrefabInstance:
     - target: {fileID: 6313299861211621520, guid: 8bb7aa70dbc4f774b9709f6bcf876400, type: 3}
       propertyPath: _sceneName
       value: LevelTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 6313299861211621520, guid: 8bb7aa70dbc4f774b9709f6bcf876400, type: 3}
+      propertyPath: _levelNumber
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

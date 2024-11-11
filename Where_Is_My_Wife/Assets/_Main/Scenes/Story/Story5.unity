@@ -597,6 +597,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1225338912904386103, guid: cccd0447183e8bc4db99886e05e37c4e, type: 3}
+      propertyPath: _sceneName
+      value: Credits
+      objectReference: {fileID: 0}
     - target: {fileID: 2528618072465358582, guid: cccd0447183e8bc4db99886e05e37c4e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
