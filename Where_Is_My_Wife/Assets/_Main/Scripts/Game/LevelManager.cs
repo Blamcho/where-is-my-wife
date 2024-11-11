@@ -7,6 +7,9 @@ namespace WhereIsMyWife.Managers
 {
     public class LevelManager : Singleton<LevelManager>
     { 
+        public const string MainMenuSceneName = "MainMenu";
+        public const string FirstLevelSceneName = "Story0";
+        
         [SerializeField] private CanvasGroup _loadingBackground;
         
         public void LoadScene(string sceneName)

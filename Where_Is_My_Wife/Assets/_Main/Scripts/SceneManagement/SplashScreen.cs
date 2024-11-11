@@ -7,7 +7,6 @@ namespace WhereIsMyWife.SceneManagement
 {
     public class SplashScreen : MonoBehaviour
     {
-        [SerializeField] private string _mainMenuSceneName = "MainMenu";
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private float _completelyVisibleTime = 2f;
         [SerializeField] private float _fadeTime = 1f;
@@ -25,7 +24,7 @@ namespace WhereIsMyWife.SceneManagement
             _splashScreen.AppendInterval(_completelyVisibleTime);
             _splashScreen.Append(_canvasGroup.DOFade(0, _fadeTime));
             await _splashScreen.AsyncWaitForCompletion();
-            LevelManager.Instance.LoadScene(_mainMenuSceneName);
+            LevelManager.Instance.LoadScene(LevelManager.MainMenuSceneName);
         }
     }
 }
