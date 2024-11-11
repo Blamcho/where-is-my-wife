@@ -9,7 +9,7 @@ namespace WhereIsMyWife.Managers
         [SerializeField] private int _bossStagesAmount;
         [SerializeField] private string _storyEndSceneName = "Story5";
         
-        [SerializeField] private int _nextLevelNumber = 6;
+        [SerializeField] private int _currentLevelNumber = 5;
         [SerializeField] private string _currentLevelInitialScene = "Story4";
         
         public event Action<int> GoToNextStageEvent;
@@ -55,7 +55,7 @@ namespace WhereIsMyWife.Managers
         {
             // TODO: Add or call death/defeat animation
             
-            DataSaveManager.Instance.SetNextLevelParameters(_nextLevelNumber, _currentLevelInitialScene);
+            DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _currentLevelInitialScene);
             LevelManager.Instance.LoadScene(_storyEndSceneName);
         }
         

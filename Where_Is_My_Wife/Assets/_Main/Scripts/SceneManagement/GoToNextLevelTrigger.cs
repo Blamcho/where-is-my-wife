@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.SceneManagement
@@ -6,7 +7,7 @@ namespace WhereIsMyWife.SceneManagement
     public class GoToNextLevelTrigger : MonoBehaviour
     {
         [SerializeField] private string _nextLevelInitialScene;
-        [SerializeField] private int _nextLevelNumber;
+        [SerializeField] private int _currentLevelNumber;
         
         private bool _hasBeenTriggered = false;
     
@@ -18,7 +19,7 @@ namespace WhereIsMyWife.SceneManagement
 
                 if (DataSaveManager.Instance.IsInStoryMode)
                 {
-                    DataSaveManager.Instance.SetNextLevelParameters(_nextLevelNumber, _nextLevelInitialScene);
+                    DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _nextLevelInitialScene);
                     LevelManager.Instance.LoadScene(_nextLevelInitialScene);
                 }
                 else
