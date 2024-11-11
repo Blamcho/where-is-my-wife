@@ -1,12 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace WhereIsMyWife.Managers
 {
     public class BossManager : Singleton<BossManager>
     {
         [SerializeField] private int _bossStagesAmount;
-        [SerializeField] private string _storyEndSceneName;
+        [SerializeField] private string _storyEndSceneName = "Story5";
+        
+        [SerializeField] private int _nextLevelNumber = 6;
+        [SerializeField] private string _currentLevelInitialScene = "Story4";
         
         public event Action<int> GoToNextStageEvent;
         
@@ -50,6 +54,8 @@ namespace WhereIsMyWife.Managers
         private void Die()
         {
             // TODO: Add or call death/defeat animation
+            
+            DataSaveManager.Instance.SetNextLevelParameters(_nextLevelNumber, _currentLevelInitialScene);
             LevelManager.Instance.LoadScene(_storyEndSceneName);
         }
         

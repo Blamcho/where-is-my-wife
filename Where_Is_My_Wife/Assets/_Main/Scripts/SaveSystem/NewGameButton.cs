@@ -17,6 +17,7 @@ namespace WhereIsMyWife.Managers
         private void StartNewGame()
         {
             DataSaveManager.Instance.DeleteSaveData();
+            DataSaveManager.Instance.SetStoryMode(true);
             LevelManager.Instance.LoadScene(_firstLevelName);
         }
     }

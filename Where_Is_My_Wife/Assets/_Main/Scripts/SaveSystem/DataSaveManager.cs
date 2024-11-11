@@ -8,17 +8,19 @@ namespace WhereIsMyWife.Managers
     public class DataSaveManager : Singleton<DataSaveManager>
     {
         private const string SaveKey = "saved-data";
+        public const string LastUnlockedLevelNumberKey = "last-unlocked-level-number";
+        public const string LastPlayedStoryModeLevelSceneNameKey = "last-played-story-mode-level-scene-name";
+        
         private Dictionary<string, object> savedData;
 
-        public const string LastUnlockedLevelNumberKey = "last-unlocked-level-number";
-        public const string LastUnlockedLevelSceneNameKey = "last-unlocked-level-scene-name";
-        
+        public bool IsInStoryMode = false;
+
         protected override void Awake()
         {
             base.Awake();
-            Load(); 
-        }   
-        
+            Load();
+        }
+
         public void SetData(string key, object value)
         {
             savedData[key] = value;
@@ -32,7 +34,7 @@ namespace WhereIsMyWife.Managers
                 if (savedData.TryGetValue(key, out var value))
                     return (T)Convert.ChangeType(value, typeof(T));
             }
-            catch 
+            catch
             {
                 return default;
             }
@@ -48,7 +50,7 @@ namespace WhereIsMyWife.Managers
 
         private void Load()
         {
-            string json = PlayerPrefs.GetString(SaveKey,null);
+            string json = PlayerPrefs.GetString(SaveKey, null);
             if (json == null || json == "")
             {
                 savedData = new Dictionary<string, object>();
@@ -56,24 +58,32 @@ namespace WhereIsMyWife.Managers
             }
             else
             {
-                savedData = JsonConvert.DeserializeObject<Dictionary<string, object>>(json); 
+                savedData = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
                 Debug.Log("Game data loaded properly.");
             }
         }
 
         public void DeleteSaveData()
         {
-            SetData(LastUnlockedLevelNumberKey, 0);
-            SetData(LastUnlockedLevelSceneNameKey, null);
+            SetData(LastPlayedStoryModeLevelSceneNameKey, null);
         }
 
-        public void SetLastUnlockedLevel(int levelNumber, string sceneName)
+        public void SetNextLevelParameters(int levelNumber, string sceneName)
         {
             if (levelNumber > GetData<int>(LastUnlockedLevelNumberKey))
             {
                 SetData(LastUnlockedLevelNumberKey, levelNumber);
-                SetData(LastUnlockedLevelSceneNameKey, sceneName);
             }
+
+            if (IsInStoryMode)
+            {
+                SetData(LastPlayedStoryModeLevelSceneNameKey, sceneName);
+            }
+        }
+        
+        public void SetStoryMode(bool isInStoryMode)
+        {
+            IsInStoryMode = isInStoryMode;
         }
     }
 }
