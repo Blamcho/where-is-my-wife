@@ -5,8 +5,6 @@ namespace WhereIsMyWife.UI
 {
     public class Credits : MonoBehaviour
     {
-        [SerializeField] private string _mainMenuSceneName = "MainMenu";
-        
         public float _speed = 250f;
         private float _endCreditsYPosition = 1080f;
         public RectTransform _rectTransform;
@@ -28,7 +26,7 @@ namespace WhereIsMyWife.UI
             if (_rectTransform.anchoredPosition.y > _endCreditsYPosition)
             {
                 _hasEnded = true;
-                LevelManager.Instance.LoadScene(_mainMenuSceneName);
+                LevelManager.Instance.LoadScene(LevelManager.MainMenuSceneName);
             }
         }
     }

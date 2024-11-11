@@ -7,8 +7,9 @@ namespace WhereIsMyWife.Managers
     {
         [SerializeField] private GameObject _canvas;
         [SerializeField] private Button _button;
-        [SerializeField] private string _sceneName;
-        private bool paused;
+        
+        private bool _isPaused;
+        
         private void Start()
         {
             InputEventManager.Instance.PauseStartAction += DeterminedPaused;
@@ -22,7 +23,7 @@ namespace WhereIsMyWife.Managers
 
         private void DeterminedPaused()
         {
-            if (paused)
+            if (_isPaused)
             {
                 ResumeGame();
             }
@@ -34,7 +35,7 @@ namespace WhereIsMyWife.Managers
 
         private void PauseGame()
         {
-            paused = true;
+            _isPaused = true;
             _canvas.SetActive(true);
             _button.Select();
             Time.timeScale = 0;
@@ -42,16 +43,16 @@ namespace WhereIsMyWife.Managers
         
         private void ResumeGame()
         {
-            paused = false;
+            _isPaused = false;
             _canvas.SetActive(false);
             Time.timeScale = 1;
         }
         
         private void GoToMainMenu()
         {
-            paused = false;
+            _isPaused = false;
             _button.interactable = false;
-            LevelManager.Instance.LoadScene(_sceneName);
+            LevelManager.Instance.LoadScene(LevelManager.MainMenuSceneName);
         }
     }
 }

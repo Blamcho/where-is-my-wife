@@ -16,7 +16,7 @@ namespace WhereIsMyWife.SceneManagement
             _button.onClick.AddListener(ChangeScene);
         }
 
-        private void ChangeScene()
+        protected virtual void ChangeScene()
         {
             _button.interactable = false;
             LevelManager.Instance.LoadScene(_sceneName);
