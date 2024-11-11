@@ -20,6 +20,11 @@ namespace WhereIsMyWife.Controllers
         [SerializeField] private float _minProjectileSpawnInterval = 1f;
         [SerializeField] private float _maxProjectileSpawnInterval = 3f;
 
+        [Header("Final Phase")]
+        [SerializeField] private float _finalSwayDistance = 5f;
+        [SerializeField] private float _finalCycleDuration = 0.5f;
+        [SerializeField] private float _finalSpawnMultiplier = 2f;
+
         private Vector3 _originalLocalPosition; 
     
         private Sequence _swaySequence;
@@ -35,6 +40,7 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StopFiringEvent += StopFiring;
             _bossManager.StartSwayingEvent += StartSwaying;
             _bossManager.StopSwayingEvent += StartIdling;
+            _bossManager.StartFinalPhaseEvent += StartFinalPhase;
 
             _originalLocalPosition = transform.localPosition;
         }
@@ -45,6 +51,15 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StopFiringEvent -= StopFiring;
             _bossManager.StartSwayingEvent -= StartSwaying;
             _bossManager.StopSwayingEvent -= StartIdling;
+            _bossManager.StartFinalPhaseEvent -= StartFinalPhase;
+        }
+
+        private void StartFinalPhase()
+        {
+            _swayDistance = _finalSwayDistance;
+            _cycleDuration = _finalCycleDuration;
+            _minProjectileSpawnInterval /= _finalSpawnMultiplier;
+            _maxProjectileSpawnInterval /= _finalSpawnMultiplier;
         }
 
         private void StartFiring()
