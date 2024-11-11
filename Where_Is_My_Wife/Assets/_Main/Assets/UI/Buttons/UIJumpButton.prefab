@@ -66,9 +66,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1593873096, guid: ddac484acc79fe14f87cd20268cd4897, type: 3}
+  m_Sprite: {fileID: 773673072, guid: bbf56e8a4f4b10a47a7568d6f83e4e7f, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -89,6 +89,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _keyboardSprite: {fileID: 773673072, guid: bbf56e8a4f4b10a47a7568d6f83e4e7f, type: 3}
-  _xboxSprite: {fileID: 1593873096, guid: ddac484acc79fe14f87cd20268cd4897, type: 3}
-  _playstationSprite: {fileID: -1873550195, guid: b3d3dd90d07415c43b9a40223d9b5c2c, type: 3}
-  _nintendoSprite: {fileID: -1587226163, guid: ddac484acc79fe14f87cd20268cd4897, type: 3}
+  _nintendoSprite: {fileID: 717865209, guid: 16b3bc95b9f1aff46b03a60f3374628c, type: 3}
+  _playstationSprite: {fileID: -146174240, guid: b3d3dd90d07415c43b9a40223d9b5c2c, type: 3}
+  _xboxSprite: {fileID: -1025349598, guid: ddac484acc79fe14f87cd20268cd4897, type: 3}

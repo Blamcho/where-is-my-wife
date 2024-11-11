@@ -7,9 +7,9 @@ namespace WhereIsMyWife.UI
     public class ControllerTypeUI : MonoBehaviour
     {
         [SerializeField] private Sprite _keyboardSprite;
-        [SerializeField] private Sprite _xboxSprite;
-        [SerializeField] private Sprite _playstationSprite;
         [SerializeField] private Sprite _nintendoSprite;
+        [SerializeField] private Sprite _playstationSprite;
+        [SerializeField] private Sprite _xboxSprite;
 
         private Image _image;
         private SpriteRenderer _spriteRenderer;
