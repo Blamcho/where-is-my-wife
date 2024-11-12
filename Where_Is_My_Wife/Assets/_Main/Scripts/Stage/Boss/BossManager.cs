@@ -18,6 +18,8 @@ namespace WhereIsMyWife.Managers
         public event Action StartSwayingEvent;
         public event Action StopSwayingEvent;
         public event Action StartFinalPhaseEvent;
+        public event Action StartFinalAttackEvent;
+        public event Action StopFinalAttackEvent;
 
         public void ClearStage(int clearedStageNumber)
         {
@@ -55,6 +57,16 @@ namespace WhereIsMyWife.Managers
         {
             StopSwayingEvent?.Invoke();
         }
+
+        public void StartFinalAttack()
+        {
+            StartFinalAttackEvent?.Invoke();
+        }
+        
+        public void StopFinalAttack()
+        {
+            StopFinalAttackEvent?.Invoke();
+        }
         
         private void Die()
         {
@@ -72,6 +84,7 @@ namespace WhereIsMyWife.Managers
         {
             Swaying,
             Firing,
+            FinalAttack,
         }
     }
 }

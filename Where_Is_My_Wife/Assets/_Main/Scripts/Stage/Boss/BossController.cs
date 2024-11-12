@@ -1,6 +1,9 @@
+using System;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using WhereIsMyWife.Managers;
+using Random = UnityEngine.Random;
 
 namespace WhereIsMyWife.Controllers
 {
@@ -20,17 +23,24 @@ namespace WhereIsMyWife.Controllers
         [SerializeField] private float _minProjectileSpawnInterval = 1f;
         [SerializeField] private float _maxProjectileSpawnInterval = 3f;
 
-        [Header("Final Phase")]
+        [Header("Final Phase")] 
+        [SerializeField] private EnemyController _normalTire;
+        [SerializeField] private EnemyController _finalTire;
+        [SerializeField] private Transform _leftSpawnTransform;
+        [SerializeField] private Transform _rightSpawnTransform;
+        [SerializeField] private float[] _tireSpawnIntervals;
         [SerializeField] private float _finalSwayDistance = 5f;
         [SerializeField] private float _finalCycleDuration = 0.5f;
         [SerializeField] private float _finalSpawnMultiplier = 2f;
 
+        
         private Vector3 _originalLocalPosition; 
     
         private Sequence _swaySequence;
         private Sequence _firingSequence;
         private Sequence _resettingSequence;
-    
+        private Sequence _finalAttackSequence;
+        
         private BossManager _bossManager;
     
         private void Start()
@@ -41,6 +51,8 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StartSwayingEvent += StartSwaying;
             _bossManager.StopSwayingEvent += StartIdling;
             _bossManager.StartFinalPhaseEvent += StartFinalPhase;
+            _bossManager.StartFinalAttackEvent += StartFinalAttack;
+            _bossManager.StopFinalAttackEvent += StopFinalAttack;
 
             _originalLocalPosition = transform.localPosition;
         }
@@ -52,6 +64,8 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StartSwayingEvent -= StartSwaying;
             _bossManager.StopSwayingEvent -= StartIdling;
             _bossManager.StartFinalPhaseEvent -= StartFinalPhase;
+            _bossManager.StartFinalAttackEvent -= StartFinalAttack;
+            _bossManager.StopFinalAttackEvent -= StopFinalAttack;
         }
 
         private void StartFinalPhase()
@@ -108,6 +122,37 @@ namespace WhereIsMyWife.Controllers
             _swaySequence.Append(transform.DOLocalMoveY(initialPosition.y + _idleDistance, _idleDuration / 2).SetEase(_ease));
 
             _resettingSequence.Append(_swaySequence.SetLoops(-1, LoopType.Yoyo));
+        }
+
+        private void StartFinalAttack()
+        {
+            _finalAttackSequence = DOTween.Sequence();
+            
+            for (int i = 0; i < _tireSpawnIntervals.Length; i++)
+            {
+                var isFinalInterval = i == _tireSpawnIntervals.Length - 1;
+                var spawnFromRight = CoinFlip();
+                var spawnPosition = spawnFromRight ? _rightSpawnTransform.position : _leftSpawnTransform.position;
+                
+                _finalAttackSequence.AppendInterval(_tireSpawnIntervals[i]);
+                
+                _finalAttackSequence.AppendCallback(() =>
+                {
+                    EnemyController tireToSpawn = isFinalInterval ? _finalTire : _normalTire;
+                    
+                    tireToSpawn.Activate(spawnPosition);
+                });
+            }
+        }
+
+        private void StopFinalAttack()
+        {
+            _finalAttackSequence?.Kill();
+        }
+
+        private static bool CoinFlip()
+        {
+            return Random.Range(0, 2) == 0;
         }
     }
 }
