@@ -102,7 +102,7 @@ namespace WhereIsMyWife.Controllers
             _swaySequence.Append(transform.DOLocalMoveX(-_swayDistance, _cycleDuration / 2).SetEase(_ease));
             _swaySequence.Append(transform.DOLocalMoveX(_swayDistance, _cycleDuration / 2).SetEase(_ease));
 
-            _resettingSequence.Append(_swaySequence.SetLoops(-1));
+            _resettingSequence.Append(_swaySequence.SetLoops(int.MaxValue));
         }
 
         private void StartIdling()
@@ -118,7 +118,7 @@ namespace WhereIsMyWife.Controllers
             _swaySequence.Append(transform.DOLocalMoveY(initialPosition.y - _idleDistance, _idleDuration / 2).SetEase(_ease));
             _swaySequence.Append(transform.DOLocalMoveY(initialPosition.y + _idleDistance, _idleDuration / 2).SetEase(_ease));
 
-            _resettingSequence.Append(_swaySequence.SetLoops(-1, LoopType.Yoyo));
+            _resettingSequence.Append(_swaySequence.SetLoops(int.MaxValue, LoopType.Yoyo));
         }
 
         private void StartFinalAttack()
