@@ -1,9 +1,6 @@
-using System;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using WhereIsMyWife.Managers;
-using Random = UnityEngine.Random;
 
 namespace WhereIsMyWife.Controllers
 {
@@ -152,7 +149,7 @@ namespace WhereIsMyWife.Controllers
 
         private static bool CoinFlip()
         {
-            return Random.Range(0, 2) == 0;
+            return Random.value >= 0.5f;
         }
     }
 }
