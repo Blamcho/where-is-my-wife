@@ -597,6 +597,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1225338912904386103, guid: cccd0447183e8bc4db99886e05e37c4e, type: 3}
+      propertyPath: _sceneName
+      value: LevelTutorial
+      objectReference: {fileID: 0}
     - target: {fileID: 2528618072465358582, guid: cccd0447183e8bc4db99886e05e37c4e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -705,7 +709,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6563109715178379255, guid: cccd0447183e8bc4db99886e05e37c4e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

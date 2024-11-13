@@ -237,7 +237,6 @@ GameObject:
   - component: {fileID: 2610289890404918468}
   - component: {fileID: 6217996820602113688}
   - component: {fileID: 1353483424316725849}
-  - component: {fileID: 6563109715178379255}
   - component: {fileID: 904339634650899675}
   m_Layer: 5
   m_Name: Story
@@ -333,19 +332,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6563109715178379255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5392637377754277711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8adece85d7502fe41a90a1a7dd58ca7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _nextSceneButton: {fileID: 4094108388890333750}
 --- !u!114 &904339634650899675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +535,26 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 647188927236098332, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 647188927236098332, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 647188927236098332, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 647188927236098332, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 647188927236098332, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2445905630114213479, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -639,7 +645,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6912653732608687801, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
       propertyPath: m_text
-      value: End
+      value: Continue
       objectReference: {fileID: 0}
     - target: {fileID: 6912653732608687801, guid: b7c546d9332aa0444854339dd5ecc20d, type: 3}
       propertyPath: m_margin.z
