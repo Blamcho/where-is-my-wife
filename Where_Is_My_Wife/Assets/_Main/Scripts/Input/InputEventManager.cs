@@ -31,8 +31,10 @@ namespace WhereIsMyWife.Managers
         public Action<int> HorizontalCanceledAction { get; set; }
         public Action SubmitStartAction { get; set; }
         public Action CancelStartAction { get; set; }
+
+        public event Action<ControllerType> ChangeControllerTypeAction;
         
-        ControllerType _currentControllerType;
+        public ControllerType CurrentControllerType { get; private set; }
         private string[] controllers;
     
         private PlayerInputActions _playerInputActions;
@@ -212,7 +214,7 @@ namespace WhereIsMyWife.Managers
         {
             if (KeyboardInputWasMadeThisFrame())
             {
-                if (_currentControllerType != ControllerType.Keyboard)
+                if (CurrentControllerType != ControllerType.Keyboard)
                 {
                     ChangeControllerType(ControllerType.Keyboard);
                 }
@@ -221,7 +223,7 @@ namespace WhereIsMyWife.Managers
             {
                 ControllerType currentGamepadType = GetCurrentGamepadType();
                 
-                if (_currentControllerType != currentGamepadType)
+                if (CurrentControllerType != currentGamepadType)
                 {
                     //Debug.Log($"Current gamepad name: {Gamepad.current.name}");
                     ChangeControllerType(currentGamepadType);
@@ -231,7 +233,8 @@ namespace WhereIsMyWife.Managers
         
         private void ChangeControllerType(ControllerType controllerType)
         {
-            _currentControllerType = controllerType; 
+            CurrentControllerType = controllerType; 
+            ChangeControllerTypeAction?.Invoke(controllerType);
             //Debug.Log($"ControllerType: {_currentControllerType}");
         }
         
