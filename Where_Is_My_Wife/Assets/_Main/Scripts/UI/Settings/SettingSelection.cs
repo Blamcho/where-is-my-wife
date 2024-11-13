@@ -1,11 +1,10 @@
-using UnityEngine;
 using UnityEngine.EventSystems;
 using WhereIsMyWife.Managers;
 using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.Setting
 {
-    public class SettingSelection : MenuButton, ISelectHandler, IDeselectHandler
+    public class SettingSelection : MenuButton
     {
         protected IUIInputEvent _uiInputEvent;
 
@@ -26,8 +25,9 @@ namespace WhereIsMyWife.Setting
             SelectedUnsubscribeFromActions();
         }
 
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             SelectedUnsubscribeFromActions();
         }
 
