@@ -17,9 +17,9 @@ namespace WhereIsMyWife.SceneManagement
             {   
                 _hasBeenTriggered = true;
 
-                if (DataSaveManager.Instance.IsInStoryMode)
+                if (LevelManager.Instance.IsInStoryMode)
                 {
-                    DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _nextLevelInitialScene);
+                    DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _nextLevelInitialScene, true);
                     LevelManager.Instance.LoadScene(_nextLevelInitialScene);
                 }
                 else

@@ -13,8 +13,6 @@ namespace WhereIsMyWife.Managers
         
         private Dictionary<string, object> savedData;
 
-        public bool IsInStoryMode = false;
-
         protected override void Awake()
         {
             base.Awake();
@@ -68,22 +66,17 @@ namespace WhereIsMyWife.Managers
             SetData(LastPlayedStoryModeLevelSceneNameKey, null);
         }
 
-        public void SetNextLevelParameters(int levelNumber, string sceneName)
+        public void SetNextLevelParameters(int levelNumber, string sceneName, bool isInStoryMode)
         {
             if (levelNumber > GetData<int>(LastUnlockedLevelNumberKey))
             {
                 SetData(LastUnlockedLevelNumberKey, levelNumber);
             }
 
-            if (IsInStoryMode)
+            if (isInStoryMode)
             {
                 SetData(LastPlayedStoryModeLevelSceneNameKey, sceneName);
             }
-        }
-        
-        public void SetStoryMode(bool isInStoryMode)
-        {
-            IsInStoryMode = isInStoryMode;
         }
     }
 }

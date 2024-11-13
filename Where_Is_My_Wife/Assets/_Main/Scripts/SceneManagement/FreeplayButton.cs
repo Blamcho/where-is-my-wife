@@ -23,7 +23,7 @@ namespace WhereIsMyWife.SceneManagement
         
         protected override void ChangeScene()
         {
-            DataSaveManager.Instance.SetStoryMode(false);
+            LevelManager.Instance.SetStoryMode(false);
             base.ChangeScene();
         }
     }
