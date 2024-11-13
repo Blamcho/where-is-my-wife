@@ -24,7 +24,7 @@ namespace WhereIsMyWife.UI
             _originalColor = _text.color;
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             ResetColor();
         }

@@ -5,22 +5,19 @@ namespace WhereIsMyWife.Controllers
 {
     public class PlayerCameraFollowComponent : MonoBehaviour
     {
-        [SerializeField] private Transform _playerTransfom;
+        [SerializeField] private Transform _playerTransform;
 
-        private Vector3 _rotator = Vector3.zero;
+        private int _lastRotation;
         
         private void Update()
         {
-            if (_playerTransfom.localScale.x < 0)
-            {
-                _rotator.y = 180;
-            }
-            else
-            {
-                _rotator.y = 0;
-            }
-            
-            transform.DORotate(_rotator, 3f);
+            var currentRotation = _playerTransform.localScale.x < 0 ? 180 : 0;
+
+            if (_lastRotation == currentRotation) return;
+
+            _lastRotation = currentRotation;
+            transform.DOKill();
+            transform.DORotate(new Vector3(0, _lastRotation, 0), 3f);
         }
     }
 }
