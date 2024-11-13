@@ -21,7 +21,7 @@ namespace WhereIsMyWife.Managers
                 lastPlayedStoryModeLevel = LevelManager.FirstLevelSceneName;
             }
             
-            DataSaveManager.Instance.SetStoryMode(true);
+            LevelManager.Instance.SetStoryMode(true);
             LevelManager.Instance.LoadScene(lastPlayedStoryModeLevel);
         }
     }

@@ -55,7 +55,11 @@ namespace WhereIsMyWife.Managers
         {
             // TODO: Add or call death/defeat animation
             
-            DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _currentLevelInitialScene);
+            if (LevelManager.Instance.IsInStoryMode)
+            {
+                DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _currentLevelInitialScene, true);
+            }
+            
             LevelManager.Instance.LoadScene(_storyEndSceneName);
         }
         
