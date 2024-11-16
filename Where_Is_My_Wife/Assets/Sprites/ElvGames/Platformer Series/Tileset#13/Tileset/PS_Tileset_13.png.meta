@@ -3,7 +3,7 @@ guid: 340a1c1d6dee50e47b17f4be1016b457
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -110,6 +116,20 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -3339,162 +3359,161 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PS_Tileset_13_45: -736518938
-      PS_Tileset_13_69: 1387258912
-      PS_Tileset_13_90: 1973976940
-      PS_Tileset_13_54: 912975112
-      PS_Tileset_13_27: 591608283
-      PS_Tileset_13_55: -442241985
-      PS_Tileset_13_8: -822465551
-      PS_Tileset_13_103: 2137417216
-      PS_Tileset_13_105: 666546903
-      PS_Tileset_13_107: -1017828434
-      PS_Tileset_13_149: -365147523
-      PS_Tileset_13_145: -471182438
-      PS_Tileset_13_88: -1442980049
-      PS_Tileset_13_82: -75342765
-      PS_Tileset_13_16: -665202143
-      PS_Tileset_13_48: -82776549
-      PS_Tileset_13_110: -199850681
+      PS_Tileset_13_0: -209883117
       PS_Tileset_13_1: 1431712182
-      PS_Tileset_13_130: -345147150
-      PS_Tileset_13_143: 654534163
-      PS_Tileset_13_46: 441268581
-      PS_Tileset_13_6: 2084929356
-      PS_Tileset_13_81: 1202394503
-      PS_Tileset_13_117: -881756129
-      PS_Tileset_13_132: 1092995687
+      PS_Tileset_13_10: -1995162134
+      PS_Tileset_13_100: 1233544069
+      PS_Tileset_13_101: 1433846543
       PS_Tileset_13_102: -1138800608
-      PS_Tileset_13_34: -1101726649
-      PS_Tileset_13_75: -859525740
-      PS_Tileset_13_113: -1811180900
-      PS_Tileset_13_66: -1715118972
-      PS_Tileset_13_58: -351349735
-      PS_Tileset_13_11: -1483369550
-      PS_Tileset_13_74: 1509055999
-      PS_Tileset_13_24: 1751577859
-      PS_Tileset_13_56: -440571646
-      PS_Tileset_13_109: -1310370352
-      PS_Tileset_13_52: -2017210233
-      PS_Tileset_13_94: -247302040
-      PS_Tileset_13_32: 1457761377
-      PS_Tileset_13_7: -1160529600
-      PS_Tileset_13_9: -889106951
-      PS_Tileset_13_148: -699024306
-      PS_Tileset_13_63: -1101956035
-      PS_Tileset_13_116: -889789218
-      PS_Tileset_13_36: -795281535
-      PS_Tileset_13_123: 260016461
+      PS_Tileset_13_103: 2137417216
       PS_Tileset_13_104: 2103548279
-      PS_Tileset_13_47: 945694489
-      PS_Tileset_13_21: 919096286
-      PS_Tileset_13_23: 1865646163
-      PS_Tileset_13_119: 1650321865
-      PS_Tileset_13_61: 1592807363
-      PS_Tileset_13_20: 1125962435
-      PS_Tileset_13_129: 1425261817
-      PS_Tileset_13_140: -1768687643
-      PS_Tileset_13_147: 180501496
-      PS_Tileset_13_134: 561979070
-      PS_Tileset_13_84: -1182077202
+      PS_Tileset_13_105: 666546903
+      PS_Tileset_13_106: 197855771
+      PS_Tileset_13_107: -1017828434
+      PS_Tileset_13_108: 27831108
+      PS_Tileset_13_109: -1310370352
+      PS_Tileset_13_11: -1483369550
+      PS_Tileset_13_110: -199850681
       PS_Tileset_13_111: 435592784
-      PS_Tileset_13_70: 660536773
-      PS_Tileset_13_38: 992799472
-      PS_Tileset_13_19: -1345146126
-      PS_Tileset_13_22: 847436489
-      PS_Tileset_13_5: -474716622
-      PS_Tileset_13_41: 1901134013
-      PS_Tileset_13_96: -127353801
+      PS_Tileset_13_112: 174127471
+      PS_Tileset_13_113: -1811180900
+      PS_Tileset_13_114: 377736091
+      PS_Tileset_13_115: 1166112707
+      PS_Tileset_13_116: -889789218
+      PS_Tileset_13_117: -881756129
+      PS_Tileset_13_118: 879739029
+      PS_Tileset_13_119: 1650321865
+      PS_Tileset_13_12: -51026250
+      PS_Tileset_13_120: -1857485355
+      PS_Tileset_13_121: -448717546
+      PS_Tileset_13_122: -1546103349
+      PS_Tileset_13_123: 260016461
       PS_Tileset_13_124: 546439566
-      PS_Tileset_13_14: 1984957177
-      PS_Tileset_13_80: -1986800105
+      PS_Tileset_13_125: 1780592994
+      PS_Tileset_13_126: -512103084
       PS_Tileset_13_127: -1521257316
-      PS_Tileset_13_87: 2010267768
-      PS_Tileset_13_71: 941022805
+      PS_Tileset_13_128: -570570738
+      PS_Tileset_13_129: 1425261817
+      PS_Tileset_13_13: 864223463
+      PS_Tileset_13_130: -345147150
+      PS_Tileset_13_131: 1029663960
+      PS_Tileset_13_132: 1092995687
+      PS_Tileset_13_133: -168456389
+      PS_Tileset_13_134: 561979070
+      PS_Tileset_13_135: 2042180155
+      PS_Tileset_13_136: -2002945164
+      PS_Tileset_13_137: 1451381843
+      PS_Tileset_13_138: 1030638143
+      PS_Tileset_13_139: 626292133
+      PS_Tileset_13_14: 1984957177
+      PS_Tileset_13_140: -1768687643
       PS_Tileset_13_141: -1644313978
-      PS_Tileset_13_49: -460558097
+      PS_Tileset_13_142: -186278729
+      PS_Tileset_13_143: 654534163
+      PS_Tileset_13_144: -1501604124
+      PS_Tileset_13_145: -471182438
+      PS_Tileset_13_146: -471519174
+      PS_Tileset_13_147: 180501496
+      PS_Tileset_13_148: -699024306
+      PS_Tileset_13_149: -365147523
+      PS_Tileset_13_15: 1173068403
+      PS_Tileset_13_150: -2129771226
+      PS_Tileset_13_151: 926478350
+      PS_Tileset_13_152: -1128015006
+      PS_Tileset_13_16: -665202143
+      PS_Tileset_13_17: -1723575983
+      PS_Tileset_13_18: -1439027058
+      PS_Tileset_13_19: -1345146126
+      PS_Tileset_13_2: 340949796
+      PS_Tileset_13_20: 1125962435
+      PS_Tileset_13_21: 919096286
+      PS_Tileset_13_22: 847436489
+      PS_Tileset_13_23: 1865646163
+      PS_Tileset_13_24: 1751577859
+      PS_Tileset_13_25: -149438083
+      PS_Tileset_13_26: -1262673788
+      PS_Tileset_13_27: 591608283
+      PS_Tileset_13_28: 675047771
+      PS_Tileset_13_29: 652409903
+      PS_Tileset_13_3: 1263093174
       PS_Tileset_13_30: 1314143765
+      PS_Tileset_13_31: 271021695
+      PS_Tileset_13_32: 1457761377
+      PS_Tileset_13_33: 339078980
+      PS_Tileset_13_34: -1101726649
+      PS_Tileset_13_35: 76849825
+      PS_Tileset_13_36: -795281535
+      PS_Tileset_13_37: 1235687149
+      PS_Tileset_13_38: 992799472
       PS_Tileset_13_39: 1148954709
       PS_Tileset_13_4: -422161507
-      PS_Tileset_13_89: -471063391
-      PS_Tileset_13_100: 1233544069
-      PS_Tileset_13_86: -1298053575
-      PS_Tileset_13_67: 1228676656
-      PS_Tileset_13_118: 879739029
-      PS_Tileset_13_85: 1195559330
-      PS_Tileset_13_29: 652409903
-      PS_Tileset_13_79: 1511951378
-      PS_Tileset_13_10: -1995162134
-      PS_Tileset_13_26: -1262673788
-      PS_Tileset_13_146: -471519174
-      PS_Tileset_13_50: -2062445465
-      PS_Tileset_13_13: 864223463
-      PS_Tileset_13_122: -1546103349
-      PS_Tileset_13_35: 76849825
-      PS_Tileset_13_151: 926478350
-      PS_Tileset_13_98: -836215800
-      PS_Tileset_13_31: 271021695
-      PS_Tileset_13_43: -1088447484
-      PS_Tileset_13_12: -51026250
-      PS_Tileset_13_77: 327066439
-      PS_Tileset_13_15: 1173068403
-      PS_Tileset_13_28: 675047771
-      PS_Tileset_13_125: 1780592994
-      PS_Tileset_13_42: -1271140350
-      PS_Tileset_13_101: 1433846543
-      PS_Tileset_13_65: -1399816019
-      PS_Tileset_13_72: -1986555877
-      PS_Tileset_13_25: -149438083
-      PS_Tileset_13_91: -476387948
-      PS_Tileset_13_60: -891092891
-      PS_Tileset_13_95: 651121274
-      PS_Tileset_13_137: 1451381843
-      PS_Tileset_13_17: -1723575983
-      PS_Tileset_13_64: -1564915074
-      PS_Tileset_13_128: -570570738
-      PS_Tileset_13_53: 1035303883
-      PS_Tileset_13_73: 379204329
-      PS_Tileset_13_135: 2042180155
-      PS_Tileset_13_144: -1501604124
-      PS_Tileset_13_150: -2129771226
-      PS_Tileset_13_142: -186278729
-      PS_Tileset_13_83: -739191308
-      PS_Tileset_13_62: -586728835
-      PS_Tileset_13_93: -359723796
-      PS_Tileset_13_138: 1030638143
-      PS_Tileset_13_136: -2002945164
-      PS_Tileset_13_44: 1692905991
-      PS_Tileset_13_97: 1394487687
-      PS_Tileset_13_37: 1235687149
-      PS_Tileset_13_51: -1110507664
-      PS_Tileset_13_2: 340949796
       PS_Tileset_13_40: -21209183
-      PS_Tileset_13_133: -168456389
-      PS_Tileset_13_99: 1819223022
-      PS_Tileset_13_108: 27831108
-      PS_Tileset_13_33: 339078980
-      PS_Tileset_13_139: 626292133
-      PS_Tileset_13_106: 197855771
-      PS_Tileset_13_68: -46560747
-      PS_Tileset_13_114: 377736091
-      PS_Tileset_13_131: 1029663960
-      PS_Tileset_13_120: -1857485355
-      PS_Tileset_13_59: 1123204450
-      PS_Tileset_13_121: -448717546
-      PS_Tileset_13_78: 1741580398
-      PS_Tileset_13_152: -1128015006
-      PS_Tileset_13_18: -1439027058
-      PS_Tileset_13_92: 1409636807
-      PS_Tileset_13_0: -209883117
-      PS_Tileset_13_112: 174127471
-      PS_Tileset_13_115: 1166112707
-      PS_Tileset_13_3: 1263093174
+      PS_Tileset_13_41: 1901134013
+      PS_Tileset_13_42: -1271140350
+      PS_Tileset_13_43: -1088447484
+      PS_Tileset_13_44: 1692905991
+      PS_Tileset_13_45: -736518938
+      PS_Tileset_13_46: 441268581
+      PS_Tileset_13_47: 945694489
+      PS_Tileset_13_48: -82776549
+      PS_Tileset_13_49: -460558097
+      PS_Tileset_13_5: -474716622
+      PS_Tileset_13_50: -2062445465
+      PS_Tileset_13_51: -1110507664
+      PS_Tileset_13_52: -2017210233
+      PS_Tileset_13_53: 1035303883
+      PS_Tileset_13_54: 912975112
+      PS_Tileset_13_55: -442241985
+      PS_Tileset_13_56: -440571646
       PS_Tileset_13_57: -1369347137
-      PS_Tileset_13_126: -512103084
+      PS_Tileset_13_58: -351349735
+      PS_Tileset_13_59: 1123204450
+      PS_Tileset_13_6: 2084929356
+      PS_Tileset_13_60: -891092891
+      PS_Tileset_13_61: 1592807363
+      PS_Tileset_13_62: -586728835
+      PS_Tileset_13_63: -1101956035
+      PS_Tileset_13_64: -1564915074
+      PS_Tileset_13_65: -1399816019
+      PS_Tileset_13_66: -1715118972
+      PS_Tileset_13_67: 1228676656
+      PS_Tileset_13_68: -46560747
+      PS_Tileset_13_69: 1387258912
+      PS_Tileset_13_7: -1160529600
+      PS_Tileset_13_70: 660536773
+      PS_Tileset_13_71: 941022805
+      PS_Tileset_13_72: -1986555877
+      PS_Tileset_13_73: 379204329
+      PS_Tileset_13_74: 1509055999
+      PS_Tileset_13_75: -859525740
       PS_Tileset_13_76: -1090264000
-  spritePackingTag: 
+      PS_Tileset_13_77: 327066439
+      PS_Tileset_13_78: 1741580398
+      PS_Tileset_13_79: 1511951378
+      PS_Tileset_13_8: -822465551
+      PS_Tileset_13_80: -1986800105
+      PS_Tileset_13_81: 1202394503
+      PS_Tileset_13_82: -75342765
+      PS_Tileset_13_83: -739191308
+      PS_Tileset_13_84: -1182077202
+      PS_Tileset_13_85: 1195559330
+      PS_Tileset_13_86: -1298053575
+      PS_Tileset_13_87: 2010267768
+      PS_Tileset_13_88: -1442980049
+      PS_Tileset_13_89: -471063391
+      PS_Tileset_13_9: -889106951
+      PS_Tileset_13_90: 1973976940
+      PS_Tileset_13_91: -476387948
+      PS_Tileset_13_92: 1409636807
+      PS_Tileset_13_93: -359723796
+      PS_Tileset_13_94: -247302040
+      PS_Tileset_13_95: 651121274
+      PS_Tileset_13_96: -127353801
+      PS_Tileset_13_97: 1394487687
+      PS_Tileset_13_98: -836215800
+      PS_Tileset_13_99: 1819223022
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
