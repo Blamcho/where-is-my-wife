@@ -89,8 +89,30 @@ namespace WIMW.Input
                 },
                 {
                     ""name"": """",
+                    ""id"": ""af855fda-4580-4b17-8a00-640151f7b653"",
+                    ""path"": ""<XInputController>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone(min=0.125,max=0.125)"",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""f2b5d208-c691-4987-b4f5-22c42958c5a6"",
                     ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4823dfe1-a2e6-4a88-838f-f07e82c51eff"",
+                    ""path"": ""<XInputController>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -155,8 +177,19 @@ namespace WIMW.Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cb4d9c15-b916-4f78-9218-1630e09c75bb"",
+                    ""id"": ""f210d1eb-e6ae-4fbb-ae96-b3a12c579130"",
                     ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb4d9c15-b916-4f78-9218-1630e09c75bb"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -188,6 +221,17 @@ namespace WIMW.Input
                 },
                 {
                     ""name"": """",
+                    ""id"": ""725659c4-ad43-4f55-9928-63b688d75bd4"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d69615cd-eecb-4b7b-a0bc-08e293e1dccb"",
                     ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
@@ -201,6 +245,17 @@ namespace WIMW.Input
                     ""name"": """",
                     ""id"": ""fad5dad9-aa0e-45fb-bf76-c0ea04756bb7"",
                     ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": ""AxisDeadzone"",
+                    ""groups"": """",
+                    ""action"": ""Hook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5b01924-20e5-47bc-9151-43924cd777af"",
+                    ""path"": ""<XInputController>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": ""AxisDeadzone"",
                     ""groups"": """",
@@ -240,6 +295,17 @@ namespace WIMW.Input
                     ""action"": ""Punch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbb34b05-cab0-4235-8c9b-917e49108d58"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Punch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -262,6 +328,17 @@ namespace WIMW.Input
                     ""name"": """",
                     ""id"": ""2a08f035-0d3c-438b-bdde-ad7a123c264b"",
                     ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85070192-9dae-4ce0-be38-d5ee4d31c1d8"",
+                    ""path"": ""<XInputController>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -328,8 +405,30 @@ namespace WIMW.Input
                 },
                 {
                     ""name"": """",
+                    ""id"": ""67755ac7-18e3-4905-8817-7ca475f02c69"",
+                    ""path"": ""<XInputController>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""04b770ed-f155-4354-9de0-49c837005eef"",
                     ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91af6dff-067b-4c75-8893-33efc30bfb6d"",
+                    ""path"": ""<XInputController>/dpad"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -482,6 +581,17 @@ namespace WIMW.Input
                 },
                 {
                     ""name"": """",
+                    ""id"": ""9b2dbfb1-adc4-48cd-a85a-38dfca025165"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""2ccdb528-5c8f-4b41-89eb-f88b744c79d5"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -495,6 +605,17 @@ namespace WIMW.Input
                     ""name"": """",
                     ""id"": ""02678354-3f9d-4412-b4cd-9f2df1a436cc"",
                     ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f39d8ba-f043-4eaa-be9a-1328ddb41268"",
+                    ""path"": ""<XInputController>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
