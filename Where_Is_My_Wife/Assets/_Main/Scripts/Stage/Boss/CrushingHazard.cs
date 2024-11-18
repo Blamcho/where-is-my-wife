@@ -10,6 +10,7 @@ namespace WhereIsMyWife.Stage
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Collider2D _hazardCollider;
         [SerializeField] private float _fadeTime;
+        [SerializeField] private float _finalAlpha = 0.5f;
         [SerializeField] private float _smashAnticipationTime;
         [SerializeField] private float _smashActionTime;
         [SerializeField] private float _shakeStrength;
@@ -47,7 +48,7 @@ namespace WhereIsMyWife.Stage
             Sequence sequence = DOTween.Sequence();
 
             sequence.Append(_objectPivot.DOShakePosition(_smashAnticipationTime, _shakeStrength))
-                .Join(_spriteRenderer.DOFade(1f, _fadeTime));
+                .Join(_spriteRenderer.DOFade(_finalAlpha, _fadeTime));
             sequence.AppendCallback(() => { _hazardCollider.enabled = true; });
             sequence.Append(_objectPivot.DOMoveY(transform.position.y, _smashActionTime));
             sequence.AppendCallback(() => { _hazardCollider.enabled = false; });
