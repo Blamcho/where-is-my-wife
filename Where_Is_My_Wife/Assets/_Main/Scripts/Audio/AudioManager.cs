@@ -68,7 +68,7 @@ namespace WhereIsMyWife.Managers
             else
             {
                 _sfxSource.clip = s.Clip;
-                _sfxSource.Play();
+                _sfxSource.PlayOneShot(s.Clip);
             }
         }
         
