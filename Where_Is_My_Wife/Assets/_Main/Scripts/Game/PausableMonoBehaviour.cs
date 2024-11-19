@@ -1,52 +1,49 @@
-using System;
 using UnityEngine;
 using WhereIsMyWife.Managers;
 
-public class PausableMonoBehaviour : MonoBehaviour
+namespace WhereIsMyWife.Game
 {
-    private bool _isPaused;
-    
-    protected virtual void Start()
+    public class PausableMonoBehaviour : MonoBehaviour
     {
-        _isPaused = GameManager.Instance.IsPaused;
-        
-        if (_isPaused)
+        private bool _isPaused;
+    
+        protected virtual void Start()
         {
+            _isPaused = GameManager.Instance.IsPaused;
+        
+            GameManager.Instance.PauseEvent += PauseBehaviour;
+            GameManager.Instance.ResumeEvent += ResumeBehaviour;
+        }
+
+        protected virtual void OnDestroy()
+        {
+            GameManager.Instance.PauseEvent -= PauseBehaviour;
+            GameManager.Instance.ResumeEvent -= ResumeBehaviour;
+        }
+
+        private void Update()
+        {
+            if (_isPaused) return;
+        
+            OnUpdate();
+        }
+
+        protected virtual void OnUpdate() { }
+
+        private void PauseBehaviour()
+        {
+            _isPaused = true;
             Pause();
         }
-        else
+    
+        private void ResumeBehaviour()
         {
+            _isPaused = false;
             Resume();
         }
-        
-        GameManager.Instance.PauseEvent += PauseBehaviour;
-        GameManager.Instance.ResumeEvent += ResumeBehaviour;
-    }
 
-    protected virtual void OnDestroy()
-    {
-        GameManager.Instance.PauseEvent -= PauseBehaviour;
-        GameManager.Instance.ResumeEvent -= ResumeBehaviour;
-    }
+        protected virtual void Pause() { }
 
-    protected virtual void Update()
-    {
-        if (_isPaused) return;
+        protected virtual void Resume() { }
     }
-
-    private void PauseBehaviour()
-    {
-        _isPaused = true;
-        Pause();
-    }
-    
-    private void ResumeBehaviour()
-    {
-        _isPaused = false;
-        Resume();
-    }
-
-    protected virtual void Pause() { }
-
-    protected virtual void Resume() { }
 }

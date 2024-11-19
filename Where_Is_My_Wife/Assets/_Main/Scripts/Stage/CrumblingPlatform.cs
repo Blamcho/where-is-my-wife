@@ -1,11 +1,11 @@
-using System.Collections;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
+using WhereIsMyWife.Game;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Platforms_fade_away
 {
-    public class CrumblingPlatform : MonoBehaviour
+    public class CrumblingPlatform : PausableMonoBehaviour
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private float _shakeStrength = 1f;
@@ -18,13 +18,25 @@ namespace WhereIsMyWife.Platforms_fade_away
         private Collider2D _platformCollider;
         private bool _isPlayerOnPlatform = false;
         private float _timeOnPlatform = 0f;
+        private bool _isActive = true;
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+            
+            PlayerManager.Instance.RespawnStartAction += RespawnPlatform;
+            
             _platformCollider = GetComponent<Collider2D>();
         }
 
-        void Update()
+        protected override void OnDestroy()
+        {
+            PlayerManager.Instance.RespawnStartAction -= RespawnPlatform;
+            
+            base.OnDestroy();
+        }
+
+        protected override void OnUpdate()
         {
             if (_isPlayerOnPlatform)
             {
@@ -33,11 +45,13 @@ namespace WhereIsMyWife.Platforms_fade_away
                 {
                     float alpha = Mathf.Lerp(1f, 0f, (_timeOnPlatform - _timeBeforeFade) / _fadeDuration);
                     _spriteRenderer.color = new Color(1f, 1f, 1f, alpha);
-                    if (alpha <= 0f)
+                    if (alpha <= 0f && _isActive)
                     {
+                        _isActive = false;
                         _spriteRenderer.enabled = false;
                         _platformCollider.enabled = false;
-                        StartCoroutine(RespawnPlatform());
+                        
+                        DOVirtual.DelayedCall(_respawnTime, RespawnPlatform);
                     }
                 }
             }
@@ -63,9 +77,14 @@ namespace WhereIsMyWife.Platforms_fade_away
             }
         }
 
-        private IEnumerator RespawnPlatform()
+        private void RespawnPlatform(Vector3 _)
         {
-            yield return new WaitForSeconds(_respawnTime);
+            RespawnPlatform();
+        }
+        
+        private void RespawnPlatform()
+        {
+            _isActive = true;
             _shakeTween.Kill();
             _isPlayerOnPlatform = false;
             _spriteRenderer.enabled = true;

@@ -1,27 +1,31 @@
 using UnityEngine;
 using UnityEngine.Serialization;
+using WhereIsMyWife.Game;
 using WhereIsMyWife.Managers;
 
-    public class LavaRise : MonoBehaviour
+    public class LavaRise : PausableMonoBehaviour
     {
          public float _riseSpeed = 1f;
         [SerializeField] private Transform _maxHeightTransform;
         [SerializeField] private Vector3 _initialPosition;
         [SerializeField] private bool _isRising = false;
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             _initialPosition = transform.position;
 
             PlayerManager.Instance.Respawn.RespawnStartAction += ResetLava;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             PlayerManager.Instance.Respawn.RespawnStartAction -= ResetLava;
+            base.OnDestroy();
         }
 
-        void Update()
+        protected override void OnUpdate()
         {
             if (_isRising && transform.position.y < _maxHeightTransform.position.y)
             {
