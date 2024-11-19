@@ -38,14 +38,14 @@ namespace WhereIsMyWife.Managers
             _isPaused = true;
             _canvas.SetActive(true);
             _button.Select();
-            Time.timeScale = 0;
+            GameManager.Instance.Pause();
         }
         
         private void ResumeGame()
         {
             _isPaused = false;
             _canvas.SetActive(false);
-            Time.timeScale = 1;
+            GameManager.Instance.Resume();
         }
         
         private void GoToMainMenu()

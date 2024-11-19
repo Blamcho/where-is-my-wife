@@ -1,16 +1,28 @@
+using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace WhereIsMyWife.Managers
 {
     public class GameManager : Singleton<GameManager>
     {
-        public GameState GameState { get; private set; } = GameState.Gameplay;
-    }
+        public event Action PauseEvent;
+        public event Action ResumeEvent;
+        
+        public bool IsPaused { get; private set; }
 
-    public enum GameState
-    {
-        Gameplay,
-        UI,
-        Pause,
+        public void Pause()
+        {
+            IsPaused = true;
+            DOTween.PauseAll();
+            PauseEvent?.Invoke();
+        }
+        
+        public void Resume()
+        {
+            IsPaused = false;
+            DOTween.PlayAll();
+            ResumeEvent?.Invoke();
+        }
     }
 }
