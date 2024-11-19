@@ -3,6 +3,9 @@ using WhereIsMyWife.Managers;
 
 public class EnemyController : MonoBehaviour, IPunchable
 {
+    [SerializeField] protected ParticleSystem _deathParticlesPrefab;
+    [SerializeField] protected bool _isBossEnemy = false;
+    
     protected Vector2 _playerPosition;
     protected bool _isMovingTowardsPlayer;
     
@@ -49,6 +52,12 @@ public class EnemyController : MonoBehaviour, IPunchable
 
     public void Punch()
     {
+        if (_isBossEnemy)
+        {
+            BossManager.Instance.TakeDamage();
+        }
+
+        Instantiate(_deathParticlesPrefab, transform.position, Quaternion.identity);
         Deactivate();
     }
 }

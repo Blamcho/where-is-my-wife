@@ -15,7 +15,11 @@ namespace WhereIsMyWife.Horizontal_Projectile_Lava
         void Start()
         {
             PlayerManager.Instance.RespawnStartAction += DestroyProjectile;
-            if (BossManager.Instance != null) BossManager.Instance.StartFinalPhaseEvent += DestroyProjectile;
+            if (BossManager.Instance != null)
+            {
+                BossManager.Instance.StartFinalPhaseEvent += DestroyProjectile;
+                BossManager.Instance.DieEvent += DestroyProjectile;
+            }
             
             _rb = GetComponent<Rigidbody2D>();
             float direction = shootLeft ? -1f : 1f;
@@ -26,7 +30,11 @@ namespace WhereIsMyWife.Horizontal_Projectile_Lava
         private void OnDestroy()
         {
             PlayerManager.Instance.RespawnStartAction -= DestroyProjectile;
-            if (BossManager.Instance != null) BossManager.Instance.StartFinalPhaseEvent -= DestroyProjectile;
+            if (BossManager.Instance != null)
+            {
+                BossManager.Instance.StartFinalPhaseEvent -= DestroyProjectile;
+                BossManager.Instance.DieEvent -= DestroyProjectile;
+            }
         }
 
         private void DestroyProjectile()

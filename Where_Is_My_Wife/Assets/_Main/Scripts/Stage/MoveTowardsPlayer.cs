@@ -14,11 +14,21 @@ namespace WhereIsMyWife.Stage
             Destroy(gameObject, 10f);
         
             PlayerManager.Instance.RespawnStartAction += OnRespawn;
+            
+            if (BossManager.Instance != null)
+            {
+                BossManager.Instance.DieEvent += DestroyObject;
+            }
         }
 
         private void OnDestroy()
         {
             PlayerManager.Instance.RespawnStartAction -= OnRespawn;
+            
+            if (BossManager.Instance != null)
+            {
+                BossManager.Instance.DieEvent -= DestroyObject;
+            }
         }
 
         private void FaceRightVectorTowardsPlayer()
@@ -36,6 +46,11 @@ namespace WhereIsMyWife.Stage
         }
 
         private void OnRespawn(Vector3 _)
+        {
+            Destroy(gameObject);
+        }
+        
+        private void DestroyObject()
         {
             Destroy(gameObject);
         }
