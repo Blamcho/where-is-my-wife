@@ -1,4 +1,5 @@
 using UnityEngine;
+using WhereIsMyWife.Game;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Controllers
@@ -6,7 +7,7 @@ namespace WhereIsMyWife.Controllers
     /// <summary>
     /// This is independent to the <see cref="PlayerController"/> and just reacts to the Events to show the animations.
     /// </summary>
-    public class PlayerAnimationController : MonoBehaviour
+    public class PlayerAnimationController : PausableMonoBehaviour
     {
         [SerializeField] private Animator _animator;
 
@@ -30,8 +31,10 @@ namespace WhereIsMyWife.Controllers
 
         private string _currentAnimationState = "";
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             _playerStateIndicator = PlayerManager.Instance.PlayerStateIndicator;
             
             _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
@@ -46,12 +49,26 @@ namespace WhereIsMyWife.Controllers
             PlayerManager.Instance.RespawnCompleteAction += CompleteRespawn;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             UnsubscribeFromStateEvents();
             
             PlayerManager.Instance.DeathAction -= Die;
             PlayerManager.Instance.RespawnCompleteAction -= CompleteRespawn;
+            
+            base.OnDestroy();
+        }
+
+        protected override void Pause()
+        {
+            UnsubscribeFromStateEvents();
+            _animator.speed = 0;
+        }
+        
+        protected override void Resume()
+        {
+            SubscribeToStateEvents();
+            _animator.speed = 1;
         }
 
         private void SubscribeToStateEvents()
