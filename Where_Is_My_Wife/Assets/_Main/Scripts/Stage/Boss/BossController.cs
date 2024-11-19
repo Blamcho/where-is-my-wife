@@ -201,14 +201,14 @@ namespace WhereIsMyWife.Controllers
            {
                Destroy(hazard);
            }
-           
+
            AudioManager.Instance.StopMusic(true);
-           _material.SetColor(FlashColor, Color.white);
            
            Sequence sequence = DOTween.Sequence();
 
            sequence.Append(transform.DOLocalMoveX(0, 1f).SetEase(_ease));
            sequence.AppendInterval(3f);
+           sequence.AppendCallback(() => { _material.SetColor(FlashColor, Color.white); });
            sequence.Append(_material.DOFloat(1, FlashAmount, _finalFlashDuration / 2));
            sequence.AppendCallback(() => { GetComponent<SpriteRenderer>().sprite = _endSprite; });
            sequence.Append(_material.DOFloat(0, FlashAmount, _finalFlashDuration / 2));
@@ -218,14 +218,14 @@ namespace WhereIsMyWife.Controllers
            sequence.AppendCallback(() => { _particleSystem.Stop(); });
            sequence.AppendInterval(3f);
            sequence.AppendCallback(() =>
+           {
+               if (LevelManager.Instance.IsInStoryMode)
                {
-                   if (LevelManager.Instance.IsInStoryMode)
-                   {
-                       DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _currentLevelInitialScene, true);
-                   }
+                   DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _currentLevelInitialScene, true);
+               }
            
-                   LevelManager.Instance.LoadScene(_storyEndSceneName);
-               });
+               LevelManager.Instance.LoadScene(_storyEndSceneName);
+           });
        }
     }
 }
