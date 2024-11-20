@@ -40,6 +40,9 @@ namespace WhereIsMyWife.Controllers
 
         [SerializeField]
         private Transform _wallHangCheckDownTransform = null;
+
+        private Vector2 _velocityBeforePause;
+        private float _gravityScaleBeforePause;
         
         private void Start()
         {
@@ -55,17 +58,23 @@ namespace WhereIsMyWife.Controllers
             _respawn = PlayerManager.Instance.Respawn;
 
             _playerControllerEvent.SetPlayerControllerData(this);
-
+            
             SubscribeToStateEvents();
             SubscribeToRespawnEvents();
+            
+            GameManager.Instance.PauseEvent += Pause;
+            GameManager.Instance.ResumeEvent += Resume;
         }
 
         private void OnDestroy()
         {
             UnsubscribeFromStateEvents();
             UnsubscribeFromRespawnEvents();
+            
+            GameManager.Instance.PauseEvent -= Pause;
+            GameManager.Instance.ResumeEvent -= Resume;
         }
-
+        
         private void OnTriggerEnter2D(Collider2D collision)
         {
             TriggerEnterEvent?.Invoke(collision);
@@ -76,80 +85,22 @@ namespace WhereIsMyWife.Controllers
             TriggerExitEvent?.Invoke(collision);
         }
 
-        private void SubscribeToStateEvents()
+        private void Pause()
         {
-            _movementStateEvents.Run += RunAndFaceDirection;
-            _movementStateEvents.JumpStart += JumpStart;
-            _movementStateEvents.GravityScale += SetGravityScale;
-            _movementStateEvents.FallSpeedCap += SetFallSpeedCap;
-
-            _wallHangStateEvents.WallHangVelocity += WallHangVelocity;
-            _wallHangStateEvents.Turn += Turn;
-            _wallHangStateEvents.WallJumpStart += JumpStart;
-
-            _wallJumpStateEvents.WallJumpVelocity += SetHorizontalSpeed;
-            _wallJumpStateEvents.GravityScale += SetGravityScale;
-            _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
-            _wallJumpStateEvents.DoubleJump += JumpStart;
-
-            _dashStateEvents.DashStart += Dash;
-            _dashStateEvents.GravityScale += SetGravityScale;
-            _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
-            _dashStateEvents.FallingSpeed += SetFallSpeed;
-
-            _hookStateEvents.GravityScale += SetGravityScale;
-            _hookStateEvents.HookStart += HookStart;
-            _hookStateEvents.SetPosition += SetPosition;
-
-            _punchingStateEvents.Run += Run;
-            _punchingStateEvents.JumpStart += JumpStart;
-            _punchingStateEvents.GravityScale += SetGravityScale;
-            _punchingStateEvents.FallSpeedCap += SetFallSpeedCap;
-        }
-
-        private void UnsubscribeFromStateEvents()
-        {
-            _movementStateEvents.Run -= RunAndFaceDirection;
-            _movementStateEvents.JumpStart -= JumpStart;
-            _movementStateEvents.GravityScale -= SetGravityScale;
-            _movementStateEvents.FallSpeedCap -= SetFallSpeedCap;
-
-            _wallHangStateEvents.WallHangVelocity -= WallHangVelocity;
-            _wallHangStateEvents.Turn -= Turn;
-            _wallHangStateEvents.WallJumpStart -= JumpStart;
-
-            _wallJumpStateEvents.WallJumpVelocity -= SetHorizontalSpeed;
-            _wallJumpStateEvents.GravityScale -= SetGravityScale;
-            _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
-            _wallJumpStateEvents.DoubleJump -= JumpStart;
-
-            _dashStateEvents.DashStart -= Dash;
-            _dashStateEvents.GravityScale -= SetGravityScale;
-            _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
-            _dashStateEvents.FallingSpeed -= SetFallSpeed;
-
-            _hookStateEvents.GravityScale -= SetGravityScale;
-            _hookStateEvents.HookStart -= HookStart;
-            _hookStateEvents.SetPosition -= SetPosition;
-
-            _punchingStateEvents.Run -= Run;
-            _punchingStateEvents.JumpStart -= JumpStart;
-            _punchingStateEvents.GravityScale -= SetGravityScale;
-            _punchingStateEvents.FallSpeedCap -= SetFallSpeedCap;
-        }
-
-        private void SubscribeToRespawnEvents()
-        {
-            _respawn.DeathAction += Die;
-            _respawn.RespawnStartAction += StartRespawn;
-            _respawn.RespawnCompleteAction += CompleteRespawn;
+            UnsubscribeFromStateEvents();
+            
+            _velocityBeforePause = _rigidbody2D.velocity;
+            _gravityScaleBeforePause = _rigidbody2D.gravityScale;
+            _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         }
         
-        private void UnsubscribeFromRespawnEvents()
+        private void Resume()
         {
-            _respawn.DeathAction -= Die;
-            _respawn.RespawnStartAction -= StartRespawn;
-            _respawn.RespawnCompleteAction -= CompleteRespawn;
+            SubscribeToStateEvents();
+            
+            _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+            _rigidbody2D.velocity = _velocityBeforePause;   
+            _rigidbody2D.gravityScale = _gravityScaleBeforePause;
         }
         
         private void JumpStart(float jumpForce)
@@ -261,6 +212,82 @@ namespace WhereIsMyWife.Controllers
         private void CompleteRespawn()
         {
             SubscribeToStateEvents();
+        }
+        
+        private void SubscribeToStateEvents()
+        {
+            _movementStateEvents.Run += RunAndFaceDirection;
+            _movementStateEvents.JumpStart += JumpStart;
+            _movementStateEvents.GravityScale += SetGravityScale;
+            _movementStateEvents.FallSpeedCap += SetFallSpeedCap;
+
+            _wallHangStateEvents.WallHangVelocity += WallHangVelocity;
+            _wallHangStateEvents.Turn += Turn;
+            _wallHangStateEvents.WallJumpStart += JumpStart;
+
+            _wallJumpStateEvents.WallJumpVelocity += SetHorizontalSpeed;
+            _wallJumpStateEvents.GravityScale += SetGravityScale;
+            _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
+            _wallJumpStateEvents.DoubleJump += JumpStart;
+
+            _dashStateEvents.DashStart += Dash;
+            _dashStateEvents.GravityScale += SetGravityScale;
+            _dashStateEvents.FallSpeedCap += SetFallSpeedCap;
+            _dashStateEvents.FallingSpeed += SetFallSpeed;
+
+            _hookStateEvents.GravityScale += SetGravityScale;
+            _hookStateEvents.HookStart += HookStart;
+            _hookStateEvents.SetPosition += SetPosition;
+
+            _punchingStateEvents.Run += Run;
+            _punchingStateEvents.JumpStart += JumpStart;
+            _punchingStateEvents.GravityScale += SetGravityScale;
+            _punchingStateEvents.FallSpeedCap += SetFallSpeedCap;
+        }
+
+        private void UnsubscribeFromStateEvents()
+        {
+            _movementStateEvents.Run -= RunAndFaceDirection;
+            _movementStateEvents.JumpStart -= JumpStart;
+            _movementStateEvents.GravityScale -= SetGravityScale;
+            _movementStateEvents.FallSpeedCap -= SetFallSpeedCap;
+
+            _wallHangStateEvents.WallHangVelocity -= WallHangVelocity;
+            _wallHangStateEvents.Turn -= Turn;
+            _wallHangStateEvents.WallJumpStart -= JumpStart;
+
+            _wallJumpStateEvents.WallJumpVelocity -= SetHorizontalSpeed;
+            _wallJumpStateEvents.GravityScale -= SetGravityScale;
+            _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
+            _wallJumpStateEvents.DoubleJump -= JumpStart;
+
+            _dashStateEvents.DashStart -= Dash;
+            _dashStateEvents.GravityScale -= SetGravityScale;
+            _dashStateEvents.FallSpeedCap -= SetFallSpeedCap;
+            _dashStateEvents.FallingSpeed -= SetFallSpeed;
+
+            _hookStateEvents.GravityScale -= SetGravityScale;
+            _hookStateEvents.HookStart -= HookStart;
+            _hookStateEvents.SetPosition -= SetPosition;
+
+            _punchingStateEvents.Run -= Run;
+            _punchingStateEvents.JumpStart -= JumpStart;
+            _punchingStateEvents.GravityScale -= SetGravityScale;
+            _punchingStateEvents.FallSpeedCap -= SetFallSpeedCap;
+        }
+
+        private void SubscribeToRespawnEvents()
+        {
+            _respawn.DeathAction += Die;
+            _respawn.RespawnStartAction += StartRespawn;
+            _respawn.RespawnCompleteAction += CompleteRespawn;
+        }
+        
+        private void UnsubscribeFromRespawnEvents()
+        {
+            _respawn.DeathAction -= Die;
+            _respawn.RespawnStartAction -= StartRespawn;
+            _respawn.RespawnCompleteAction -= CompleteRespawn;
         }
     }
 }

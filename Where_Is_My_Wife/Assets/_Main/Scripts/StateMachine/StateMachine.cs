@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using WhereIsMyWife.Managers;
 
 public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 {
@@ -16,7 +17,7 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 
     private void Update()
     {
-        if (IsTransitioningState) return;
+        if (IsTransitioningState || GameManager.Instance.IsPaused) return;
         
         EState nextStateKey = CurrentState.NextState;
         
@@ -31,7 +32,7 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 
     private void FixedUpdate()
     {
-        if (IsTransitioningState) return;
+        if (IsTransitioningState || GameManager.Instance.IsPaused) return;
 
         CurrentState.FixedUpdateState();
     }

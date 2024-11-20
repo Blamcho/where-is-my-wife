@@ -39,12 +39,28 @@ namespace WhereIsMyWife.Controllers
             
             SubscribeToStateEvents();
             SubscribeToRespawnEvents();
+            
+            GameManager.Instance.PauseEvent += Pause;
+            GameManager.Instance.ResumeEvent += Resume;
         }
         
         private void OnDestroy()
         {
             UnsubscribeFromStateEvents();
             UnsubscribeFromRespawnEvents();
+            
+            GameManager.Instance.PauseEvent -= Pause;
+            GameManager.Instance.ResumeEvent -= Resume;
+        }
+
+        private void Pause()
+        {
+            UnsubscribeFromStateEvents();
+        }
+        
+        private void Resume()
+        {
+            SubscribeToStateEvents();
         }
 
         private void PlayParticleSystem(ParticleSystem particleSystem, bool isOneShot = false)
@@ -53,7 +69,12 @@ namespace WhereIsMyWife.Controllers
             
             if (!isOneShot)
             {
-                _currentParticleSystem?.Stop();
+                if (_currentParticleSystem != null)
+                {
+                    _currentParticleSystem.Clear();
+                    _currentParticleSystem.Stop();
+                }
+                
                 _currentParticleSystem = particleSystem;
             }
             

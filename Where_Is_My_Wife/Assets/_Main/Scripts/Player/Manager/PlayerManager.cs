@@ -49,6 +49,9 @@ namespace WhereIsMyWife.Managers
 
             SubscribeToObservables();
 
+            GameManager.Instance.PauseEvent += UnsubscribeToObservables;
+            GameManager.Instance.ResumeEvent += SubscribeToObservables;
+            
             _canDash = true;
 
             GravityScale?.Invoke(Properties.Gravity.Scale);
@@ -57,10 +60,18 @@ namespace WhereIsMyWife.Managers
         private void OnDestroy()
         {
             UnsubscribeToObservables();
+            
+            GameManager.Instance.PauseEvent -= UnsubscribeToObservables;
+            GameManager.Instance.ResumeEvent -= SubscribeToObservables;
+            
+            PlayerControllerData.TriggerEnterEvent += TriggerEnter;
+            PlayerControllerData.TriggerExitEvent += TriggerExit;
         }
 
         private void Update()
         {
+            if (GameManager.Instance.IsPaused) return;
+            
             TickTimers();
             GroundCheck();
             WallCheck();
@@ -70,6 +81,7 @@ namespace WhereIsMyWife.Managers
 
         private void TriggerEnter(Collider2D collider)
         {
+            Debug.Log("Trigger Enter: " + collider.name);
             if (collider.CompareTag("Hook"))
             {
                 IsInHookRange = true;
@@ -306,9 +318,6 @@ namespace WhereIsMyWife.Managers
             _playerInputEvent.LookDownAction -= ExecuteLookDownEvent;
             _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
             _playerInputEvent.PunchAction -= ExecutePunchStartEvent;
-
-            PlayerControllerData.TriggerEnterEvent -= TriggerEnter;
-            PlayerControllerData.TriggerExitEvent -= TriggerExit;
         }
     }
 
