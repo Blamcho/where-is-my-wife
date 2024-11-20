@@ -26,6 +26,9 @@ namespace WhereIsMyWife.Stage
                     case BossManager.BossAction.Swaying:
                         _bossManager.StartSwaying();
                         break;
+                    case BossManager.BossAction.FinalAttack:
+                        _bossManager.StartFinalAttack();
+                        break;
                 }
             }
         }
@@ -41,6 +44,9 @@ namespace WhereIsMyWife.Stage
                         break;
                     case BossManager.BossAction.Swaying:
                         _bossManager.StopSwaying();
+                        break;
+                    case BossManager.BossAction.FinalAttack:
+                        _bossManager.StopFinalAttack();
                         break;
                 }
             }

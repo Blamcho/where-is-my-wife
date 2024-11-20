@@ -17,6 +17,9 @@ namespace WhereIsMyWife.Managers
         public event Action StopFiringEvent;
         public event Action StartSwayingEvent;
         public event Action StopSwayingEvent;
+        public event Action StartFinalPhaseEvent;
+        public event Action StartFinalAttackEvent;
+        public event Action StopFinalAttackEvent;
 
         public void ClearStage(int clearedStageNumber)
         {
@@ -26,6 +29,11 @@ namespace WhereIsMyWife.Managers
             }
             else
             {
+                if (clearedStageNumber + 1 == _bossStagesAmount)
+                {
+                    StartFinalPhaseEvent?.Invoke();
+                }
+                
                 GoToNextStageEvent?.Invoke(clearedStageNumber + 1);
             }
         }
@@ -49,6 +57,16 @@ namespace WhereIsMyWife.Managers
         {
             StopSwayingEvent?.Invoke();
         }
+
+        public void StartFinalAttack()
+        {
+            StartFinalAttackEvent?.Invoke();
+        }
+        
+        public void StopFinalAttack()
+        {
+            StopFinalAttackEvent?.Invoke();
+        }
         
         private void Die()
         {
@@ -66,6 +84,7 @@ namespace WhereIsMyWife.Managers
         {
             Swaying,
             Firing,
+            FinalAttack,
         }
     }
 }

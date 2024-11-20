@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,15 +7,22 @@ public class HeadOnEnemyController : EnemyController
     [SerializeField] private float _timeToReachYPosition;
     [SerializeField] private float _timeToReachHorizontalPosition;
     [SerializeField] private Ease _horizontalEase = Ease.InSine;
-
+    
+    private TrailRenderer _trailRenderer;
     private Tweener _verticalTweener;
     private Tween _horizontalDistanceTween;
     
     private float _horizontalDistance;
 
+    private void Awake()
+    {
+        _trailRenderer = GetComponent<TrailRenderer>();
+    }
+
     public override void Activate(Vector2 position)
     {
         base.Activate(position);
+        _trailRenderer.Clear();
         StartMovingTowardsPlayer();
     }
 
