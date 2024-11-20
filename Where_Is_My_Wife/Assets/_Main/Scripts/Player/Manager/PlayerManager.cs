@@ -81,7 +81,6 @@ namespace WhereIsMyWife.Managers
 
         private void TriggerEnter(Collider2D collider)
         {
-            Debug.Log("Trigger Enter: " + collider.name);
             if (collider.CompareTag("Hook"))
             {
                 IsInHookRange = true;
