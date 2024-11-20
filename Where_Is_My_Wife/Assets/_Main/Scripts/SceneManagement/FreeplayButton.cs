@@ -20,6 +20,12 @@ namespace WhereIsMyWife.SceneManagement
                 _button.interactable = false;
             }
         }
+        
+        protected override void ChangeScene()
+        {
+            LevelManager.Instance.SetStoryMode(false);
+            base.ChangeScene();
+        }
     }
 }
 

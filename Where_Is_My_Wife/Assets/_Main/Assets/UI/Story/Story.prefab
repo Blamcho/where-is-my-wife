@@ -714,7 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4654187633b7f49a9c6588a2316e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneName: Credits
+  _sceneName: LevelTutorial
 --- !u!114 &8587605980592496007
 MonoBehaviour:
   m_ObjectHideFlags: 0

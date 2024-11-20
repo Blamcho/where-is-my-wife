@@ -62674,6 +62674,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4346682904101057654, guid: efb3468444ad0fb42809614a7761dc83, type: 3}
+      propertyPath: _currentLevelNumber
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4346682904101057654, guid: efb3468444ad0fb42809614a7761dc83, type: 3}
       propertyPath: _nextLevelInitialScene
       value: Story1
       objectReference: {fileID: 0}

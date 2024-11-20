@@ -7,6 +7,11 @@ namespace WhereIsMyWife.Managers
 {
     public class LevelManager : Singleton<LevelManager>
     { 
+        public const string MainMenuSceneName = "MainMenu";
+        public const string FirstLevelSceneName = "Story0";
+
+        public bool IsInStoryMode { get; set; } = false;
+        
         [SerializeField] private CanvasGroup _loadingBackground;
         
         public void LoadScene(string sceneName)
@@ -27,6 +32,11 @@ namespace WhereIsMyWife.Managers
             _loadingBackground.gameObject.SetActive(false);
 
             Time.timeScale = 1;
+        }
+
+        public void SetStoryMode(bool isInStoryMode)
+        {
+            IsInStoryMode = isInStoryMode;
         }
     }
 }
