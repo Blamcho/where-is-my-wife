@@ -1,8 +1,9 @@
 using UnityEngine;
+using WhereIsMyWife.Game;
 
 namespace WhereIsMyWife.Stage
 {
-    public class ScrollingBackground : MonoBehaviour
+    public class ScrollingBackground : PausableMonoBehaviour
     {
         [SerializeField] private Transform _rightPartTransform;
         [SerializeField] private float _scrollingSpeed;
@@ -22,7 +23,7 @@ namespace WhereIsMyWife.Stage
             _backgroundWidth = _rightPartTransform.localPosition.x;
         }
 
-        private void Update()
+        protected override void OnUpdate()
         {
             if (HasReachedLimit())
             {
