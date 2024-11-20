@@ -37,15 +37,27 @@ namespace WhereIsMyWife.Managers
             
             _fadeSequence?.Kill();
             _fadeSequence = DOTween.Sequence();
-            _fadeSequence.Append(_musicSource.DOFade(0, _fadeDuration));
+            if (fadeIn) _fadeSequence.Append(_musicSource.DOFade(0, _fadeDuration));
             _fadeSequence.AppendCallback(() =>
             { 
                 _musicSource.clip = musicClip.Clip;
                 _musicSource.Play();
             });
-            _fadeSequence.Append(_musicSource.DOFade(1, _fadeDuration));
+            if (fadeIn) _fadeSequence.Append(_musicSource.DOFade(1, _fadeDuration));
         }
 
+        public void StopMusic(bool fadeIn = false)
+        {
+            _fadeSequence?.Kill();
+            _fadeSequence = DOTween.Sequence();
+            if (fadeIn) _fadeSequence.Append(_musicSource.DOFade(0, _fadeDuration));
+            _fadeSequence.AppendCallback(() =>
+            {
+                _musicSource.Stop(); 
+                _musicSource.volume = 1;
+            });
+        }
+        
         public void PlaySFX(string name)
         {
             MusicClip s = Array.Find(_sfx, x => x.name == name);

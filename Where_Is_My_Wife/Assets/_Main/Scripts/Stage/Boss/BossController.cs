@@ -1,11 +1,17 @@
 using DG.Tweening;
 using UnityEngine;
 using WhereIsMyWife.Managers;
+using Random = UnityEngine.Random;
 
 namespace WhereIsMyWife.Controllers
 {
     public class BossController : MonoBehaviour
     {
+        [Header("TakingDamage")]
+        [SerializeField] private Color _damageColor;
+        [SerializeField] private float _damageDuration = 0.1f;
+        [SerializeField] private float _damageScaleMultiplier = 2f;
+        
         [Header("Idle")]
         [SerializeField] private float _idleDistance = 0.5f;
         [SerializeField] private float _idleDuration = 3f;
@@ -29,9 +35,22 @@ namespace WhereIsMyWife.Controllers
         [SerializeField] private float _finalSwayDistance = 5f;
         [SerializeField] private float _finalCycleDuration = 0.5f;
         [SerializeField] private float _finalSpawnMultiplier = 2f;
-
         
-        private Vector3 _originalLocalPosition; 
+        [Header("Scene Flow")]
+        [SerializeField] private string _storyEndSceneName = "Story5";
+        [SerializeField] private int _currentLevelNumber = 5;
+        [SerializeField] private string _currentLevelInitialScene = "Story4";
+
+        [Header("Ending")] 
+        [SerializeField] private GameObject[] _hazards;
+        [SerializeField] private Sprite _endSprite;
+        [SerializeField] private Transform _endTransform;
+        [SerializeField] private ParticleSystem _particleSystem;
+        [SerializeField] private float _endAnimationDuration = 10f;
+        [SerializeField] private float _finalFlashDuration = 3f;
+        
+        private Vector3 _originalLocalPosition;
+        private Material _material;
     
         private Sequence _swaySequence;
         private Sequence _firingSequence;
@@ -39,7 +58,16 @@ namespace WhereIsMyWife.Controllers
         private Sequence _finalAttackSequence;
         
         private BossManager _bossManager;
-    
+        
+        private static readonly int FlashColor = Shader.PropertyToID("_FlashColor");
+        private static readonly int FlashAmount = Shader.PropertyToID("_FlashAmount");
+
+        private void Awake()
+        {
+            _material = GetComponent<SpriteRenderer>().material;
+            _originalLocalPosition = transform.localPosition;
+        }
+
         private void Start()
         {
             _bossManager = BossManager.Instance;
@@ -50,8 +78,10 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StartFinalPhaseEvent += StartFinalPhase;
             _bossManager.StartFinalAttackEvent += StartFinalAttack;
             _bossManager.StopFinalAttackEvent += StopFinalAttack;
-
-            _originalLocalPosition = transform.localPosition;
+            _bossManager.TakeDamageEvent += TakeDamage;
+            _bossManager.DieEvent += Die;
+            
+            _material.SetColor(FlashColor, _damageColor);
         }
 
         private void OnDestroy()
@@ -63,6 +93,8 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StartFinalPhaseEvent -= StartFinalPhase;
             _bossManager.StartFinalAttackEvent -= StartFinalAttack;
             _bossManager.StopFinalAttackEvent -= StopFinalAttack;
+            _bossManager.TakeDamageEvent -= TakeDamage;
+            _bossManager.DieEvent -= Die;
         }
 
         private void StartFinalPhase()
@@ -151,5 +183,49 @@ namespace WhereIsMyWife.Controllers
         {
             return Random.value >= 0.5f;
         }
+
+       private void TakeDamage()
+       {
+            _material.DOFloat(1, FlashAmount, _damageDuration / 2)
+                .OnComplete(() => _material.DOFloat(0, FlashAmount, _damageDuration / 2));
+            transform.DOPunchScale(Vector3.one * _damageScaleMultiplier, _damageDuration);
+       }
+       
+       private void Die()
+       {
+           StopFiring();
+           _resettingSequence?.Kill();
+           StopFinalAttack();
+
+           foreach (GameObject hazard in _hazards)
+           {
+               Destroy(hazard);
+           }
+
+           AudioManager.Instance.StopMusic(true);
+           
+           Sequence sequence = DOTween.Sequence();
+
+           sequence.Append(transform.DOLocalMoveX(0, 1f).SetEase(_ease));
+           sequence.AppendInterval(3f);
+           sequence.AppendCallback(() => { _material.SetColor(FlashColor, Color.white); });
+           sequence.Append(_material.DOFloat(1, FlashAmount, _finalFlashDuration / 2));
+           sequence.AppendCallback(() => { GetComponent<SpriteRenderer>().sprite = _endSprite; });
+           sequence.Append(_material.DOFloat(0, FlashAmount, _finalFlashDuration / 2));
+           sequence.AppendCallback(() => { AudioManager.Instance.PlayMusic("FinalAnimation"); });
+           sequence.AppendInterval(3f);
+           sequence.Append(transform.DOMove(_endTransform.position, _endAnimationDuration));
+           sequence.AppendCallback(() => { _particleSystem.Stop(); });
+           sequence.AppendInterval(3f);
+           sequence.AppendCallback(() =>
+           {
+               if (LevelManager.Instance.IsInStoryMode)
+               {
+                   DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _currentLevelInitialScene, true);
+               }
+           
+               LevelManager.Instance.LoadScene(_storyEndSceneName);
+           });
+       }
     }
 }

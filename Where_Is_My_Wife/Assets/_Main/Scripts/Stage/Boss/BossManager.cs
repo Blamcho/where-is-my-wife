@@ -6,13 +6,8 @@ namespace WhereIsMyWife.Managers
     public class BossManager : Singleton<BossManager>
     {
         [SerializeField] private int _bossStagesAmount;
-        [SerializeField] private string _storyEndSceneName = "Story5";
-        
-        [SerializeField] private int _currentLevelNumber = 5;
-        [SerializeField] private string _currentLevelInitialScene = "Story4";
         
         public event Action<int> GoToNextStageEvent;
-        
         public event Action StartFiringEvent;
         public event Action StopFiringEvent;
         public event Action StartSwayingEvent;
@@ -20,6 +15,8 @@ namespace WhereIsMyWife.Managers
         public event Action StartFinalPhaseEvent;
         public event Action StartFinalAttackEvent;
         public event Action StopFinalAttackEvent;
+        public event Action TakeDamageEvent;
+        public event Action DieEvent;
 
         public void ClearStage(int clearedStageNumber)
         {
@@ -70,14 +67,7 @@ namespace WhereIsMyWife.Managers
         
         private void Die()
         {
-            // TODO: Add or call death/defeat animation
-            
-            if (LevelManager.Instance.IsInStoryMode)
-            {
-                DataSaveManager.Instance.SetNextLevelParameters(_currentLevelNumber, _currentLevelInitialScene, true);
-            }
-            
-            LevelManager.Instance.LoadScene(_storyEndSceneName);
+            DieEvent?.Invoke();
         }
         
         public enum BossAction
@@ -85,6 +75,11 @@ namespace WhereIsMyWife.Managers
             Swaying,
             Firing,
             FinalAttack,
+        }
+
+        public void TakeDamage()
+        {
+            TakeDamageEvent?.Invoke();
         }
     }
 }
