@@ -30,6 +30,7 @@ namespace WhereIsMyWife.Horizontal_Projectile_Lava
         private void OnDestroy()
         {
             PlayerManager.Instance.RespawnStartAction -= DestroyProjectile;
+            
             if (BossManager.Instance != null)
             {
                 BossManager.Instance.StartFinalPhaseEvent -= DestroyProjectile;
