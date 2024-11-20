@@ -1,26 +1,30 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using WhereIsMyWife.Game;
 
 namespace WhereIsMyWife.LavaBalls
 {
-    public class LavaBallMovement : MonoBehaviour
+    public class LavaBallMovement : PausableMonoBehaviour
     {
         [SerializeField] private float _speed = 2f;
         [SerializeField] private float _height = 3f;
         private Vector3 _startPos;
         private SpriteRenderer _spriteRenderer;
         private float _lastY;
+        private float _timeSinceSpawn = 0f;
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
             _startPos = transform.position;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _lastY = _startPos.y;
         }
 
-        void Update()
+        protected override void OnUpdate()
         {
-            float newY = Mathf.PingPong(Time.time * _speed, _height);
+            _timeSinceSpawn += Time.deltaTime;
+            
+            float newY = Mathf.PingPong(_timeSinceSpawn * _speed, _height);
             transform.position = new Vector3(_startPos.x, _startPos.y + newY, _startPos.z);
 
             if (transform.position.y < _lastY)

@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -13,12 +12,14 @@ public class HeadOnEnemyController : EnemyController
     private Tween _horizontalDistanceTween;
     
     private float _horizontalDistance;
+    private float _originalTrailFadeTime;
 
     private void Awake()
     {
         _trailRenderer = GetComponent<TrailRenderer>();
+        _originalTrailFadeTime = _trailRenderer.time;
     }
-
+    
     public override void Activate(Vector2 position)
     {
         base.Activate(position);
@@ -31,7 +32,19 @@ public class HeadOnEnemyController : EnemyController
         StopMovingTowardsPlayer();
         base.Deactivate();
     }
+
+    protected override void Pause()
+    {
+        base.Pause();
+        _trailRenderer.time = float.MaxValue;
+    }
     
+    protected override void Resume()
+    {
+        base.Resume();
+        _trailRenderer.time = _originalTrailFadeTime;
+    }
+
     private void StopMovingTowardsPlayer()
     {
         _isMovingTowardsPlayer = false;

@@ -1,19 +1,27 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
+using WhereIsMyWife.Game;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Horizontal_Projectile_Lava
 {
-    public class LavaProjectile : MonoBehaviour
+    public class LavaProjectile : PausableMonoBehaviour
     {
         [SerializeField] private float speed = 5f; 
         [SerializeField] private float timelife = 8f; 
         [SerializeField] private bool shootLeft = false;
         private Rigidbody2D _rb;
+        private float _direction;
+        private float _timeSinceSpawned = 0f;
 
-        void Start()
+        private void Awake()
         {
+            _rb = GetComponent<Rigidbody2D>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            
             PlayerManager.Instance.RespawnStartAction += DestroyProjectile;
             if (BossManager.Instance != null)
             {
@@ -21,21 +29,46 @@ namespace WhereIsMyWife.Horizontal_Projectile_Lava
                 BossManager.Instance.DieEvent += DestroyProjectile;
             }
             
-            _rb = GetComponent<Rigidbody2D>();
-            float direction = shootLeft ? -1f : 1f;
-            _rb.velocity = transform.right * speed * direction;
-            Destroy(gameObject, timelife);
+            _direction = shootLeft ? -1f : 1f;
+            SetCorrectVelocity();
         }
         
-        private void OnDestroy()
+
+        protected override void OnDestroy()
         {
             PlayerManager.Instance.RespawnStartAction -= DestroyProjectile;
-            
             if (BossManager.Instance != null)
             {
                 BossManager.Instance.StartFinalPhaseEvent -= DestroyProjectile;
                 BossManager.Instance.DieEvent -= DestroyProjectile;
             }
+            
+            base.OnDestroy();
+        }
+        
+        protected override void OnUpdate()
+        {
+            _timeSinceSpawned += Time.deltaTime;
+            
+            if (_timeSinceSpawned >= timelife)
+            {
+                DestroyProjectile();
+            }
+        }
+
+        private void SetCorrectVelocity()
+        {
+            _rb.velocity = transform.right * speed * _direction;
+        }
+        
+        protected override void Pause()
+        {
+            _rb.velocity = Vector3.zero;
+        }
+
+        protected override void Resume()
+        {
+            SetCorrectVelocity();
         }
 
         private void DestroyProjectile()

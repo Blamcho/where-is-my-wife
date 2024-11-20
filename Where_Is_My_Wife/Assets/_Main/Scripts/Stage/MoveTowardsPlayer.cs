@@ -1,18 +1,21 @@
 using UnityEngine;
+using WhereIsMyWife.Game;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Stage
 {
-    public class MoveTowardsPlayer : MonoBehaviour
+    public class MoveTowardsPlayer : PausableMonoBehaviour
     {
         [SerializeField] private float _velocity = 5f;
-    
-        private void Start()
-        { 
-            FaceRightVectorTowardsPlayer();
+        [SerializeField] private float _lifeTime = 10f;
+        float _timeSinceSpawned = 0f;
 
-            Destroy(gameObject, 10f);
-        
+        protected override void Start()
+        { 
+            base.Start();
+            
+            FaceRightVectorTowardsPlayer();
+            
             PlayerManager.Instance.RespawnStartAction += OnRespawn;
             
             if (BossManager.Instance != null)
@@ -21,7 +24,7 @@ namespace WhereIsMyWife.Stage
             }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             PlayerManager.Instance.RespawnStartAction -= OnRespawn;
             
@@ -29,8 +32,10 @@ namespace WhereIsMyWife.Stage
             {
                 BossManager.Instance.DieEvent -= DestroyObject;
             }
+            
+            base.OnDestroy();
         }
-
+        
         private void FaceRightVectorTowardsPlayer()
         {
             Vector2 direction = PlayerManager.Instance.PlayerControllerData.RigidbodyPosition - (Vector2)transform.position;
@@ -40,9 +45,14 @@ namespace WhereIsMyWife.Stage
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
-        private void Update()
+        protected override void OnUpdate()
         {
             transform.Translate(Vector3.right * (_velocity * Time.deltaTime), Space.Self);
+            
+            if (_timeSinceSpawned >= _lifeTime)
+            {
+                DestroyObject();
+            }
         }
 
         private void OnRespawn(Vector3 _)

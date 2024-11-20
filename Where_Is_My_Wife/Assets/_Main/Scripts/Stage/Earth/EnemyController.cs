@@ -1,24 +1,29 @@
 using UnityEngine;
+using WhereIsMyWife.Game;
 using WhereIsMyWife.Managers;
 
-public class EnemyController : MonoBehaviour, IPunchable
+public class EnemyController : PausableMonoBehaviour, IPunchable
 {
     [SerializeField] protected ParticleSystem _deathParticlesPrefab;
     [SerializeField] protected bool _isBossEnemy = false;
     
     protected Vector2 _playerPosition;
     protected bool _isMovingTowardsPlayer;
-    
-    private void Start()
+
+    protected override void Start()
     {
+        base.Start();
+        
         PlayerManager.Instance.RespawnStartAction += Deactivate;
             
         gameObject.SetActive(false);    
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
         PlayerManager.Instance.RespawnStartAction += Deactivate;
+        
+        base.OnDestroy();
     }
     
     public virtual void Activate(Vector2 position)
@@ -37,14 +42,14 @@ public class EnemyController : MonoBehaviour, IPunchable
         Deactivate();
     }
     
-    protected void Update()
+    protected override void OnUpdate()
     {
         if (_isMovingTowardsPlayer)
         {
             UpdatePlayerPosition();
         }
     }
-    
+
     protected void UpdatePlayerPosition()
     {
         _playerPosition = PlayerManager.Instance.PlayerControllerData.RigidbodyPosition;

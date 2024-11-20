@@ -1,11 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
+using WhereIsMyWife.Game;
 using WhereIsMyWife.Managers;
 using Random = UnityEngine.Random;
 
 namespace WhereIsMyWife.Controllers
 {
-    public class BossController : MonoBehaviour
+    public class BossController : PausableMonoBehaviour
     {
         [Header("TakingDamage")]
         [SerializeField] private Color _damageColor;
@@ -56,6 +57,7 @@ namespace WhereIsMyWife.Controllers
         private Sequence _firingSequence;
         private Sequence _resettingSequence;
         private Sequence _finalAttackSequence;
+        private Sequence _finalAnimationSequence;
         
         private BossManager _bossManager;
         
@@ -68,9 +70,36 @@ namespace WhereIsMyWife.Controllers
             _originalLocalPosition = transform.localPosition;
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+            
             _bossManager = BossManager.Instance;
+            Debug.Assert(_bossManager != null, "BossManager is null");
+            SubscribeToManagerEvents();
+
+            _material.SetColor(FlashColor, _damageColor);
+        }
+
+        protected override void OnDestroy()
+        {
+            UnsubscribeFromManagerEvents();
+
+            base.OnDestroy();
+        }
+
+        protected override void Pause()
+        {
+            UnsubscribeFromManagerEvents();
+        }
+        
+        protected override void Resume()
+        { 
+            SubscribeToManagerEvents();
+        }
+
+        private void SubscribeToManagerEvents()
+        {
             _bossManager.StartFiringEvent += StartFiring;
             _bossManager.StopFiringEvent += StopFiring;
             _bossManager.StartSwayingEvent += StartSwaying;
@@ -80,11 +109,9 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StopFinalAttackEvent += StopFinalAttack;
             _bossManager.TakeDamageEvent += TakeDamage;
             _bossManager.DieEvent += Die;
-            
-            _material.SetColor(FlashColor, _damageColor);
         }
-
-        private void OnDestroy()
+        
+        private void UnsubscribeFromManagerEvents()
         {
             _bossManager.StartFiringEvent -= StartFiring;
             _bossManager.StopFiringEvent -= StopFiring;
@@ -96,7 +123,7 @@ namespace WhereIsMyWife.Controllers
             _bossManager.TakeDamageEvent -= TakeDamage;
             _bossManager.DieEvent -= Die;
         }
-
+        
         private void StartFinalPhase()
         {
             _swayDistance = _finalSwayDistance;
@@ -204,20 +231,20 @@ namespace WhereIsMyWife.Controllers
 
            AudioManager.Instance.StopMusic(true);
            
-           Sequence sequence = DOTween.Sequence();
+           _finalAnimationSequence = DOTween.Sequence();
 
-           sequence.Append(transform.DOLocalMoveX(0, 1f).SetEase(_ease));
-           sequence.AppendInterval(3f);
-           sequence.AppendCallback(() => { _material.SetColor(FlashColor, Color.white); });
-           sequence.Append(_material.DOFloat(1, FlashAmount, _finalFlashDuration / 2));
-           sequence.AppendCallback(() => { GetComponent<SpriteRenderer>().sprite = _endSprite; });
-           sequence.Append(_material.DOFloat(0, FlashAmount, _finalFlashDuration / 2));
-           sequence.AppendCallback(() => { AudioManager.Instance.PlayMusic("FinalAnimation"); });
-           sequence.AppendInterval(3f);
-           sequence.Append(transform.DOMove(_endTransform.position, _endAnimationDuration));
-           sequence.AppendCallback(() => { _particleSystem.Stop(); });
-           sequence.AppendInterval(3f);
-           sequence.AppendCallback(() =>
+           _finalAnimationSequence.Append(transform.DOLocalMoveX(0, 1f).SetEase(_ease));
+           _finalAnimationSequence.AppendInterval(3f);
+           _finalAnimationSequence.AppendCallback(() => { _material.SetColor(FlashColor, Color.white); });
+           _finalAnimationSequence.Append(_material.DOFloat(1, FlashAmount, _finalFlashDuration / 2));
+           _finalAnimationSequence.AppendCallback(() => { GetComponent<SpriteRenderer>().sprite = _endSprite; });
+           _finalAnimationSequence.Append(_material.DOFloat(0, FlashAmount, _finalFlashDuration / 2));
+           _finalAnimationSequence.AppendCallback(() => { AudioManager.Instance.PlayMusic("FinalAnimation"); });
+           _finalAnimationSequence.AppendInterval(3f);
+           _finalAnimationSequence.Append(transform.DOMove(_endTransform.position, _endAnimationDuration));
+           _finalAnimationSequence.AppendCallback(() => { _particleSystem.Stop(); });
+           _finalAnimationSequence.AppendInterval(3f);
+           _finalAnimationSequence.AppendCallback(() =>
            {
                if (LevelManager.Instance.IsInStoryMode)
                {
