@@ -19,7 +19,7 @@ public class HeadOnEnemyController : EnemyController
         _trailRenderer = GetComponent<TrailRenderer>();
         _originalTrailFadeTime = _trailRenderer.time;
     }
-
+    
     public override void Activate(Vector2 position)
     {
         base.Activate(position);
