@@ -75,7 +75,14 @@ namespace WhereIsMyWife.Managers
         public void SetMixerVolume(float volume, string mixerChannel)
         {
             volume += 0.0001f; // Never reach to zero
-            _mixer.SetFloat(mixerChannel, Mathf.Log10(volume) * 20);
+            if (mixerChannel == "Music")
+            {
+                _mixer.SetFloat(mixerChannel, Mathf.Log10((volume/2)) * 20);
+            }
+            else
+            {
+                _mixer.SetFloat(mixerChannel, Mathf.Log10(volume) * 20);
+            }
         }
     }
 
