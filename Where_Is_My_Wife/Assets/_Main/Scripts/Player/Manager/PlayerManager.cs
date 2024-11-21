@@ -161,7 +161,7 @@ namespace WhereIsMyWife.Managers
         {
             if (_lastPunchSFXTime <= 0)
             {
-                _lastPunchSFXTime = 0.5f;
+                _lastPunchSFXTime = 0.2083f;
                 AudioManager.Instance.PlaySFX("Punching");
             }
         }
