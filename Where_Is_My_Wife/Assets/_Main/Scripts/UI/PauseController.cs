@@ -6,14 +6,16 @@ namespace WhereIsMyWife.Managers
     public class PauseController : MonoBehaviour
     {
         [SerializeField] private GameObject _canvas;
-        [SerializeField] private Button _button;
+        [SerializeField] private Button _resumeButton;
+        [SerializeField] private Button _mainmenuButton;
         
         private bool _isPaused;
         
         private void Start()
         {
             InputEventManager.Instance.PauseStartAction += DeterminedPaused;
-            _button.onClick.AddListener(GoToMainMenu);
+            _mainmenuButton.onClick.AddListener(GoToMainMenu);
+            _resumeButton.onClick.AddListener(ResumeGame);
         }
 
         private void OnDestroy()
@@ -37,7 +39,7 @@ namespace WhereIsMyWife.Managers
         {
             _isPaused = true;
             _canvas.SetActive(true);
-            _button.Select();
+            _resumeButton.Select();
             GameManager.Instance.Pause();
         }
         
@@ -51,7 +53,7 @@ namespace WhereIsMyWife.Managers
         private void GoToMainMenu()
         {
             _isPaused = false;
-            _button.interactable = false;
+            _mainmenuButton.interactable = false;
             LevelManager.Instance.LoadScene(LevelManager.MainMenuSceneName);
         }
     }
