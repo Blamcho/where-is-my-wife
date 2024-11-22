@@ -63,11 +63,73 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.Disable();
         }
 
+        
         private void Update()
         {
             CheckForControllerTypeChange();
+            
+            // Start of XBOX
+            //
+            // if (Input.GetButtonDown("Jump"))
+            // {
+            //     OnJumpPerform(default);
+            // }
+            // if (Input.GetButtonUp("Jump"))
+            // {
+            //     OnJumpCancel(default);
+            // }
+            // if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            // {
+            //     _moveVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            //     
+            //     ApplyHorizontalDeadZone();
+            //     NormalizeHorizontalAxis();
+            //
+            //     LookDownAction?.Invoke(_moveVector.y < -_lookDownThreshold);
+            //
+            //     int horizontalValue = 0;
+            //
+            //     if (Mathf.Abs(_moveVector.normalized.x) > _horizontalDeadZone)
+            //     {
+            //         horizontalValue = (int)Mathf.Sign(_moveVector.x);
+            //     }
+            //
+            //     HorizontalStartedAction?.Invoke(horizontalValue);
+            // }
+            // if (Input.GetAxis("Horizontal") == 0)
+            // {
+            //     OnMoveCancel(new InputAction.CallbackContext());
+            // }
+            // if (Input.GetButtonDown("Dash"))
+            // {
+            //     OnDash(new InputAction.CallbackContext());
+            // }
+            // if (Input.GetButtonDown("Hook"))
+            // {
+            //     OnHookStart(new InputAction.CallbackContext());
+            // }
+            // if (Input.GetButtonUp("Hook"))
+            // {
+            //     OnHookCancel(new InputAction.CallbackContext());
+            // }
+            // if (Input.GetButtonDown("Punch"))
+            // {
+            //     OnPunchStarted(new InputAction.CallbackContext());
+            // }
+            // if (Input.GetButtonDown("Pause"))
+            // {
+            //     OnPauseStart(new InputAction.CallbackContext());
+            // }
+            // if (Input.GetButtonDown("Submit"))
+            // {
+            //     OnSubmitStart(new InputAction.CallbackContext());
+            // }
+            // if (Input.GetButtonDown("Cancel"))
+            // {
+            //     OnCancelStart(new InputAction.CallbackContext());
+            // }
         }
-
+        
         private void FixedUpdate()
         {
             RunAction?.Invoke(_moveVector.x); 
@@ -120,7 +182,7 @@ namespace WhereIsMyWife.Managers
         {
             JumpEndAction?.Invoke();
         }
-
+        
         private void OnMovePerform(InputAction.CallbackContext context)
         {
             _moveVector = context.ReadValue<Vector2>();
