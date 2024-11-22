@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.Managers
 {
@@ -9,11 +10,14 @@ namespace WhereIsMyWife.Managers
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _mainmenuButton;
         
+        private MenuButton _resumeMenuButton;
+        
         private bool _isPaused;
         
         private void Start()
         {
             InputEventManager.Instance.PauseStartAction += DeterminedPaused;
+            _resumeMenuButton = _resumeButton.GetComponent<MenuButton>();
             _mainmenuButton.onClick.AddListener(GoToMainMenu);
             _resumeButton.onClick.AddListener(ResumeGame);
         }
@@ -40,7 +44,9 @@ namespace WhereIsMyWife.Managers
             _isPaused = true;
             _canvas.SetActive(true);
             _resumeButton.Select();
+            _resumeMenuButton.SetSelectedColor();
             GameManager.Instance.Pause();
+            AudioManager.Instance.PlaySFX("Pause");
         }
         
         private void ResumeGame()
@@ -48,6 +54,7 @@ namespace WhereIsMyWife.Managers
             _isPaused = false;
             _canvas.SetActive(false);
             GameManager.Instance.Resume();
+            AudioManager.Instance.PlaySFX("Resume");
         }
         
         private void GoToMainMenu()

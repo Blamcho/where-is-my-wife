@@ -1,22 +1,23 @@
 using UnityEngine;
+using WhereIsMyWife.Game;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.UI
 {
-    public class Credits : MonoBehaviour
+    public class Credits : PausableMonoBehaviour
     {
         public float _speed = 250f;
         private float _endCreditsYPosition = 1080f;
         public RectTransform _rectTransform;
 
         public bool _hasEnded = false;
-        
-        void Start()
+
+        protected override void Start()
         {
             _rectTransform = GetComponent<RectTransform>();
         }
 
-        void Update()
+        protected override void OnUpdate()
         {
             if (_hasEnded)
                 return;
