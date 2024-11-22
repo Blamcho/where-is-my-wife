@@ -92,6 +92,7 @@ namespace WhereIsMyWife.Managers
                 IsInHookRange = true;
                 _canAttemptHook = true;
                 HookPosition = collider.transform.position;
+                GameManager.Instance.SetTimeScale(Properties.Hook.HookRangeTimeScale);
             }
 
             if (collider.CompareTag("DoubleJump"))
@@ -105,6 +106,7 @@ namespace WhereIsMyWife.Managers
             if (collider.CompareTag("Hook"))
             {
                 IsInHookRange = false;
+                GameManager.Instance.SetTimeScale(1f);
             }
             
             if (collider.CompareTag("DoubleJump"))
@@ -526,6 +528,7 @@ namespace WhereIsMyWife.Managers
                     GravityShifts();
                     HookStart?.Invoke();
                     AudioManager.Instance.PlaySFX("Hook");
+                    GameManager.Instance.SetTimeScale(1f);
                 }
             }
         }
@@ -575,6 +578,7 @@ namespace WhereIsMyWife.Managers
         public void TriggerDeath()
         {
             AudioManager.Instance.PlaySFX("Death");
+            GameManager.Instance.SetTimeScale(1f);
             DeathAction?.Invoke();  
         }
 
