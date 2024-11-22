@@ -35,6 +35,7 @@ namespace WhereIsMyWife.Managers
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
+        private float _lastPunchSFXTime = 0;
         
         private bool _canDash = true;
         private bool _hasLanded = false;
@@ -42,6 +43,11 @@ namespace WhereIsMyWife.Managers
         // Hook Attempt Flag
         private bool _canAttemptHook = false;
         private bool _isExecutingHook = false;
+
+        // SFX Flags
+        private bool _alreadyPlayedWallHangSFX = false;
+        private bool _alreadyPlayedLandingSFX = false;
+        private bool _alreadyPlayedLookingDownSFX = false;
         
         private void Start()
         {
@@ -123,6 +129,7 @@ namespace WhereIsMyWife.Managers
         {
             _lastOnGroundTime -= Time.deltaTime;
             _lastPressedJumpTime -= Time.deltaTime;
+            _lastPunchSFXTime -= Time.deltaTime;
         }
 
         private void GroundCheck()
@@ -150,6 +157,42 @@ namespace WhereIsMyWife.Managers
             );
         }
 
+        private void PunchingSFXCheck()
+        {
+            if (_lastPunchSFXTime <= 0)
+            {
+                _lastPunchSFXTime = 0.2083f;
+                AudioManager.Instance.PlaySFX("Punching");
+            }
+        }
+
+        private void WallHangSFXCheck()
+        {
+            if (!_alreadyPlayedWallHangSFX && IsOnWallHang)
+            {
+                AudioManager.Instance.PlaySFX("WallHang");
+                _alreadyPlayedWallHangSFX = true;
+            }
+        }
+
+        private void LandingSFXCheck()
+        {
+            if (!_alreadyPlayedLandingSFX && _hasLanded)
+            {
+                AudioManager.Instance.PlaySFX("Landing");
+                _alreadyPlayedLandingSFX = true;
+            }
+        }
+
+        private void LookingDownSFXCheck()
+        {
+            if (!_alreadyPlayedLookingDownSFX && _hasLanded && IsLookingDown && !_runningMethods.GetIsAccelerating())
+            {
+                AudioManager.Instance.PlaySFX("LookingDown");
+                _alreadyPlayedLookingDownSFX = true;
+            }
+        }
+
         private void WallCheck()
         {
             if (GetWallHangCheck())
@@ -159,11 +202,13 @@ namespace WhereIsMyWife.Managers
                     IsOnWallHang = true;
                     _isExecutingHook = false;
                     WallHangStart?.Invoke();
+                    WallHangSFXCheck();
                 }
             }
             else
             {
                 IsOnWallHang = false;
+                _alreadyPlayedWallHangSFX = false;
                 WallHangEnd?.Invoke();
             }
         }
@@ -228,11 +273,13 @@ namespace WhereIsMyWife.Managers
                     _isExecutingHook = false;
                     Land?.Invoke();
                 }
-                
+
                 _hasLanded = true;
+                LandingSFXCheck();
             }
             else
             {
+                _alreadyPlayedLandingSFX = false;
                 _hasLanded = false;
             }
         }
@@ -242,6 +289,8 @@ namespace WhereIsMyWife.Managers
             ResetJumpTimers();
 
             JumpStart?.Invoke(_jumpingMethods.GetJumpForce());
+            _alreadyPlayedLandingSFX = false;
+            _alreadyPlayedLookingDownSFX = false;
         }
 
         private void ResetJumpTimers()
@@ -377,10 +426,16 @@ namespace WhereIsMyWife.Managers
             if (IsInDoubleJumpTrigger)
             {
                 IsInDoubleJumpTrigger = false;
+                AudioManager.Instance.PlaySFX("DoubleJump");
                 return true;
             }
-            
-            return (_lastOnGroundTime > 0 && !IsJumping) || IsOnWallHang;
+
+            if ((_lastOnGroundTime > 0 && !IsJumping) || IsOnWallHang)
+            {
+                AudioManager.Instance.PlaySFX("Jump");
+                return true;
+            }
+            return false;
         }
 
         public bool CanJumpCut()
@@ -444,6 +499,7 @@ namespace WhereIsMyWife.Managers
             {
                 DashSpeed = dashDirection * Properties.Dash.Speed;
                 _isExecutingHook = false;
+                AudioManager.Instance.PlaySFX("Dash");
                 DashStart?.Invoke(DashSpeed);
                 _canDash = false;
             }
@@ -452,6 +508,11 @@ namespace WhereIsMyWife.Managers
         private void ExecuteLookDownEvent(bool isLookingDown)
         {
             IsLookingDown = isLookingDown;
+            if (!IsLookingDown)
+            {
+                _alreadyPlayedLookingDownSFX = false;
+            }
+            LookingDownSFXCheck();
         }
 
         private void ExecuteHookStartEvent()
@@ -464,6 +525,7 @@ namespace WhereIsMyWife.Managers
                     _isExecutingHook = true;
                     GravityShifts();
                     HookStart?.Invoke();
+                    AudioManager.Instance.PlaySFX("Hook");
                 }
             }
         }
@@ -476,6 +538,7 @@ namespace WhereIsMyWife.Managers
         private void ExecutePunchStartEvent()
         {
             PunchStart?.Invoke();
+            PunchingSFXCheck();
         }
     }
 
@@ -511,6 +574,7 @@ namespace WhereIsMyWife.Managers
         
         public void TriggerDeath()
         {
+            AudioManager.Instance.PlaySFX("Death");
             DeathAction?.Invoke();  
         }
 
@@ -524,6 +588,7 @@ namespace WhereIsMyWife.Managers
         {
             RespawnCompleteAction?.Invoke();
             _playerStateMachine.Reset();
+            AudioManager.Instance.PlaySFX("Respawned");
         }
     }
 }
