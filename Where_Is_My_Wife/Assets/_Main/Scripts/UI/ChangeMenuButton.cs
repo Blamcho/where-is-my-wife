@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using WhereIsMyWife.Managers;
 using WhereIsMyWife.UI;
 
 public class ChangeMenuButton : MenuButton

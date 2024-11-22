@@ -1,14 +1,13 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.UI
 {
     [RequireComponent(typeof(Button))]
-    public abstract class MenuButton : MonoBehaviour, ISelectHandler, IDeselectHandler
+    public class MenuButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         protected Button _button;
         
@@ -17,11 +16,15 @@ namespace WhereIsMyWife.UI
         protected TextMeshProUGUI _text;
         protected Color _originalColor;
         
+        [SerializeField] private bool _shouldPlayClickSound = true;
+        
         protected virtual void Awake()
         {
             _button = gameObject.GetComponent<Button>();
             _text = GetComponentInChildren<TextMeshProUGUI>();
             _originalColor = _text.color;
+            
+            if (_shouldPlayClickSound) _button.onClick.AddListener(PlayClickSound);
         }
 
         protected virtual void OnDisable()
@@ -31,9 +34,15 @@ namespace WhereIsMyWife.UI
 
         public virtual void OnSelect(BaseEventData eventData)
         {
-            _text.color = _selectedTextColor;
+            SetSelectedColor();
+            PlaySelectedSound();
         }
 
+        public void SetSelectedColor()
+        {
+            _text.color = _selectedTextColor;
+        }
+        
         public virtual void OnDeselect(BaseEventData eventData)
         {   
             ResetColor();
@@ -42,6 +51,16 @@ namespace WhereIsMyWife.UI
         protected virtual void ResetColor()
         {
             _text.color = _originalColor;
+        }
+        
+        protected virtual void PlayClickSound()
+        {
+            AudioManager.Instance.PlaySFX("Click");
+        }
+        
+        private void PlaySelectedSound()
+        {
+            AudioManager.Instance.PlaySFX("Select");
         }
     }   
 }
