@@ -9,8 +9,7 @@ namespace WhereIsMyWife.Managers
         public event Action PauseEvent;
         public event Action ResumeEvent;
 
-        public bool IsFullscreen =>
-            DataSaveManager.Instance.GetData<bool>(DataSaveManager.FullscreenKey);
+        public static bool IsFullscreen => DataSaveManager.Instance.GetData<bool>(DataSaveManager.FullscreenKey);
 
         public bool IsPaused { get; private set; }
 

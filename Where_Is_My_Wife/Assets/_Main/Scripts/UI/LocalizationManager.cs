@@ -36,7 +36,7 @@ namespace WhereIsMyWife.Managers
         protected override void Awake()
         {
             base.Awake();
-            //TODO: Set current language from save data
+          
             LoadLocalizationCSV();
         }
 
