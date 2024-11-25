@@ -1,46 +1,31 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using WhereIsMyWife.Managers;
 using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.Setting  
 {
     public class ToggleSetting : MenuButton
     {
-        [SerializeField] private SettingType _settingType;
         [SerializeField] private Toggle _toggle;
 
+        public event Action<bool> OnValueChanged; 
+        
         protected override void Awake()
         {
             base.Awake();
             _button.onClick.AddListener(ToggleState);
         }
 
-        private void Start()
-        {
-            switch (_settingType)
-            {
-                case SettingType.Fullscreen:
-                    _toggle.isOn = GameManager.Instance.IsFullscreen;
-                    break;
-            }
-        }
-
         private void ToggleState()
         {
             _toggle.isOn = !_toggle.isOn;
-            
-            switch (_settingType)
-            {
-                case SettingType.Fullscreen:
-                    GameManager.Instance.SetFullscreen(_toggle.isOn);
-                    break;
-            }
+            OnValueChanged?.Invoke(_toggle.isOn);
         }
         
-        private enum SettingType
+        public void SetToggleState(bool state)
         {
-            Fullscreen
+            _toggle.isOn = state;
         }
     }
 }
