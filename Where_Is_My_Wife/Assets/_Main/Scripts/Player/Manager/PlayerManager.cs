@@ -495,11 +495,11 @@ namespace WhereIsMyWife.Managers
             Run?.Invoke(acceleration);
         }
 
-        private void ExecuteDashStartEvent(float dashDirection)
+        private void ExecuteDashStartEvent()
         {
             if (InAir() && _canDash)
             {
-                DashSpeed = dashDirection * Properties.Dash.Speed;
+                DashSpeed = PlayerControllerData.HorizontalScale * Properties.Dash.Speed;
                 _isExecutingHook = false;
                 AudioManager.Instance.PlaySFX("Dash");
                 DashStart?.Invoke(DashSpeed);
