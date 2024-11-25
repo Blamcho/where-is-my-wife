@@ -1,7 +1,9 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.SceneManagement
 {
@@ -11,10 +13,20 @@ namespace WhereIsMyWife.SceneManagement
         [SerializeField] private Image[] comicImages; 
         [SerializeField] private float fadeDuration = 1f; 
         [SerializeField] private float intervalBetweenImages = 2f;
-
+        [SerializeField] private GameObject _skipPrompt;
+        
+        private int _submitPressCount = 0;
+        
         private void Start()
         {
             StoryBoardAnimationAsync().Forget();
+            
+            InputEventManager.Instance.SubmitStartAction += AdvanceSkipPrompt;
+        }
+        
+        private void OnDestroy()
+        {
+            InputEventManager.Instance.SubmitStartAction -= AdvanceSkipPrompt;
         }
 
         private async UniTaskVoid StoryBoardAnimationAsync()
@@ -29,11 +41,47 @@ namespace WhereIsMyWife.SceneManagement
             for (int i = 0; i < comicImages.Length; i++)
             {
                 comicImages[i].DOFade(1, fadeDuration); 
-                await UniTask.Delay((int)((fadeDuration + intervalBetweenImages) * 1000));
+                await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration + intervalBetweenImages));
             }
+            
+            ShowContinueButton();
+        }
+
+        private void ShowContinueButton()
+        {
+            _skipPrompt.SetActive(false);
             _nextSceneButton.gameObject.SetActive(true);
             _nextSceneButton.interactable = true;
             _nextSceneButton.Select();
+        }
+
+        private void AdvanceSkipPrompt()
+        {
+            _submitPressCount++;
+            
+            if (_submitPressCount == 1)
+            {
+                _skipPrompt.SetActive(true);
+                return;
+            }
+            
+            SkipAsync().Forget();
+        }
+        
+        private async UniTaskVoid SkipAsync()
+        {
+            InputEventManager.Instance.SubmitStartAction -= AdvanceSkipPrompt;
+            
+            _skipPrompt.SetActive(false);
+            
+            foreach (var image in comicImages)
+            {
+                image.color = Color.white;
+            }
+
+            await UniTask.DelayFrame(1); // Prevent instant button press
+            
+            ShowContinueButton();
         }
     }
 }
