@@ -12,11 +12,21 @@ namespace WhereIsMyWife.Managers
         [SerializeField] private AudioSource _musicSource, _sfxSource;
         [SerializeField] private AudioMixer _mixer;
         [SerializeField] private float _fadeDuration = 1f;
+        [Range(0, 1), SerializeField] private float _musicVolumeMultiplier = 0.25f;
 
+        public const string MusicVolumeKey = "Music";
+        public const string SfxVolumeKey = "SFX";
+        
+        public static float MusicVolumeValue => DataSaveManager.Instance.GetData<float>(DataSaveManager.MusicVolumeKey);
+        public static float SfxVolumeValue  => DataSaveManager.Instance.GetData<float>(DataSaveManager.SfxVolumeKey);
+        
         private Sequence _fadeSequence;
         
         private void Start()
         {
+            SetMixerVolume(MusicVolumeValue, MusicVolumeKey);
+            SetMixerVolume(SfxVolumeValue, SfxVolumeKey);
+            
             PlayMusic(SceneManager.GetActiveScene().name, true);
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
@@ -74,14 +84,19 @@ namespace WhereIsMyWife.Managers
         
         public void SetMixerVolume(float volume, string mixerChannel)
         {
-            volume += 0.0001f; // Never reach to zero
-            if (mixerChannel == "Music")
+            const float minVolume = 0.0001f; // Never reach to zero
+            
+            switch (mixerChannel)
             {
-                _mixer.SetFloat(mixerChannel, Mathf.Log10((volume/2)) * 20);
-            }
-            else
-            {
-                _mixer.SetFloat(mixerChannel, Mathf.Log10(volume) * 20);
+                case MusicVolumeKey:
+                    
+                    _mixer.SetFloat(mixerChannel, Mathf.Log10((volume + minVolume) * _musicVolumeMultiplier) * 20);
+                    DataSaveManager.Instance.SetData(DataSaveManager.MusicVolumeKey, volume);
+                    break;
+                case SfxVolumeKey:
+                    _mixer.SetFloat(mixerChannel, Mathf.Log10(volume + minVolume) * 20);
+                    DataSaveManager.Instance.SetData(DataSaveManager.SfxVolumeKey, volume);
+                    break;
             }
         }
     }

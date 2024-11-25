@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,6 +34,21 @@ namespace WhereIsMyWife.Setting
             SetHorizontalValue(0);
         }
 
+        protected override void Start()
+        {
+            base.Start();
+            
+            switch (_settingType)
+            {
+                case SettingType.Music:
+                    _slider.normalizedValue = AudioManager.MusicVolumeValue;
+                    break;
+                case SettingType.Sfx:
+                    _slider.normalizedValue = AudioManager.SfxVolumeValue;
+                    break;
+            }
+        }
+
         protected override void SubscribeToActions()
         {
             _uiInputEvent.HorizontalStartedAction += SetHorizontalValue;
@@ -54,17 +70,15 @@ namespace WhereIsMyWife.Setting
         {
             _slider.value += _horizontalValue * _valueStep;
             _sliderValueText.text = _slider.value.ToString();
-
-            float normalizedValue = Mathf.InverseLerp(_slider.minValue, _slider.maxValue, _slider.value);
             
             switch (_settingType)
             {
                 case SettingType.Music:
-                    AudioManager.Instance.SetMixerVolume(normalizedValue,"Music");
+                    AudioManager.Instance.SetMixerVolume(_slider.normalizedValue,AudioManager.MusicVolumeKey);
                     break;
                 
-                case SettingType.SFX:
-                    AudioManager.Instance.SetMixerVolume(normalizedValue, "SFX");
+                case SettingType.Sfx:
+                    AudioManager.Instance.SetMixerVolume(_slider.normalizedValue, AudioManager.SfxVolumeKey);
                     break;
             }
         }
@@ -89,7 +103,7 @@ namespace WhereIsMyWife.Setting
         private enum SettingType
         {
             Music,
-            SFX
+            Sfx
         }
     }
 }
