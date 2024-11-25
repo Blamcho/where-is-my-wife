@@ -155,10 +155,7 @@ namespace WhereIsMyWife.Managers
 
         private void OnDash(InputAction.CallbackContext context)
         {
-            if (_moveVector.x != 0) 
-            {
-               DashAction?.Invoke(_moveVector.x);
-            }
+            DashAction?.Invoke(_moveVector.x);
         }
 
         private void OnHookStart(InputAction.CallbackContext context)

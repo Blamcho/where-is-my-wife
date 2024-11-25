@@ -499,6 +499,11 @@ namespace WhereIsMyWife.Managers
         {
             if (InAir() && _canDash)
             {
+                if (dashDirection == 0)
+                {
+                    dashDirection = PlayerControllerData.HorizontalScale;
+                }
+                
                 DashSpeed = dashDirection * Properties.Dash.Speed;
                 _isExecutingHook = false;
                 AudioManager.Instance.PlaySFX("Dash");
