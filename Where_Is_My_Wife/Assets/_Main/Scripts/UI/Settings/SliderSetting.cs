@@ -1,18 +1,20 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.Setting
 {
     public class SliderSetting : SettingSelection
     {
-        [SerializeField] private SettingType _settingType;
         [SerializeField] private Slider _slider;
         [SerializeField] private TextMeshProUGUI _sliderValueText;
         [SerializeField] private int _valueStep;
         [SerializeField] private float _updateInterval;
+
+        public event Action<float> OnValueChanged;
+        
         private float _updateTimer = 0;
         private int _horizontalValue = 0;
 
@@ -54,19 +56,8 @@ namespace WhereIsMyWife.Setting
         {
             _slider.value += _horizontalValue * _valueStep;
             _sliderValueText.text = _slider.value.ToString();
-
-            float normalizedValue = Mathf.InverseLerp(_slider.minValue, _slider.maxValue, _slider.value);
             
-            switch (_settingType)
-            {
-                case SettingType.Music:
-                    AudioManager.Instance.SetMixerVolume(normalizedValue,"Music");
-                    break;
-                
-                case SettingType.SFX:
-                    AudioManager.Instance.SetMixerVolume(normalizedValue, "SFX");
-                    break;
-            }
+            OnValueChanged?.Invoke(_slider.normalizedValue);
         }
     
         private void TickUpdateTimer()
@@ -85,11 +76,11 @@ namespace WhereIsMyWife.Setting
             base.ResetColor();
             _sliderValueText.color = _originalColor;
         }
-
-        private enum SettingType
+        
+        public void SetSliderNormalizedValue(float value)
         {
-            Music,
-            SFX
+            _slider.normalizedValue = value;
+            _sliderValueText.text = value.ToString();
         }
     }
 }

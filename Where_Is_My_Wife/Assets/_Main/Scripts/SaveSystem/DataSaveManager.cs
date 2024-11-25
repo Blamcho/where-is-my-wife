@@ -10,6 +10,10 @@ namespace WhereIsMyWife.Managers
         private const string SaveKey = "saved-data";
         public const string LastUnlockedLevelNumberKey = "last-unlocked-level-number";
         public const string LastPlayedStoryModeLevelSceneNameKey = "last-played-story-mode-level-scene-name";
+        public const string MusicVolumeKey = "music-volume";
+        public const string SfxVolumeKey = "sfx-volume";
+        public const string LanguageIndexKey = "language";
+        public const string FullscreenKey = "fullscreen";
         
         private Dictionary<string, object> savedData;
 
@@ -52,6 +56,7 @@ namespace WhereIsMyWife.Managers
             if (json == null || json == "")
             {
                 savedData = new Dictionary<string, object>();
+                SetDefaultData();
                 Debug.Log("No save data found. Created new one.");
             }
             else
@@ -77,6 +82,16 @@ namespace WhereIsMyWife.Managers
             {
                 SetData(LastPlayedStoryModeLevelSceneNameKey, sceneName);
             }
+        }
+        
+        private void SetDefaultData()
+        {
+            SetData(LastUnlockedLevelNumberKey, 0);
+            SetData(LastPlayedStoryModeLevelSceneNameKey, null);
+            SetData(MusicVolumeKey, 1f);
+            SetData(SfxVolumeKey, 1f);
+            SetData(LanguageIndexKey, 0);
+            SetData(FullscreenKey, true);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using WhereIsMyWife.UI;
@@ -8,9 +9,23 @@ namespace WhereIsMyWife.Setting
     {
         [SerializeField] private Toggle _toggle;
 
-        public void ToggleIsOn()
+        public event Action<bool> OnValueChanged; 
+        
+        protected override void Awake()
+        {
+            base.Awake();
+            _button.onClick.AddListener(ToggleState);
+        }
+
+        private void ToggleState()
         {
             _toggle.isOn = !_toggle.isOn;
+            OnValueChanged?.Invoke(_toggle.isOn);
+        }
+        
+        public void SetToggleState(bool state)
+        {
+            _toggle.isOn = state;
         }
     }
 }

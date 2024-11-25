@@ -12,11 +12,22 @@ namespace WhereIsMyWife.Managers
         [SerializeField] private AudioSource _musicSource, _sfxSource;
         [SerializeField] private AudioMixer _mixer;
         [SerializeField] private float _fadeDuration = 1f;
+        [Range(0, 1), SerializeField] private float _musicVolumeMultiplier = 0.25f;
+        [Range(0, 1), SerializeField] private float _sfxVolumeMultiplier = 0.7f;
 
+        public const string MusicMixerVolumeParameterName = "Music";
+        public const string SfxMixerVolumeParameterName = "SFX";
+        
+        public static float MusicVolumeValue => DataSaveManager.Instance.GetData<float>(DataSaveManager.MusicVolumeKey);
+        public static float SfxVolumeValue  => DataSaveManager.Instance.GetData<float>(DataSaveManager.SfxVolumeKey);
+        
         private Sequence _fadeSequence;
         
         private void Start()
         {
+            SetMixerVolume(MusicVolumeValue, MusicMixerVolumeParameterName);
+            SetMixerVolume(SfxVolumeValue, SfxMixerVolumeParameterName);
+            
             PlayMusic(SceneManager.GetActiveScene().name, true);
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
@@ -74,14 +85,18 @@ namespace WhereIsMyWife.Managers
         
         public void SetMixerVolume(float volume, string mixerChannel)
         {
-            volume += 0.0001f; // Never reach to zero
-            if (mixerChannel == "Music")
+            const float minVolume = 0.0001f; // Never reach to zero
+            
+            switch (mixerChannel)
             {
-                _mixer.SetFloat(mixerChannel, Mathf.Log10((volume/2)) * 20);
-            }
-            else
-            {
-                _mixer.SetFloat(mixerChannel, Mathf.Log10(volume) * 20);
+                case MusicMixerVolumeParameterName:
+                    _mixer.SetFloat(mixerChannel, Mathf.Log10((volume + minVolume) * _musicVolumeMultiplier) * 20);
+                    DataSaveManager.Instance.SetData(DataSaveManager.MusicVolumeKey, volume);
+                    break;
+                case SfxMixerVolumeParameterName:
+                    _mixer.SetFloat(mixerChannel, Mathf.Log10((volume + minVolume) * _sfxVolumeMultiplier)  * 20);
+                    DataSaveManager.Instance.SetData(DataSaveManager.SfxVolumeKey, volume);
+                    break;
             }
         }
     }
