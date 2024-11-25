@@ -13,9 +13,10 @@ namespace WhereIsMyWife.Managers
         [SerializeField] private AudioMixer _mixer;
         [SerializeField] private float _fadeDuration = 1f;
         [Range(0, 1), SerializeField] private float _musicVolumeMultiplier = 0.25f;
+        [Range(0, 1), SerializeField] private float _sfxVolumeMultiplier = 0.7f;
 
-        public const string MusicVolumeKey = "Music";
-        public const string SfxVolumeKey = "SFX";
+        public const string MusicMixerVolumeParameterName = "Music";
+        public const string SfxMixerVolumeParameterName = "SFX";
         
         public static float MusicVolumeValue => DataSaveManager.Instance.GetData<float>(DataSaveManager.MusicVolumeKey);
         public static float SfxVolumeValue  => DataSaveManager.Instance.GetData<float>(DataSaveManager.SfxVolumeKey);
@@ -24,8 +25,8 @@ namespace WhereIsMyWife.Managers
         
         private void Start()
         {
-            SetMixerVolume(MusicVolumeValue, MusicVolumeKey);
-            SetMixerVolume(SfxVolumeValue, SfxVolumeKey);
+            SetMixerVolume(MusicVolumeValue, MusicMixerVolumeParameterName);
+            SetMixerVolume(SfxVolumeValue, SfxMixerVolumeParameterName);
             
             PlayMusic(SceneManager.GetActiveScene().name, true);
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -88,13 +89,12 @@ namespace WhereIsMyWife.Managers
             
             switch (mixerChannel)
             {
-                case MusicVolumeKey:
-                    
+                case MusicMixerVolumeParameterName:
                     _mixer.SetFloat(mixerChannel, Mathf.Log10((volume + minVolume) * _musicVolumeMultiplier) * 20);
                     DataSaveManager.Instance.SetData(DataSaveManager.MusicVolumeKey, volume);
                     break;
-                case SfxVolumeKey:
-                    _mixer.SetFloat(mixerChannel, Mathf.Log10(volume + minVolume) * 20);
+                case SfxMixerVolumeParameterName:
+                    _mixer.SetFloat(mixerChannel, Mathf.Log10((volume + minVolume) * _sfxVolumeMultiplier)  * 20);
                     DataSaveManager.Instance.SetData(DataSaveManager.SfxVolumeKey, volume);
                     break;
             }
