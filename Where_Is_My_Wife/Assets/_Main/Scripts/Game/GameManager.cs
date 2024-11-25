@@ -11,12 +11,17 @@ namespace WhereIsMyWife.Managers
         
         public bool IsPaused { get; private set; }
 
+        private float _timeScaleBeforePause = 1f;
+        private float _originalFixedDeltaTime;
+
         protected override void Awake()
         {
             base.Awake();
             
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            
+            _originalFixedDeltaTime = Time.fixedDeltaTime;
         }
 
         public void Pause()
@@ -24,6 +29,9 @@ namespace WhereIsMyWife.Managers
             IsPaused = true;
             DOTween.PauseAll();
             PauseEvent?.Invoke();
+            
+            _timeScaleBeforePause = Time.timeScale;
+            SetTimeScale(1f);
         }
         
         public void Resume()
@@ -31,6 +39,14 @@ namespace WhereIsMyWife.Managers
             IsPaused = false;
             DOTween.PlayAll();
             ResumeEvent?.Invoke();
+            
+            SetTimeScale(_timeScaleBeforePause);
+        }
+        
+        public void SetTimeScale(float value)
+        {
+            Time.timeScale = value;
+            Time.fixedDeltaTime = _originalFixedDeltaTime * value;
         }
     }
 }
