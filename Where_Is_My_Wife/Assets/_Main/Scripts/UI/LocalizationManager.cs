@@ -39,7 +39,12 @@ namespace WhereIsMyWife.Managers
             //TODO: Set current language from save data
             LoadLocalizationCSV();
         }
-        
+
+        private void Start()
+        {
+            SetLanguage(DataSaveManager.Instance.GetData<int>(DataSaveManager.LanguageIndexKey));
+        }
+
         private void LoadLocalizationCSV()
         {
             TextAsset localizationFile = Resources.Load<TextAsset>("Localization");
@@ -159,6 +164,14 @@ namespace WhereIsMyWife.Managers
                 _currentLanguageIndex = 0;
             }
 
+            DataSaveManager.Instance.SetData(DataSaveManager.LanguageIndexKey, _currentLanguageIndex);
+            OnLanguageChanged?.Invoke();
+        }
+        
+        private void SetLanguage(int index)
+        {
+            _currentLanguageIndex = index;
+            DataSaveManager.Instance.SetData(DataSaveManager.LanguageIndexKey, _currentLanguageIndex);
             OnLanguageChanged?.Invoke();
         }
     }
