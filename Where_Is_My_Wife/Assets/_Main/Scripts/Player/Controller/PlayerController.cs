@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using WhereIsMyWife.Managers;
 using WhereIsMyWife.Player.State;
@@ -30,14 +31,17 @@ namespace WhereIsMyWife.Controllers
         private IPlayerStateInput _playerStateInput;
         private IPlayerControllerEvent _playerControllerEvent;
         private IRespawn _respawn;
-
+        
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Transform _groundCheckTransform = null;
         [SerializeField] private Transform _wallHangCheckUpTransform = null;
         [SerializeField] private Transform _wallHangCheckDownTransform = null;
         [SerializeField] private SpriteRenderer _spriteRenderer = null;
         [SerializeField, Range(0, 1)] private float _dashColorValue = 0.4f;
+        [SerializeField] private Ease _dashColorEase = Ease.OutSine;
+        [SerializeField] private float _dashColorDuration = 0.5f;
 
+        private Tween _dashColorTween;
         private Vector2 _velocityBeforePause;
         private float _gravityScaleBeforePause;
         
@@ -155,6 +159,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Dash(float speed)
         {
+            _dashColorTween?.Kill();
             _spriteRenderer.color = Color.HSVToRGB(0, 0, _dashColorValue);
             
             FaceDirection(speed > 0);
@@ -163,7 +168,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Land()
         {
-            _spriteRenderer.color = Color.white;
+            _dashColorTween = _spriteRenderer.DOColor(Color.white, _dashColorDuration).SetEase(_dashColorEase);
         }
         
         private void SetHorizontalSpeed(float speed)
