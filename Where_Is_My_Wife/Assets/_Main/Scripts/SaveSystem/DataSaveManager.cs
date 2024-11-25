@@ -13,6 +13,7 @@ namespace WhereIsMyWife.Managers
         public const string MusicVolumeKey = "music-volume";
         public const string SfxVolumeKey = "sfx-volume";
         public const string LanguageIndexKey = "language";
+        public const string FullscreenKey = "fullscreen";
         
         private Dictionary<string, object> savedData;
 
@@ -90,6 +91,7 @@ namespace WhereIsMyWife.Managers
             SetData(MusicVolumeKey, 1f);
             SetData(SfxVolumeKey, 1f);
             SetData(LanguageIndexKey, 0);
+            SetData(FullscreenKey, true);
         }
     }
 }
