@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using UnityEngine;
 
 namespace WhereIsMyWife.Managers
 {
@@ -9,6 +10,14 @@ namespace WhereIsMyWife.Managers
         public event Action ResumeEvent;
         
         public bool IsPaused { get; private set; }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         public void Pause()
         {
