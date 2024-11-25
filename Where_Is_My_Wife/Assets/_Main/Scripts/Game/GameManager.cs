@@ -17,6 +17,10 @@ namespace WhereIsMyWife.Managers
         protected override void Awake()
         {
             base.Awake();
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            
             _originalFixedDeltaTime = Time.fixedDeltaTime;
         }
 
