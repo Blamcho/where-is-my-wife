@@ -525,6 +525,7 @@ namespace WhereIsMyWife.Managers
                 {
                     HookLaunchImpulse = GetHookLaunchImpulse();
                     _isExecutingHook = true;
+                    _canAttemptHook = false;
                     GravityShifts();
                     HookStart?.Invoke();
                     AudioManager.Instance.PlaySFX("Hook");
