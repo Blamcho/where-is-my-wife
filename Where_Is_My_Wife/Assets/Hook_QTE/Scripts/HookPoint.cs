@@ -10,12 +10,17 @@ namespace WhereIsMyWife.UI
     {
         [SerializeField] private GameObject _hookGameObject;
         [SerializeField] private GameObject _arrowGizmo;
+        [SerializeField] private LineRenderer _lineRenderer = default;
+        [SerializeField] private SpriteRenderer _circleRenderer = default;
+        [SerializeField] private float _hookLaunchTimeToReachHookpoint = 0f;
         private SpriteRenderer _arrowRenderer = default;
         private Vector3 _playerPosition = default;
         private Vector3 _playerLocalPosition = default;
         private Vector3 _arrowLocalPosition = default;
         private bool _playerInTriggerZone = false;
-        private IPlayerInputEvent _playerInputEvent;
+        private bool _executingHookLaunch, _renderingLineRendererAfterLaunch = false;
+        private float _hookTimeElapsed = 0f;
+        private IHookStateEvents _hookStateEvents;
 
         private void Start()
         {
@@ -31,6 +36,7 @@ namespace WhereIsMyWife.UI
                 AssignPlayerPosition(other);
                 AssignArrowPositionAndRotation();
                 SwitchArrowSpriteRenderer(true);
+                ChangeCircleColor(new Color32(255, 255, 255, 75));
             }
         }
 
@@ -39,6 +45,7 @@ namespace WhereIsMyWife.UI
             if (other.CompareTag("Player"))
             {
                 FinishingGizmoInteraction();
+                ChangeCircleColor(new Color32(255, 255, 255, 50));
             }
         }
 
@@ -56,12 +63,32 @@ namespace WhereIsMyWife.UI
             {
                 AssignArrowPositionAndRotation();
             }
+
+            if (_executingHookLaunch)
+            {
+                CalculateLocalPlayerPosition();
+                _lineRenderer.SetPosition(0, _playerLocalPosition);
+                UpdateHookLaunch();
+            }
+
+            if (_renderingLineRendererAfterLaunch)
+            {
+                CalculateLocalPlayerPosition();
+                _lineRenderer.SetPosition(0, _playerLocalPosition);
+                _lineRenderer.SetPosition(1, Vector3.zero);
+                ComparePlayerPositionWithHookPoint();
+            }
         }
 
         private void CalculateArrowPosition()
         {
-            _playerLocalPosition = _hookGameObject.transform.InverseTransformPoint(_playerPosition);
+            CalculateLocalPlayerPosition();
             _arrowLocalPosition = ((_playerLocalPosition * -1).normalized) * 3f;
+        }
+
+        private void CalculateLocalPlayerPosition()
+        {
+            _playerLocalPosition = _hookGameObject.transform.InverseTransformPoint(_playerPosition);
         }
 
         private float GetArrowRotationAngle()
@@ -74,6 +101,11 @@ namespace WhereIsMyWife.UI
         private void SwitchArrowSpriteRenderer(bool option)
         {
             _arrowRenderer.enabled = option;
+        }
+
+        private void SwitchLineRenderer(bool option)
+        {
+            _lineRenderer.enabled = option;
         }
 
         private void AssignPlayerPosition(Collider2D playerCollider)
@@ -93,28 +125,80 @@ namespace WhereIsMyWife.UI
             _arrowGizmo.transform.position = _hookGameObject.transform.position;
         }
 
+        private void ResetLineRendererPosition()
+        {
+            _lineRenderer.SetPosition(0, Vector3.zero);
+            _lineRenderer.SetPosition(1, Vector3.zero);
+        }
+
         private void FinishingGizmoInteraction()
         {
             _playerInTriggerZone = false;
             SwitchArrowSpriteRenderer(false);
             ResetArrowPosition();
+        }
+
+        private void FinishingHookInteraction()
+        {
+            _renderingLineRendererAfterLaunch = false;
+            SwitchLineRenderer(false);
+            ResetLineRendererPosition();
+        }
+
+        private void StartHookInteraction()
+        {
+            CalculateLocalPlayerPosition();
+            _lineRenderer.SetPosition(0,_playerLocalPosition);
+            _lineRenderer.SetPosition(1, _playerLocalPosition);
+            SwitchLineRenderer(true);
+            _executingHookLaunch = true;
+            ChangeCircleColor(new Color32(173, 255, 148, 50));
+        }
+
+        private void UpdateHookLaunch()
+        {
+            if (_hookTimeElapsed < _hookLaunchTimeToReachHookpoint)
+            {
+                _hookTimeElapsed += Time.fixedDeltaTime;
+                _lineRenderer.SetPosition(1, Vector3.Lerp(_playerLocalPosition, Vector3.zero, _hookTimeElapsed));
+            }
+            else
+            {
+                _hookTimeElapsed = 0f;
+                _executingHookLaunch = false;
+                _renderingLineRendererAfterLaunch = true;
+            }
+        }
+
+        private void ComparePlayerPositionWithHookPoint()
+        {
+            if (_playerLocalPosition.x <= 0.5f && _playerLocalPosition.x >= -0.5f && _playerLocalPosition.y <= 0.5f && _playerLocalPosition.y >= -0.5f)
+            {
+                FinishingHookInteraction();
+            }
+        }
+
+        private void ChangeCircleColor(Color newColor)
+        {
+            _circleRenderer.color = newColor;
+        }
+
+        private void HookStart(Vector2 velocity)
+        {
+            FinishingGizmoInteraction();
             UnsubscribeToObservables();
+            StartHookInteraction();
         }
 
         private void SubscribeToObservables()
         {
-            _playerInputEvent = InputEventManager.Instance.PlayerInputEvent;
-            _playerInputEvent.HookStartAction += ExecuteHookStartEvent;
+            _hookStateEvents = PlayerManager.Instance.HookStateEvents;
+            _hookStateEvents.HookStart += HookStart;
         }
 
         private void UnsubscribeToObservables()
         {
-            _playerInputEvent.HookStartAction -= ExecuteHookStartEvent;
-        }
-
-        private void ExecuteHookStartEvent()
-        {
-            FinishingGizmoInteraction();
+            _hookStateEvents.HookStart -= HookStart;
         }
     }
 }
