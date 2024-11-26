@@ -17,7 +17,7 @@ namespace WhereIsMyWife.Lavacanon
         {
             base.Start();
             
-            _nextFireTime = Time.time + Random.Range(_minFireRate, _maxFireRate);
+            _nextFireTime = Random.Range(_minFireRate, _maxFireRate);
         }
 
         protected override void OnUpdate()
