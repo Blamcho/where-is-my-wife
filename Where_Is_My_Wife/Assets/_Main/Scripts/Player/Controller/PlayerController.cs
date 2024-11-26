@@ -31,20 +31,35 @@ namespace WhereIsMyWife.Controllers
         private IPlayerStateInput _playerStateInput;
         private IPlayerControllerEvent _playerControllerEvent;
         private IRespawn _respawn;
-        
-        [SerializeField] private Rigidbody2D _rigidbody2D;
-        [SerializeField] private Transform _groundCheckTransform = null;
-        [SerializeField] private Transform _wallHangCheckUpTransform = null;
-        [SerializeField] private Transform _wallHangCheckDownTransform = null;
-        [SerializeField] private SpriteRenderer _spriteRenderer = null;
-        [SerializeField, Range(0, 1)] private float _dashColorValue = 0.4f;
-        [SerializeField] private Ease _dashColorEase = Ease.OutSine;
-        [SerializeField] private float _dashColorDuration = 0.5f;
+
+        [SerializeField]
+        private Rigidbody2D _rigidbody2D;
+
+        [SerializeField]
+        private Transform _groundCheckTransform = null;
+
+        [SerializeField]
+        private Transform _wallHangCheckUpTransform = null;
+
+        [SerializeField]
+        private Transform _wallHangCheckDownTransform = null;
+
+        [SerializeField]
+        private SpriteRenderer _spriteRenderer = null;
+
+        [SerializeField, Range(0, 1)]
+        private float _dashColorValue = 0.4f;
+
+        [SerializeField]
+        private Ease _dashColorEase = Ease.OutSine;
+
+        [SerializeField]
+        private float _dashColorDuration = 0.5f;
 
         private Tween _dashColorTween;
         private Vector2 _velocityBeforePause;
         private float _gravityScaleBeforePause;
-        
+
         private void Start()
         {
             _movementStateEvents = PlayerManager.Instance.MovementStateEvents;
@@ -60,10 +75,10 @@ namespace WhereIsMyWife.Controllers
             _respawn = PlayerManager.Instance.Respawn;
 
             _playerControllerEvent.SetPlayerControllerData(this);
-            
+
             SubscribeToStateEvents();
             SubscribeToRespawnEvents();
-            
+
             GameManager.Instance.PauseEvent += Pause;
             GameManager.Instance.ResumeEvent += Resume;
         }
@@ -72,11 +87,11 @@ namespace WhereIsMyWife.Controllers
         {
             UnsubscribeFromStateEvents();
             UnsubscribeFromRespawnEvents();
-            
+
             GameManager.Instance.PauseEvent -= Pause;
             GameManager.Instance.ResumeEvent -= Resume;
         }
-        
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             TriggerEnterEvent?.Invoke(collision);
@@ -90,18 +105,18 @@ namespace WhereIsMyWife.Controllers
         private void Pause()
         {
             UnsubscribeFromStateEvents();
-            
+
             _velocityBeforePause = _rigidbody2D.velocity;
             _gravityScaleBeforePause = _rigidbody2D.gravityScale;
             _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         }
-        
+
         private void Resume()
         {
             SubscribeToStateEvents();
-            
+
             _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-            _rigidbody2D.velocity = _velocityBeforePause;   
+            _rigidbody2D.velocity = _velocityBeforePause;
             _rigidbody2D.gravityScale = _gravityScaleBeforePause;
         }
 
@@ -122,7 +137,7 @@ namespace WhereIsMyWife.Controllers
             AudioManager.Instance.PlaySFX("DoubleJump");
             JumpStart(jumpForce);
         }
-        
+
         private void JumpStart(float jumpForce)
         {
             _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
@@ -139,7 +154,7 @@ namespace WhereIsMyWife.Controllers
         {
             _rigidbody2D.AddForce(Vector2.right * runAcceleration, ForceMode2D.Force);
         }
-        
+
         private void SetPosition(Vector2 position)
         {
             _rigidbody2D.position = position;
@@ -151,7 +166,7 @@ namespace WhereIsMyWife.Controllers
             FaceDirection(velocity.x > 0);
             AddImpulse(velocity);
         }
-        
+
         private void AddImpulse(Vector2 velocity)
         {
             _rigidbody2D.velocity = Vector2.zero;
@@ -181,7 +196,7 @@ namespace WhereIsMyWife.Controllers
             AudioManager.Instance.PlaySFX("Dash");
             _dashColorTween?.Kill();
             _spriteRenderer.color = Color.HSVToRGB(0, 0, _dashColorValue);
-            
+
             FaceDirection(speed > 0);
             SetHorizontalSpeed(speed);
         }
@@ -189,9 +204,11 @@ namespace WhereIsMyWife.Controllers
         private void Land()
         {
             AudioManager.Instance.PlaySFX("Landing");
-            _dashColorTween = _spriteRenderer.DOColor(Color.white, _dashColorDuration).SetEase(_dashColorEase);
+            _dashColorTween = _spriteRenderer
+                .DOColor(Color.white, _dashColorDuration)
+                .SetEase(_dashColorEase);
         }
-        
+
         private void SetHorizontalSpeed(float speed)
         {
             _rigidbody2D.velocity = new Vector2(speed, _rigidbody2D.velocity.y);
@@ -230,17 +247,16 @@ namespace WhereIsMyWife.Controllers
 
         private void Die()
         {
-            AudioManager.Instance.PlaySFX("Death");
             gameObject.SetActive(false);
             UnsubscribeFromStateEvents();
         }
-        
+
         private void StartRespawn(Vector3 respawnPosition)
         {
             gameObject.SetActive(true);
             transform.position = respawnPosition;
         }
-        
+
         private void CompleteRespawn()
         {
             AudioManager.Instance.PlaySFX("Respawned");
@@ -256,7 +272,7 @@ namespace WhereIsMyWife.Controllers
         {
             AudioManager.Instance.PlaySFX("WallHang");
         }
-        
+
         private void SubscribeToStateEvents()
         {
             _movementStateEvents.Run += RunAndFaceDirection;
@@ -288,7 +304,7 @@ namespace WhereIsMyWife.Controllers
             _punchingStateEvents.JumpStart += SimpleJump;
             _punchingStateEvents.GravityScale += SetGravityScale;
             _punchingStateEvents.FallSpeedCap += SetFallSpeedCap;
-            
+
             _playerStateInput.Land += Land;
         }
 
@@ -323,7 +339,7 @@ namespace WhereIsMyWife.Controllers
             _punchingStateEvents.JumpStart -= SimpleJump;
             _punchingStateEvents.GravityScale -= SetGravityScale;
             _punchingStateEvents.FallSpeedCap -= SetFallSpeedCap;
-            
+
             _playerStateInput.Land -= Land;
         }
 
@@ -333,7 +349,7 @@ namespace WhereIsMyWife.Controllers
             _respawn.RespawnStartAction += StartRespawn;
             _respawn.RespawnCompleteAction += CompleteRespawn;
         }
-        
+
         private void UnsubscribeFromRespawnEvents()
         {
             _respawn.DeathAction -= Die;
