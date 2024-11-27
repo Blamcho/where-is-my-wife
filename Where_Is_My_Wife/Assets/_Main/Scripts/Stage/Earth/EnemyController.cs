@@ -62,6 +62,7 @@ public class EnemyController : PausableMonoBehaviour, IPunchable
             BossManager.Instance.TakeDamage();
         }
 
+        AudioManager.Instance.PlaySFX("Explosion");
         Instantiate(_deathParticlesPrefab, transform.position, Quaternion.identity);
         Deactivate();
     }

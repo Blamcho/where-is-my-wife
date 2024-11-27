@@ -45,11 +45,17 @@ namespace WhereIsMyWife.Stage
         {
             _isActive = true;
 
+            AudioManager.Instance.PlaySFX("ManotazoWindUp");
+            
             Sequence sequence = DOTween.Sequence();
 
             sequence.Append(_objectPivot.DOShakePosition(_smashAnticipationTime, _shakeStrength))
                 .Join(_spriteRenderer.DOFade(_finalAlpha, _fadeTime));
-            sequence.AppendCallback(() => { _hazardCollider.enabled = true; });
+            sequence.AppendCallback(() =>
+            {
+                _hazardCollider.enabled = true; 
+                AudioManager.Instance.PlaySFX("ManotazoHit");
+            });
             sequence.Append(_objectPivot.DOMoveY(transform.position.y, _smashActionTime));
             sequence.AppendCallback(() => { _hazardCollider.enabled = false; });
             sequence.Append(_spriteRenderer.DOFade(0f, _smashAnticipationTime));
