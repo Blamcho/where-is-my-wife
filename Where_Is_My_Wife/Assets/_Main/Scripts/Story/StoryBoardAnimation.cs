@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Threading;
 using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.SceneManagement
@@ -16,6 +17,7 @@ namespace WhereIsMyWife.SceneManagement
         [SerializeField] private GameObject _skipPrompt;
         
         private int _submitPressCount = 0;
+        private CancellationTokenSource _skipCTS;
         
         private void Start()
         {
@@ -37,11 +39,14 @@ namespace WhereIsMyWife.SceneManagement
             {
                 image.color = new Color(1, 1, 1, 0);
             }
+
+            _skipCTS?.Cancel();
+            _skipCTS = new CancellationTokenSource();
             
             for (int i = 0; i < comicImages.Length; i++)
             {
                 comicImages[i].DOFade(1, fadeDuration); 
-                await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration + intervalBetweenImages));
+                await UniTask.Delay(TimeSpan.FromSeconds(fadeDuration + intervalBetweenImages), cancellationToken: _skipCTS.Token);
             }
             
             ShowContinueButton();
@@ -81,6 +86,7 @@ namespace WhereIsMyWife.SceneManagement
 
             await UniTask.DelayFrame(1); // Prevent instant button press
             
+            _skipCTS?.Cancel();
             ShowContinueButton();
         }
     }
