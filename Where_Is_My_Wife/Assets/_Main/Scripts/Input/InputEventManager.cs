@@ -50,84 +50,95 @@ namespace WhereIsMyWife.Managers
         protected override void Awake()
         {
             base.Awake();
+            
+            #if !XBOX
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Enable();
             
             SubscribeToInputActions();
             ChangeControllerType(ControllerType.Keyboard);
+            #endif
+            
+            #if XBOX
+            ChangeControllerType(ControllerType.Xbox);
+            #endif
         }
         
         private void OnDestroy()
         {
+            #if !XBOX
             UnsubscribeToInputActions();
             _playerInputActions.Disable();
+            #endif
         }
 
         
         private void Update()
         {
-            CheckForControllerTypeChange();
+            #if XBOX
+            if (Input.GetButtonDown("Jump"))
+            {
+                OnJumpPerform(default);
+            }
+            if (Input.GetButtonUp("Jump"))
+            {
+                OnJumpCancel(default);
+            }
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                _moveVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                
+                ApplyHorizontalDeadZone();
+                NormalizeHorizontalAxis();
             
-            // Start of XBOX
-            //
-            // if (Input.GetButtonDown("Jump"))
-            // {
-            //     OnJumpPerform(default);
-            // }
-            // if (Input.GetButtonUp("Jump"))
-            // {
-            //     OnJumpCancel(default);
-            // }
-            // if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-            // {
-            //     _moveVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            //     
-            //     ApplyHorizontalDeadZone();
-            //     NormalizeHorizontalAxis();
-            //
-            //     LookDownAction?.Invoke(_moveVector.y < -_lookDownThreshold);
-            //
-            //     int horizontalValue = 0;
-            //
-            //     if (Mathf.Abs(_moveVector.normalized.x) > _horizontalDeadZone)
-            //     {
-            //         horizontalValue = (int)Mathf.Sign(_moveVector.x);
-            //     }
-            //
-            //     HorizontalStartedAction?.Invoke(horizontalValue);
-            // }
-            // if (Input.GetAxis("Horizontal") == 0)
-            // {
-            //     OnMoveCancel(new InputAction.CallbackContext());
-            // }
-            // if (Input.GetButtonDown("Dash"))
-            // {
-            //     OnDash(new InputAction.CallbackContext());
-            // }
-            // if (Input.GetButtonDown("Hook"))
-            // {
-            //     OnHookStart(new InputAction.CallbackContext());
-            // }
-            // if (Input.GetButtonUp("Hook"))
-            // {
-            //     OnHookCancel(new InputAction.CallbackContext());
-            // }
-            // if (Input.GetButtonDown("Punch"))
-            // {
-            //     OnPunchStarted(new InputAction.CallbackContext());
-            // }
-            // if (Input.GetButtonDown("Pause"))
-            // {
-            //     OnPauseStart(new InputAction.CallbackContext());
-            // }
-            // if (Input.GetButtonDown("Submit"))
-            // {
-            //     OnSubmitStart(new InputAction.CallbackContext());
-            // }
-            // if (Input.GetButtonDown("Cancel"))
-            // {
-            //     OnCancelStart(new InputAction.CallbackContext());
-            // }
+                LookDownAction?.Invoke(_moveVector.y < -_lookDownThreshold);
+            
+                int horizontalValue = 0;
+            
+                if (Mathf.Abs(_moveVector.normalized.x) > _horizontalDeadZone)
+                {
+                    horizontalValue = (int)Mathf.Sign(_moveVector.x);
+                }
+            
+                HorizontalStartedAction?.Invoke(horizontalValue);
+            }
+            if (Input.GetAxis("Horizontal") == 0)
+            {
+                OnMoveCancel(new InputAction.CallbackContext());
+            }
+            if (Input.GetButtonDown("Dash"))
+            {
+                OnDash(new InputAction.CallbackContext());
+            }
+            if (Input.GetButtonDown("Hook"))
+            {
+                OnHookStart(new InputAction.CallbackContext());
+            }
+            if (Input.GetButtonUp("Hook"))
+            {
+                OnHookCancel(new InputAction.CallbackContext());
+            }
+            if (Input.GetButtonDown("Punch"))
+            {
+                OnPunchStarted(new InputAction.CallbackContext());
+            }
+            if (Input.GetButtonDown("Pause"))
+            {
+                OnPauseStart(new InputAction.CallbackContext());
+            }
+            if (Input.GetButtonDown("Submit"))
+            {
+                OnSubmitStart(new InputAction.CallbackContext());
+            }
+            if (Input.GetButtonDown("Cancel"))
+            {
+                OnCancelStart(new InputAction.CallbackContext());
+            }
+            #endif
+            
+            #if !XBOX
+            CheckForControllerTypeChange();
+            #endif
         }
         
         private void FixedUpdate()
@@ -135,6 +146,7 @@ namespace WhereIsMyWife.Managers
             RunAction?.Invoke(_moveVector.x); 
         }
 
+        #if !XBOX
         private void SubscribeToInputActions()
         {
             _playerInputActions.Normal.Jump.performed += OnJumpPerform;
@@ -172,6 +184,7 @@ namespace WhereIsMyWife.Managers
             _playerInputActions.UI.Submit.started -= OnSubmitStart;
             _playerInputActions.UI.Cancel.started -= OnCancelStart;
         }
+        #endif
         
         private void OnJumpPerform(InputAction.CallbackContext context)
         {
@@ -269,6 +282,14 @@ namespace WhereIsMyWife.Managers
             CancelStartAction?.Invoke();
         }
         
+        private void ChangeControllerType(ControllerType controllerType)
+        {
+            CurrentControllerType = controllerType; 
+            ChangeControllerTypeAction?.Invoke(controllerType);
+            //Debug.Log($"ControllerType: {_currentControllerType}");
+        }
+        
+        #if !XBOX
         private void CheckForControllerTypeChange()
         {
             if (KeyboardInputWasMadeThisFrame())
@@ -288,13 +309,6 @@ namespace WhereIsMyWife.Managers
                     ChangeControllerType(currentGamepadType);
                 }
             }
-        }
-        
-        private void ChangeControllerType(ControllerType controllerType)
-        {
-            CurrentControllerType = controllerType; 
-            ChangeControllerTypeAction?.Invoke(controllerType);
-            //Debug.Log($"ControllerType: {_currentControllerType}");
         }
         
         private bool KeyboardInputWasMadeThisFrame()
@@ -342,5 +356,6 @@ namespace WhereIsMyWife.Managers
            
             return ControllerType.Xbox; 
         }
+        #endif
     }
 }
