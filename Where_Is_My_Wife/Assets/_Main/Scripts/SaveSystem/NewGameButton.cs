@@ -11,11 +11,13 @@ namespace WhereIsMyWife.Managers
         
         private void Start()
         {
-            GetComponent<Button>().onClick.AddListener(StartNewGame);
+            _button.onClick.AddListener(StartNewGame);
         }
 
         private void StartNewGame()
         {
+            _button.interactable = false;
+            
             DataSaveManager.Instance.DeleteSaveData();
             LevelManager.Instance.SetStoryMode(true);
             LevelManager.Instance.LoadScene(_firstLevelName);

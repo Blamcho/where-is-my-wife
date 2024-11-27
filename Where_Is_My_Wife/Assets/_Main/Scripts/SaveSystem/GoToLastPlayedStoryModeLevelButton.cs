@@ -9,11 +9,13 @@ namespace WhereIsMyWife.Managers
     {
         private void Start()
         {
-            GetComponent<Button>().onClick.AddListener(StartNewGame);
+            _button.onClick.AddListener(ContinueGame);
         }
 
-        private void StartNewGame()
+        private void ContinueGame()
         {
+            _button.interactable = false;
+            
             string lastPlayedStoryModeLevel = DataSaveManager.Instance.GetData<string>(DataSaveManager.LastPlayedStoryModeLevelSceneNameKey);
 
             if (string.IsNullOrEmpty(lastPlayedStoryModeLevel))

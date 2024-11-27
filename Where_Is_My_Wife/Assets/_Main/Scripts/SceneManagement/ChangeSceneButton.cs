@@ -19,6 +19,7 @@ namespace WhereIsMyWife.SceneManagement
         protected virtual void ChangeScene()
         {
             _button.interactable = false;
+            
             LevelManager.Instance.LoadScene(_sceneName);
         }
     }
