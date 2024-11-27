@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using WhereIsMyWife.Managers;
 using WhereIsMyWife.UI;
 
@@ -25,6 +26,12 @@ namespace WhereIsMyWife.SceneManagement
         {
             LevelManager.Instance.SetStoryMode(false);
             base.ChangeScene();
+        }
+
+        public override void OnSelect(BaseEventData eventData)
+        {
+            base.OnSelect(eventData);
+            MenuManager.Instance.ChangeBackground(_levelNumber - 1);
         }
     }
 }

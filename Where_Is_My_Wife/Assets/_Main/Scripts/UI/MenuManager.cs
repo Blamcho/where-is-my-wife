@@ -13,6 +13,8 @@ namespace WhereIsMyWife.UI
 
         [SerializeField] private float _menuAnimationDuration = 0.2f;
         [SerializeField] private Ease _menuAnimationEase;
+        [SerializeField] private GameObject[] _menuBackgrounds;
+        [SerializeField] private GameObject _currentMenuBackground;
         
         private RectTransform _nextMenu;
 
@@ -60,15 +62,11 @@ namespace WhereIsMyWife.UI
             nextButton.Select();
         }
         
-        public async UniTaskVoid CloseMenu()
+        public void ChangeBackground(int index)
         {
-            _eventSystem.enabled = false;
-            
-            await _currentMenu.DOMove(_leftPosition, _menuAnimationDuration)
-                .SetEase(_menuAnimationEase)
-                .AsyncWaitForCompletion();
-            
-            _currentMenu.gameObject.SetActive(false);
+            _currentMenuBackground.SetActive(false);
+            _currentMenuBackground = _menuBackgrounds[index];
+            _currentMenuBackground.SetActive(true);
         }
         
         public enum MenuChangeAnimation
