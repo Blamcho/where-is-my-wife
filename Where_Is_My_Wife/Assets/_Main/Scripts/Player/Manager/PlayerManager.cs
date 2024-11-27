@@ -195,7 +195,7 @@ namespace WhereIsMyWife.Managers
 
         private bool ShouldStartWallHang()
         {
-            return (IsJumping || IsRunFalling) && IsAccelerating && IsLookingRight && IsRunningRight;
+            return (IsJumping || IsRunFalling) && IsAccelerating && (IsLookingRight == IsRunningRight);
         }
         
         private void JumpChecks()
