@@ -16,11 +16,11 @@ namespace WhereIsMyWife.Managers
 
         private void StartNewGame()
         {
+            _button.interactable = false;
+            
             DataSaveManager.Instance.DeleteSaveData();
             LevelManager.Instance.SetStoryMode(true);
             LevelManager.Instance.LoadScene(_firstLevelName);
-
-            _button.interactable = false;
         }
     }
 }
