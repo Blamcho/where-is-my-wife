@@ -104,6 +104,24 @@ namespace WhereIsMyWife.Controllers
             _rigidbody2D.velocity = _velocityBeforePause;   
             _rigidbody2D.gravityScale = _gravityScaleBeforePause;
         }
+
+        private void SimpleJump(float jumpForce)
+        {
+            AudioManager.Instance.PlaySFX("Jump");
+            JumpStart(jumpForce);
+        }
+
+        private void WallJump(float jumpForce)
+        {
+            AudioManager.Instance.PlaySFX("Jump");
+            JumpStart(jumpForce);
+        }
+
+        private void DoubleJump(float jumpForce)
+        {
+            AudioManager.Instance.PlaySFX("DoubleJump");
+            JumpStart(jumpForce);
+        }
         
         private void JumpStart(float jumpForce)
         {
@@ -129,6 +147,7 @@ namespace WhereIsMyWife.Controllers
 
         private void HookStart(Vector2 velocity)
         {
+            AudioManager.Instance.PlaySFX("Hook");
             FaceDirection(velocity.x > 0);
             AddImpulse(velocity);
         }
@@ -159,6 +178,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Dash(float speed)
         {
+            AudioManager.Instance.PlaySFX("Dash");
             _dashColorTween?.Kill();
             _spriteRenderer.color = Color.HSVToRGB(0, 0, _dashColorValue);
             
@@ -168,6 +188,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Land()
         {
+            AudioManager.Instance.PlaySFX("Landing");
             _dashColorTween = _spriteRenderer.DOColor(Color.white, _dashColorDuration).SetEase(_dashColorEase);
         }
         
@@ -209,6 +230,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Die()
         {
+            AudioManager.Instance.PlaySFX("Death");
             gameObject.SetActive(false);
             UnsubscribeFromStateEvents();
         }
@@ -221,24 +243,36 @@ namespace WhereIsMyWife.Controllers
         
         private void CompleteRespawn()
         {
+            AudioManager.Instance.PlaySFX("Respawned");
             SubscribeToStateEvents();
+        }
+
+        private void Punch()
+        {
+            AudioManager.Instance.PlaySFX("Punching");
+        }
+
+        private void StartWallHang()
+        {
+            AudioManager.Instance.PlaySFX("WallHang");
         }
         
         private void SubscribeToStateEvents()
         {
             _movementStateEvents.Run += RunAndFaceDirection;
-            _movementStateEvents.JumpStart += JumpStart;
+            _movementStateEvents.JumpStart += SimpleJump;
             _movementStateEvents.GravityScale += SetGravityScale;
             _movementStateEvents.FallSpeedCap += SetFallSpeedCap;
 
             _wallHangStateEvents.WallHangVelocity += WallHangVelocity;
             _wallHangStateEvents.Turn += Turn;
-            _wallHangStateEvents.WallJumpStart += JumpStart;
+            _wallHangStateEvents.WallJumpStart += WallJump;
+            _wallHangStateEvents.StartWallHang += StartWallHang;
 
             _wallJumpStateEvents.WallJumpVelocity += SetHorizontalSpeed;
             _wallJumpStateEvents.GravityScale += SetGravityScale;
             _wallJumpStateEvents.FallSpeedCap += SetFallSpeedCap;
-            _wallJumpStateEvents.DoubleJump += JumpStart;
+            _wallJumpStateEvents.DoubleJump += DoubleJump;
 
             _dashStateEvents.DashStart += Dash;
             _dashStateEvents.GravityScale += SetGravityScale;
@@ -250,7 +284,8 @@ namespace WhereIsMyWife.Controllers
             _hookStateEvents.SetPosition += SetPosition;
 
             _punchingStateEvents.Run += Run;
-            _punchingStateEvents.JumpStart += JumpStart;
+            _punchingStateEvents.PunchStart += Punch;
+            _punchingStateEvents.JumpStart += SimpleJump;
             _punchingStateEvents.GravityScale += SetGravityScale;
             _punchingStateEvents.FallSpeedCap += SetFallSpeedCap;
             
@@ -260,18 +295,19 @@ namespace WhereIsMyWife.Controllers
         private void UnsubscribeFromStateEvents()
         {
             _movementStateEvents.Run -= RunAndFaceDirection;
-            _movementStateEvents.JumpStart -= JumpStart;
+            _movementStateEvents.JumpStart -= SimpleJump;
             _movementStateEvents.GravityScale -= SetGravityScale;
             _movementStateEvents.FallSpeedCap -= SetFallSpeedCap;
 
             _wallHangStateEvents.WallHangVelocity -= WallHangVelocity;
             _wallHangStateEvents.Turn -= Turn;
-            _wallHangStateEvents.WallJumpStart -= JumpStart;
+            _wallHangStateEvents.WallJumpStart -= WallJump;
+            _wallHangStateEvents.StartWallHang -= StartWallHang;
 
             _wallJumpStateEvents.WallJumpVelocity -= SetHorizontalSpeed;
             _wallJumpStateEvents.GravityScale -= SetGravityScale;
             _wallJumpStateEvents.FallSpeedCap -= SetFallSpeedCap;
-            _wallJumpStateEvents.DoubleJump -= JumpStart;
+            _wallJumpStateEvents.DoubleJump -= DoubleJump;
 
             _dashStateEvents.DashStart -= Dash;
             _dashStateEvents.GravityScale -= SetGravityScale;
@@ -283,7 +319,8 @@ namespace WhereIsMyWife.Controllers
             _hookStateEvents.SetPosition -= SetPosition;
 
             _punchingStateEvents.Run -= Run;
-            _punchingStateEvents.JumpStart -= JumpStart;
+            _punchingStateEvents.PunchStart -= Punch;
+            _punchingStateEvents.JumpStart -= SimpleJump;
             _punchingStateEvents.GravityScale -= SetGravityScale;
             _punchingStateEvents.FallSpeedCap -= SetFallSpeedCap;
             

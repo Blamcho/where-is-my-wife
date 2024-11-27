@@ -127,7 +127,10 @@ namespace WhereIsMyWife.Controllers
                 {
                     if (_playerStateIndicator.IsLookingDown)
                     {
-                        PlayAnimationState(CROUCH_ANIMATION_STATE);
+                        if (PlayAnimationState(CROUCH_ANIMATION_STATE))
+                        {
+                            AudioManager.Instance.PlaySFX("LookingDown");
+                        }
                     }
                     else
                     {
@@ -157,13 +160,14 @@ namespace WhereIsMyWife.Controllers
             PlayAnimationState(FALL_ANIMATION_STATE);  
         }
         
-        private void PlayAnimationState(string newState, bool canCallItself = false)
+        private bool PlayAnimationState(string newState, bool canCallItself = false)
         {
-            if (_currentAnimationState == newState && !canCallItself) return;
+            if (_currentAnimationState == newState && !canCallItself) return false;
             
             _animator.Play(newState, 0, 0f);
 
             _currentAnimationState = newState;
+            return true;
         }
         
         private void Die()
