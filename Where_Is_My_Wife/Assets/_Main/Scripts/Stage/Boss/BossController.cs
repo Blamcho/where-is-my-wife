@@ -109,6 +109,8 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StopFinalAttackEvent += StopFinalAttack;
             _bossManager.TakeDamageEvent += TakeDamage;
             _bossManager.DieEvent += Die;
+            
+            PlayerManager.Instance.DeathAction += Laugh;
         }
         
         private void UnsubscribeFromManagerEvents()
@@ -122,6 +124,8 @@ namespace WhereIsMyWife.Controllers
             _bossManager.StopFinalAttackEvent -= StopFinalAttack;
             _bossManager.TakeDamageEvent -= TakeDamage;
             _bossManager.DieEvent -= Die;
+            
+            PlayerManager.Instance.DeathAction -= Laugh;
         }
         
         private void StartFinalPhase()
@@ -137,7 +141,11 @@ namespace WhereIsMyWife.Controllers
             _firingSequence = DOTween.Sequence();
         
             _firingSequence.AppendInterval(Random.Range(_minProjectileSpawnInterval, _maxProjectileSpawnInterval));
-            _firingSequence.AppendCallback(() => { Instantiate(_projectilePrefab, transform.position, Quaternion.identity);});
+            _firingSequence.AppendCallback(() =>
+            {
+                AudioManager.Instance.PlaySFX("BossProjectileSpawn");
+                Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
+            });
 
             _firingSequence.SetLoops(-1, LoopType.Restart);
         }
@@ -195,6 +203,15 @@ namespace WhereIsMyWife.Controllers
                 _finalAttackSequence.AppendCallback(() =>
                 {
                     EnemyController tireToSpawn = isFinalInterval ? _finalTire : _normalTire;
+
+                    if (spawnFromRight)
+                    {
+                        AudioManager.Instance.PlaySFX("TireSpawnRight");
+                    }
+                    else
+                    {
+                        AudioManager.Instance.PlaySFX("TireSpawnLeft");
+                    }
                     
                     tireToSpawn.Activate(spawnPosition);
                 });
@@ -213,6 +230,7 @@ namespace WhereIsMyWife.Controllers
 
        private void TakeDamage()
        {
+            AudioManager.Instance.PlaySFX("Hurt");
             _material.DOFloat(1, FlashAmount, _damageDuration / 2)
                 .OnComplete(() => _material.DOFloat(0, FlashAmount, _damageDuration / 2));
             transform.DOPunchScale(Vector3.one * _damageScaleMultiplier, _damageDuration);
@@ -229,6 +247,7 @@ namespace WhereIsMyWife.Controllers
                Destroy(hazard);
            }
 
+           AudioManager.Instance.PlaySFX("BossDeath");
            AudioManager.Instance.StopMusic(true);
            
            _finalAnimationSequence = DOTween.Sequence();
@@ -253,6 +272,11 @@ namespace WhereIsMyWife.Controllers
            
                LevelManager.Instance.LoadScene(_storyEndSceneName);
            });
+       }
+
+       private void Laugh()
+       {
+              AudioManager.Instance.PlaySFX("EvilLaugh");
        }
     }
 }
