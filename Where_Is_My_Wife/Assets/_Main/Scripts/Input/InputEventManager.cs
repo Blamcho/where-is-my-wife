@@ -57,23 +57,23 @@ namespace WhereIsMyWife.Managers
             base.Awake();
             
             #if !XBOX
-            _playerInputActions = new PlayerInputActions();
-            _playerInputActions.Enable();
-            
-            SubscribeToInputActions();
-            ChangeControllerType(ControllerType.Keyboard);
+                _playerInputActions = new PlayerInputActions();
+                _playerInputActions.Enable();
+                
+                SubscribeToInputActions();
+                ChangeControllerType(ControllerType.Keyboard);
             #endif
             
             #if XBOX
-            ChangeControllerType(ControllerType.Xbox);
+                ChangeControllerType(ControllerType.Xbox);
             #endif
         }
         
         private void OnDestroy()
         {
             #if !XBOX
-            UnsubscribeToInputActions();
-            _playerInputActions.Disable();
+                UnsubscribeToInputActions();
+                _playerInputActions.Disable();
             #endif
         }
 
@@ -81,80 +81,80 @@ namespace WhereIsMyWife.Managers
         private void Update()
         {
             #if XBOX
-            if (Input.GetKeyDown(KeyCode.JoystickButton0))
-            {
-                OnJumpPerform(default);
-            }
-            if (Input.GetKeyUp(KeyCode.JoystickButton0))
-            {
-                OnJumpCancel(default);
-            }
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-            {
-                _moveVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-                
-                ApplyHorizontalDeadZone();
-                NormalizeHorizontalAxis();
-            
-                LookDownAction?.Invoke(_moveVector.y < -_lookDownThreshold);
-            
-                int horizontalValue = 0;
-            
-                if (Mathf.Abs(_moveVector.normalized.x) > _horizontalDeadZone)
+                if (Input.GetKeyDown(KeyCode.JoystickButton0))
                 {
-                    horizontalValue = (int)Mathf.Sign(_moveVector.x);
+                    OnJumpPerform(default);
                 }
-            
-                HorizontalStartedAction?.Invoke(horizontalValue);
-            }
-            if (Input.GetAxis("Horizontal") == 0)
-            {
-                HorizontalStartedAction?.Invoke(0);
-                
-                if (Input.GetAxis("Vertical") == 0)
+                if (Input.GetKeyUp(KeyCode.JoystickButton0))
                 {
-                    OnMoveCancel(new InputAction.CallbackContext());
+                    OnJumpCancel(default);
                 }
-            }
-            if (Input.GetAxis("RT") != 0 && !_isPressingDash)
-            {
-                _isPressingDash = true;
-                OnDash(new InputAction.CallbackContext());
-            }
-            else if (Input.GetAxis("RT") == 0 && _isPressingDash)
-            {
-                _isPressingDash = false;
-            }
-            if (Input.GetAxis("LT") != 0 && !_isPressingHook)
-            {
-                _isPressingHook = true;
-                OnHookStart(new InputAction.CallbackContext());
-            }
-            else if (Input.GetAxis("LT") == 0 && _isPressingHook)
-            {
-                _isPressingHook = false;
-                OnHookCancel(new InputAction.CallbackContext());
-            }
-            if (Input.GetKeyDown(KeyCode.JoystickButton2))
-            {
-                OnPunchStarted(new InputAction.CallbackContext());
-            }
-            if (Input.GetKeyDown(KeyCode.JoystickButton7))
-            {
-                OnPauseStart(new InputAction.CallbackContext());
-            }
-            if (Input.GetKeyDown(KeyCode.JoystickButton0))
-            {
-                OnSubmitStart(new InputAction.CallbackContext());
-            }
-            if (Input.GetKeyDown(KeyCode.JoystickButton1))
-            {
-                OnCancelStart(new InputAction.CallbackContext());
-            }
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                {
+                    _moveVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                    
+                    ApplyHorizontalDeadZone();
+                    NormalizeHorizontalAxis();
+                
+                    LookDownAction?.Invoke(_moveVector.y < -_lookDownThreshold);
+                
+                    int horizontalValue = 0;
+                
+                    if (Mathf.Abs(_moveVector.normalized.x) > _horizontalDeadZone)
+                    {
+                        horizontalValue = (int)Mathf.Sign(_moveVector.x);
+                    }
+                
+                    HorizontalStartedAction?.Invoke(horizontalValue);
+                }
+                if (Input.GetAxis("Horizontal") == 0)
+                {
+                    HorizontalStartedAction?.Invoke(0);
+                    
+                    if (Input.GetAxis("Vertical") == 0)
+                    {
+                        OnMoveCancel(new InputAction.CallbackContext());
+                    }
+                }
+                if (Input.GetAxis("RT") != 0 && !_isPressingDash)
+                {
+                    _isPressingDash = true;
+                    OnDash(new InputAction.CallbackContext());
+                }
+                else if (Input.GetAxis("RT") == 0 && _isPressingDash)
+                {
+                    _isPressingDash = false;
+                }
+                if (Input.GetAxis("LT") != 0 && !_isPressingHook)
+                {
+                    _isPressingHook = true;
+                    OnHookStart(new InputAction.CallbackContext());
+                }
+                else if (Input.GetAxis("LT") == 0 && _isPressingHook)
+                {
+                    _isPressingHook = false;
+                    OnHookCancel(new InputAction.CallbackContext());
+                }
+                if (Input.GetKeyDown(KeyCode.JoystickButton2))
+                {
+                    OnPunchStarted(new InputAction.CallbackContext());
+                }
+                if (Input.GetKeyDown(KeyCode.JoystickButton7))
+                {
+                    OnPauseStart(new InputAction.CallbackContext());
+                }
+                if (Input.GetKeyDown(KeyCode.JoystickButton0))
+                {
+                    OnSubmitStart(new InputAction.CallbackContext());
+                }
+                if (Input.GetKeyDown(KeyCode.JoystickButton1))
+                {
+                    OnCancelStart(new InputAction.CallbackContext());
+                }
             #endif
             
             #if !XBOX
-            CheckForControllerTypeChange();
+                CheckForControllerTypeChange();
             #endif
         }
         
@@ -164,43 +164,43 @@ namespace WhereIsMyWife.Managers
         }
 
         #if !XBOX
-        private void SubscribeToInputActions()
-        {
-            _playerInputActions.Normal.Jump.performed += OnJumpPerform;
-            _playerInputActions.Normal.Jump.canceled += OnJumpCancel;
-            _playerInputActions.Normal.Move.performed += OnMovePerform;
-            _playerInputActions.Normal.Move.canceled += OnMoveCancel;
-            _playerInputActions.Normal.Dash.performed += OnDash;
-            _playerInputActions.Normal.Hook.started += OnHookStart;
-            _playerInputActions.Normal.Hook.canceled += OnHookCancel;
-            _playerInputActions.Normal.Punch.started += OnPunchStarted;
+            private void SubscribeToInputActions()
+            {
+                _playerInputActions.Normal.Jump.performed += OnJumpPerform;
+                _playerInputActions.Normal.Jump.canceled += OnJumpCancel;
+                _playerInputActions.Normal.Move.performed += OnMovePerform;
+                _playerInputActions.Normal.Move.canceled += OnMoveCancel;
+                _playerInputActions.Normal.Dash.performed += OnDash;
+                _playerInputActions.Normal.Hook.started += OnHookStart;
+                _playerInputActions.Normal.Hook.canceled += OnHookCancel;
+                _playerInputActions.Normal.Punch.started += OnPunchStarted;
 
-            _playerInputActions.Special.Pause.started += OnPauseStart;
-            
-            _playerInputActions.UI.Navigate.started += OnNavigateStarted;
-            _playerInputActions.UI.Navigate.canceled += OnNavigateCanceled;
-            _playerInputActions.UI.Submit.started += OnSubmitStart;
-            _playerInputActions.UI.Cancel.started += OnCancelStart;
-        }
+                _playerInputActions.Special.Pause.started += OnPauseStart;
+                
+                _playerInputActions.UI.Navigate.started += OnNavigateStarted;
+                _playerInputActions.UI.Navigate.canceled += OnNavigateCanceled;
+                _playerInputActions.UI.Submit.started += OnSubmitStart;
+                _playerInputActions.UI.Cancel.started += OnCancelStart;
+            }
 
-        private void UnsubscribeToInputActions()
-        {
-            _playerInputActions.Normal.Jump.performed -= OnJumpPerform;
-            _playerInputActions.Normal.Jump.canceled -= OnJumpCancel;
-            _playerInputActions.Normal.Move.performed -= OnMovePerform;
-            _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
-            _playerInputActions.Normal.Dash.performed -= OnDash;
-            _playerInputActions.Normal.Hook.started -= OnHookStart;
-            _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
-            _playerInputActions.Normal.Punch.started -= OnPunchStarted;
-            
-            _playerInputActions.Special.Pause.started -= OnPauseStart;
-            
-            _playerInputActions.UI.Navigate.started -= OnNavigateStarted;
-            _playerInputActions.UI.Navigate.canceled -= OnNavigateCanceled;
-            _playerInputActions.UI.Submit.started -= OnSubmitStart;
-            _playerInputActions.UI.Cancel.started -= OnCancelStart;
-        }
+            private void UnsubscribeToInputActions()
+            {
+                _playerInputActions.Normal.Jump.performed -= OnJumpPerform;
+                _playerInputActions.Normal.Jump.canceled -= OnJumpCancel;
+                _playerInputActions.Normal.Move.performed -= OnMovePerform;
+                _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
+                _playerInputActions.Normal.Dash.performed -= OnDash;
+                _playerInputActions.Normal.Hook.started -= OnHookStart;
+                _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
+                _playerInputActions.Normal.Punch.started -= OnPunchStarted;
+                
+                _playerInputActions.Special.Pause.started -= OnPauseStart;
+                
+                _playerInputActions.UI.Navigate.started -= OnNavigateStarted;
+                _playerInputActions.UI.Navigate.canceled -= OnNavigateCanceled;
+                _playerInputActions.UI.Submit.started -= OnSubmitStart;
+                _playerInputActions.UI.Cancel.started -= OnCancelStart;
+            }
         #endif
         
         private void OnJumpPerform(InputAction.CallbackContext context)
@@ -307,72 +307,72 @@ namespace WhereIsMyWife.Managers
         }
         
         #if !XBOX
-        private void CheckForControllerTypeChange()
-        {
-            if (KeyboardInputWasMadeThisFrame())
+            private void CheckForControllerTypeChange()
             {
-                if (CurrentControllerType != ControllerType.Keyboard)
+                if (KeyboardInputWasMadeThisFrame())
                 {
-                    ChangeControllerType(ControllerType.Keyboard);
+                    if (CurrentControllerType != ControllerType.Keyboard)
+                    {
+                        ChangeControllerType(ControllerType.Keyboard);
+                    }
+                }
+                else if (GamepadInputWasMadeThisFrame())
+                {
+                    ControllerType currentGamepadType = GetCurrentGamepadType();
+                    
+                    if (CurrentControllerType != currentGamepadType)
+                    {
+                        //Debug.Log($"Current gamepad name: {Gamepad.current.name}");
+                        ChangeControllerType(currentGamepadType);
+                    }
                 }
             }
-            else if (GamepadInputWasMadeThisFrame())
+            
+            private bool KeyboardInputWasMadeThisFrame()
             {
-                ControllerType currentGamepadType = GetCurrentGamepadType();
+                return Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame;
+            }
+            
+            private bool GamepadInputWasMadeThisFrame()
+            {
+                if (Gamepad.current == null) return false;
                 
-                if (CurrentControllerType != currentGamepadType)
+                var gamepad = Gamepad.current;
+                
+                foreach (var control in gamepad.allControls)
                 {
-                    //Debug.Log($"Current gamepad name: {Gamepad.current.name}");
-                    ChangeControllerType(currentGamepadType);
+                    if (control is ButtonControl { wasPressedThisFrame: true })
+                    {
+                        return true;
+                    }
+                    if (control is AxisControl axis && axis.ReadValue() > _axisControllerDetectionThreshold) 
+                    {
+                        return true;
+                    }
                 }
-            }
-        }
-        
-        private bool KeyboardInputWasMadeThisFrame()
-        {
-            return Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame;
-        }
-        
-        private bool GamepadInputWasMadeThisFrame()
-        {
-            if (Gamepad.current == null) return false;
-            
-            var gamepad = Gamepad.current;
-            
-            foreach (var control in gamepad.allControls)
-            {
-                if (control is ButtonControl { wasPressedThisFrame: true })
-                {
-                    return true;
-                }
-                if (control is AxisControl axis && axis.ReadValue() > _axisControllerDetectionThreshold) 
-                {
-                    return true;
-                }
+
+                return false;
             }
 
-            return false;
-        }
-
-        private ControllerType GetCurrentGamepadType()
-        {
-            string gamepadName = Gamepad.current.name.ToLower();
-            
-            if (gamepadName.Contains("xbox") || gamepadName.Contains("microsoft"))
+            private ControllerType GetCurrentGamepadType()
             {
-                return ControllerType.Xbox;
+                string gamepadName = Gamepad.current.name.ToLower();
+                
+                if (gamepadName.Contains("xbox") || gamepadName.Contains("microsoft"))
+                {
+                    return ControllerType.Xbox;
+                }
+                if (gamepadName.Contains("playstation") || gamepadName.Contains("ps") || gamepadName.Contains("dualshock") || gamepadName.Contains("dualsense"))
+                {
+                    return ControllerType.Playstation;
+                }
+                if (gamepadName.Contains("switch") || gamepadName.Contains("nintendo") || gamepadName.Contains("joycon") || gamepadName.Contains("pro"))
+                {
+                    return ControllerType.Nintendo;
+                }
+               
+                return ControllerType.Xbox; 
             }
-            if (gamepadName.Contains("playstation") || gamepadName.Contains("ps") || gamepadName.Contains("dualshock") || gamepadName.Contains("dualsense"))
-            {
-                return ControllerType.Playstation;
-            }
-            if (gamepadName.Contains("switch") || gamepadName.Contains("nintendo") || gamepadName.Contains("joycon") || gamepadName.Contains("pro"))
-            {
-                return ControllerType.Nintendo;
-            }
-           
-            return ControllerType.Xbox; 
-        }
         #endif
     }
 }
