@@ -14,6 +14,7 @@ namespace WhereIsMyWife.Platforms_fade_away
         [SerializeField] private float _respawnTime = 5f;
         [SerializeField] private bool _shouldTimerResetsWhenPlayerLeavesPlatform = true;
 
+        private Vector3 _originalSpriteRendererPosition;
         private Tween _shakeTween;
         private Collider2D _platformCollider;
         private bool _isPlayerOnPlatform = false;
@@ -27,6 +28,7 @@ namespace WhereIsMyWife.Platforms_fade_away
             PlayerManager.Instance.RespawnStartAction += RespawnPlatform;
             
             _platformCollider = GetComponent<Collider2D>();
+            _originalSpriteRendererPosition = _spriteRenderer.transform.position;
         }
 
         protected override void OnDestroy()
@@ -86,6 +88,7 @@ namespace WhereIsMyWife.Platforms_fade_away
         {
             _isActive = true;
             _shakeTween.Kill();
+            _spriteRenderer.transform.position = _originalSpriteRendererPosition;
             _isPlayerOnPlatform = false;
             _spriteRenderer.enabled = true;
             _platformCollider.enabled = true;
