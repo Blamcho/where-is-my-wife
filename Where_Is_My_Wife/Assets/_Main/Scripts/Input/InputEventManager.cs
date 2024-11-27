@@ -35,17 +35,22 @@ namespace WhereIsMyWife.Managers
         public event Action<ControllerType> ChangeControllerTypeAction;
         
         public ControllerType CurrentControllerType { get; private set; }
-        private string[] controllers;
     
         private PlayerInputActions _playerInputActions;
         
         private Vector2 _moveVector = Vector2.zero;
-
-        private float _axisControllerDetectionThreshold = 0.1f;
+        
         private float _horizontalDeadZone = 0.5f;
         private float _lookDownThreshold = 0.7f;
+        
+        #if !XBOX
+        private float _axisControllerDetectionThreshold = 0.1f;
+        #endif
 
+        #if XBOX
+        private bool _isPressingDash = false;
         private bool _isPressingHook = false;
+        #endif
         
         protected override void Awake()
         {
@@ -76,11 +81,11 @@ namespace WhereIsMyWife.Managers
         private void Update()
         {
             #if XBOX
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton0))
             {
                 OnJumpPerform(default);
             }
-            if (Input.GetButtonUp("Jump"))
+            if (Input.GetKeyUp(KeyCode.JoystickButton0))
             {
                 OnJumpCancel(default);
             }
@@ -104,33 +109,45 @@ namespace WhereIsMyWife.Managers
             }
             if (Input.GetAxis("Horizontal") == 0)
             {
-                OnMoveCancel(new InputAction.CallbackContext());
+                HorizontalStartedAction?.Invoke(0);
+                
+                if (Input.GetAxis("Vertical") == 0)
+                {
+                    OnMoveCancel(new InputAction.CallbackContext());
+                }
             }
-            if (Input.GetButtonDown("Dash"))
+            if (Input.GetAxis("RT") != 0 && !_isPressingDash)
             {
+                _isPressingDash = true;
                 OnDash(new InputAction.CallbackContext());
             }
-            if (Input.GetButtonDown("Hook"))
+            else if (Input.GetAxis("RT") == 0 && _isPressingDash)
             {
+                _isPressingDash = false;
+            }
+            if (Input.GetAxis("LT") != 0 && !_isPressingHook)
+            {
+                _isPressingHook = true;
                 OnHookStart(new InputAction.CallbackContext());
             }
-            if (Input.GetButtonUp("Hook"))
+            else if (Input.GetAxis("LT") == 0 && _isPressingHook)
             {
+                _isPressingHook = false;
                 OnHookCancel(new InputAction.CallbackContext());
             }
-            if (Input.GetButtonDown("Punch"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton2))
             {
                 OnPunchStarted(new InputAction.CallbackContext());
             }
-            if (Input.GetButtonDown("Pause"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton7))
             {
                 OnPauseStart(new InputAction.CallbackContext());
             }
-            if (Input.GetButtonDown("Submit"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton0))
             {
                 OnSubmitStart(new InputAction.CallbackContext());
             }
-            if (Input.GetButtonDown("Cancel"))
+            if (Input.GetKeyDown(KeyCode.JoystickButton1))
             {
                 OnCancelStart(new InputAction.CallbackContext());
             }
@@ -235,14 +252,14 @@ namespace WhereIsMyWife.Managers
 
         private void OnHookStart(InputAction.CallbackContext context)
         {
-            if (_isPressingHook) { return; }
-            _isPressingHook = true;
+            if (_isPressingDash) { return; }
+            _isPressingDash = true;
             HookStartAction?.Invoke();
         }
 
         private void OnHookCancel(InputAction.CallbackContext context)
         {
-            _isPressingHook = false;
+            _isPressingDash = false;
         }
 
         private void OnPunchStarted(InputAction.CallbackContext context)
