@@ -3,6 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.UI
 {
@@ -13,6 +14,7 @@ namespace WhereIsMyWife.UI
 
         [SerializeField] private float _menuAnimationDuration = 0.2f;
         [SerializeField] private Ease _menuAnimationEase;
+
         [SerializeField] private GameObject[] _menuBackgrounds;
         [SerializeField] private GameObject _currentMenuBackground;
         
@@ -26,6 +28,8 @@ namespace WhereIsMyWife.UI
             _rightPosition = _currentMenu.position;
             _leftPosition = _rightPosition;
             _leftPosition.x -= _currentMenu.rect.width;
+            
+            ChangeToLastPlayedStoryModeLevelBackground();
         }
 
         public async UniTaskVoid ChangeMenu(RectTransform nextMenu, MenuChangeAnimation changeAnimation, 
@@ -49,6 +53,7 @@ namespace WhereIsMyWife.UI
                     _nextMenu.position = _rightPosition;
                     finalPosition = _leftPosition;
                     menuToMove = _currentMenu;
+                    ChangeToLastPlayedStoryModeLevelBackground();
                     break;
             }
 
@@ -60,6 +65,11 @@ namespace WhereIsMyWife.UI
             _currentMenu = _nextMenu;
             _eventSystem.enabled = true;
             nextButton.Select();
+        }
+
+        private void ChangeToLastPlayedStoryModeLevelBackground()
+        {
+            ChangeBackground(DataSaveManager.Instance.GetData<int>(DataSaveManager.LastPlayedStoryModeLevelIndexKey));
         }
         
         public void ChangeBackground(int index)
