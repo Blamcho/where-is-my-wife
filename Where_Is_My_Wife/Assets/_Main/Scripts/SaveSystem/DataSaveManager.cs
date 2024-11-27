@@ -10,6 +10,7 @@ namespace WhereIsMyWife.Managers
         private const string SaveKey = "saved-data";
         public const string LastUnlockedLevelNumberKey = "last-unlocked-level-number";
         public const string LastPlayedStoryModeLevelSceneNameKey = "last-played-story-mode-level-scene-name";
+        public const string LastPlayedStoryModeLevelIndexKey = "last-played-story-mode-level-index";
         public const string MusicVolumeKey = "music-volume";
         public const string SfxVolumeKey = "sfx-volume";
         public const string LanguageIndexKey = "language";
@@ -69,6 +70,7 @@ namespace WhereIsMyWife.Managers
         public void DeleteSaveData()
         {
             SetData(LastPlayedStoryModeLevelSceneNameKey, null);
+            SetData(LastPlayedStoryModeLevelIndexKey, 0);
         }
 
         public void SetNextLevelParameters(int levelNumber, string sceneName, bool isInStoryMode)
@@ -80,6 +82,7 @@ namespace WhereIsMyWife.Managers
 
             if (isInStoryMode)
             {
+                SetData(LastPlayedStoryModeLevelIndexKey, levelNumber);
                 SetData(LastPlayedStoryModeLevelSceneNameKey, sceneName);
             }
         }
@@ -88,6 +91,7 @@ namespace WhereIsMyWife.Managers
         {
             SetData(LastUnlockedLevelNumberKey, 0);
             SetData(LastPlayedStoryModeLevelSceneNameKey, null);
+            SetData(LastPlayedStoryModeLevelIndexKey, 0);
             SetData(MusicVolumeKey, 1f);
             SetData(SfxVolumeKey, 1f);
             SetData(LanguageIndexKey, 0);
