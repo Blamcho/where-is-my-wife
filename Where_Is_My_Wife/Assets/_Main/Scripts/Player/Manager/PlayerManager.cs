@@ -34,7 +34,7 @@ namespace WhereIsMyWife.Managers
         // Timers
         private float _lastOnGroundTime = 0;
         private float _lastPressedJumpTime = 0;
-        private float _lastPunchSFXTime = 0;
+        private float _wallHangCancelBufferTimer = 0;
         
         private bool _canDash = true;
         private bool _hasLanded = false;
@@ -125,7 +125,6 @@ namespace WhereIsMyWife.Managers
         {
             _lastOnGroundTime -= Time.deltaTime;
             _lastPressedJumpTime -= Time.deltaTime;
-            _lastPunchSFXTime -= Time.deltaTime;
         }
 
         private void GroundCheck()
@@ -157,19 +156,22 @@ namespace WhereIsMyWife.Managers
         {
             if (!_canWallHang) return;
             
-            if (GetWallHangCheck())
+            if (ShouldStartWallHang() && GetWallHangCheck())
             {
-                if (ShouldStartWallHang())
-                {
-                    IsOnWallHang = true;
-                    _isExecutingHook = false;
-                    WallHangStart?.Invoke();
-                }
+                _wallHangCancelBufferTimer = Properties.Movement.WallHangCancelBuffer;
+                IsOnWallHang = true;
+                _isExecutingHook = false;
+                WallHangStart?.Invoke();
             }
             else
             {
-                IsOnWallHang = false;
-                WallHangEnd?.Invoke();
+                _wallHangCancelBufferTimer -= Time.fixedDeltaTime;
+
+                if (_wallHangCancelBufferTimer <= 0)
+                {
+                    IsOnWallHang = false;
+                    WallHangEnd?.Invoke();
+                }
             }
         }
 
@@ -193,7 +195,7 @@ namespace WhereIsMyWife.Managers
 
         private bool ShouldStartWallHang()
         {
-            return (IsJumping || IsRunFalling) && IsAccelerating;
+            return (IsJumping || IsRunFalling) && IsAccelerating && IsLookingRight && IsRunningRight;
         }
         
         private void JumpChecks()
