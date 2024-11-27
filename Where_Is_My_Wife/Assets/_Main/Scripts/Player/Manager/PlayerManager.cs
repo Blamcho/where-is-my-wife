@@ -12,11 +12,10 @@ namespace WhereIsMyWife.Managers
     /// </summary>
     public partial class PlayerManager : Singleton<PlayerManager>
     {
-        [SerializeField]
-        private PlayerProperties _propertiesSO;
+        [SerializeField] private PlayerProperties _propertiesSO;
+        [SerializeField] private PlayerStateMachine _playerStateMachine;
 
-        [SerializeField]
-        private PlayerStateMachine _playerStateMachine;
+        [SerializeField] private bool _canWallHang = true;
 
         public IPlayerProperties Properties => _propertiesSO.Properties;
 
@@ -156,6 +155,8 @@ namespace WhereIsMyWife.Managers
 
         private void WallCheck()
         {
+            if (!_canWallHang) return;
+            
             if (GetWallHangCheck())
             {
                 if (ShouldStartWallHang())
