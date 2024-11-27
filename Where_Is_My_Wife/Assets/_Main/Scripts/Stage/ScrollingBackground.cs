@@ -10,14 +10,14 @@ namespace WhereIsMyWife.Stage
         [SerializeField] private float _cameraMovementMultiplier;
         
         private Camera _camera;
-        private Vector3 _initialPosition;
+        private Vector3 _initialLocalPosition;
         private Vector3 _lastCameraPosition;
         private Vector3 _currentCameraPosition;
         private float _backgroundWidth;
         
         private void Awake()
         {
-            _initialPosition = transform.position;
+            _initialLocalPosition = transform.localPosition;
             _camera = Camera.main;
             _lastCameraPosition = _camera.transform.position;
             _backgroundWidth = _rightPartTransform.localPosition.x;
@@ -27,7 +27,7 @@ namespace WhereIsMyWife.Stage
         {
             if (HasReachedLimit())
             {
-                transform.position = GetRecenterPosition();
+                transform.localPosition = GetRecenterPosition();
             }
             
             transform.Translate(GetCameraMovementTranslation());
@@ -36,10 +36,10 @@ namespace WhereIsMyWife.Stage
 
         private Vector3 GetRecenterPosition()
         {
-            Vector3 recenterPosition = transform.position;
-            float centerOffset = Mathf.Abs(transform.position.x - _backgroundWidth);
+            Vector3 recenterPosition = transform.localPosition;
+            float centerOffset = Mathf.Abs(transform.localPosition.x) - _backgroundWidth;
             
-            recenterPosition.x = _initialPosition.x + centerOffset * Mathf.Sign(_scrollingSpeed);
+            recenterPosition.x = _initialLocalPosition.x + (centerOffset * Mathf.Sign(_scrollingSpeed));
 
             return recenterPosition;
         }
@@ -57,10 +57,10 @@ namespace WhereIsMyWife.Stage
         {
             if (_scrollingSpeed < 0)
             {
-                return transform.position.x < _initialPosition.x - _backgroundWidth;
+                return transform.position.x < _initialLocalPosition.x - _backgroundWidth;
             }
             
-            return transform.position.x > _initialPosition.x + _backgroundWidth;
+            return transform.position.x > _initialLocalPosition.x + _backgroundWidth;
         }
     }
 }
