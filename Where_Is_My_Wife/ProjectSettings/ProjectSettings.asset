@@ -667,7 +667,7 @@ PlayerSettings:
     PS5: 
     QNX: 
     Stadia: 
-    Standalone: XBOX
+    Standalone: //XBOX
     VisionOS: 
     WebGL: 
     Windows Store Apps: 

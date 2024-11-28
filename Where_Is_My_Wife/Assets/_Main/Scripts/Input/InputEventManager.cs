@@ -18,10 +18,7 @@ namespace WhereIsMyWife.Managers
         public Action JumpEndAction { get; set; }
         public Action<float> RunAction { get; set; }
         public Action<float> DashAction { get; set; }
-        public Action<Vector2> UseItemAction { get; set; }
         public Action HookStartAction { get; set; }
-        public Action HookEndAction { get; set; }
-        public Action LookUpAction { get; set; }
         public Action<bool> LookDownAction { get; set; }
         public Action PunchAction { get; set; }
 
@@ -133,7 +130,6 @@ namespace WhereIsMyWife.Managers
                 else if (Input.GetAxis("LT") == 0 && _isPressingHook)
                 {
                     _isPressingHook = false;
-                    OnHookCancel(new InputAction.CallbackContext());
                 }
                 if (Input.GetKeyDown(KeyCode.JoystickButton2))
                 {
@@ -172,7 +168,6 @@ namespace WhereIsMyWife.Managers
                 _playerInputActions.Normal.Move.canceled += OnMoveCancel;
                 _playerInputActions.Normal.Dash.performed += OnDash;
                 _playerInputActions.Normal.Hook.started += OnHookStart;
-                _playerInputActions.Normal.Hook.canceled += OnHookCancel;
                 _playerInputActions.Normal.Punch.started += OnPunchStarted;
 
                 _playerInputActions.Special.Pause.started += OnPauseStart;
@@ -191,7 +186,6 @@ namespace WhereIsMyWife.Managers
                 _playerInputActions.Normal.Move.canceled -= OnMoveCancel;
                 _playerInputActions.Normal.Dash.performed -= OnDash;
                 _playerInputActions.Normal.Hook.started -= OnHookStart;
-                _playerInputActions.Normal.Hook.canceled -= OnHookCancel;
                 _playerInputActions.Normal.Punch.started -= OnPunchStarted;
                 
                 _playerInputActions.Special.Pause.started -= OnPauseStart;
@@ -252,14 +246,7 @@ namespace WhereIsMyWife.Managers
 
         private void OnHookStart(InputAction.CallbackContext context)
         {
-            if (_isPressingDash) { return; }
-            _isPressingDash = true;
             HookStartAction?.Invoke();
-        }
-
-        private void OnHookCancel(InputAction.CallbackContext context)
-        {
-            _isPressingDash = false;
         }
 
         private void OnPunchStarted(InputAction.CallbackContext context)
