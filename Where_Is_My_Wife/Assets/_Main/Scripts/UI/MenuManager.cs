@@ -72,10 +72,10 @@ namespace WhereIsMyWife.UI
             ChangeBackground(DataSaveManager.Instance.GetData<int>(DataSaveManager.LastPlayedStoryModeLevelIndexKey));
         }
         
-        public void ChangeBackground(int index)
+        public void ChangeBackground(int levelNumber)
         {
             _currentMenuBackground.SetActive(false);
-            _currentMenuBackground = _menuBackgrounds[index];
+            _currentMenuBackground = _menuBackgrounds[levelNumber];
             _currentMenuBackground.SetActive(true);
         }
         
