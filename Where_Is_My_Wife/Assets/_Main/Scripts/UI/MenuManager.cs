@@ -3,6 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using WhereIsMyWife.Managers;
 
 namespace WhereIsMyWife.UI
 {
@@ -13,6 +14,9 @@ namespace WhereIsMyWife.UI
 
         [SerializeField] private float _menuAnimationDuration = 0.2f;
         [SerializeField] private Ease _menuAnimationEase;
+
+        [SerializeField] private GameObject[] _menuBackgrounds;
+        [SerializeField] private GameObject _currentMenuBackground;
         
         private RectTransform _nextMenu;
 
@@ -24,6 +28,8 @@ namespace WhereIsMyWife.UI
             _rightPosition = _currentMenu.position;
             _leftPosition = _rightPosition;
             _leftPosition.x -= _currentMenu.rect.width;
+            
+            ChangeToLastPlayedStoryModeLevelBackground();
         }
 
         public async UniTaskVoid ChangeMenu(RectTransform nextMenu, MenuChangeAnimation changeAnimation, 
@@ -47,6 +53,7 @@ namespace WhereIsMyWife.UI
                     _nextMenu.position = _rightPosition;
                     finalPosition = _leftPosition;
                     menuToMove = _currentMenu;
+                    ChangeToLastPlayedStoryModeLevelBackground();
                     break;
             }
 
@@ -59,16 +66,17 @@ namespace WhereIsMyWife.UI
             _eventSystem.enabled = true;
             nextButton.Select();
         }
-        
-        public async UniTaskVoid CloseMenu()
+
+        private void ChangeToLastPlayedStoryModeLevelBackground()
         {
-            _eventSystem.enabled = false;
-            
-            await _currentMenu.DOMove(_leftPosition, _menuAnimationDuration)
-                .SetEase(_menuAnimationEase)
-                .AsyncWaitForCompletion();
-            
-            _currentMenu.gameObject.SetActive(false);
+            ChangeBackground(DataSaveManager.Instance.GetData<int>(DataSaveManager.LastPlayedStoryModeLevelIndexKey));
+        }
+        
+        public void ChangeBackground(int levelNumber)
+        {
+            _currentMenuBackground.SetActive(false);
+            _currentMenuBackground = _menuBackgrounds[levelNumber];
+            _currentMenuBackground.SetActive(true);
         }
         
         public enum MenuChangeAnimation
