@@ -21,7 +21,6 @@ namespace WhereIsMyWife.Stage
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            Debug.Log("Exiting");
             if (!other.CompareTag("Player")) return;
             
             bool playerExitedFromTheRight = other.transform.position.x > transform.position.x;
