@@ -705,8 +705,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Where_Is_My_Wife
-  metroPackageVersion: 
+  metroPackageName: WhereIsMyWife
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -714,7 +714,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Where_Is_My_Wife
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: Where Is My Wife
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
