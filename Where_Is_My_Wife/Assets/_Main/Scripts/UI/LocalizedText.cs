@@ -31,5 +31,11 @@ namespace WhereIsMyWife.UI
         {
             _text.text = _key.Localize();
         }
+        
+        public void ChangeText(string key)
+        {
+            _key = key;
+            LocalizeText();
+        }
     }
 }
