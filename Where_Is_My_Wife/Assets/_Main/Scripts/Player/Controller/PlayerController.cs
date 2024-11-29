@@ -259,7 +259,6 @@ namespace WhereIsMyWife.Controllers
 
         private void CompleteRespawn()
         {
-            AudioManager.Instance.PlaySFX("Respawned");
             SubscribeToStateEvents();
         }
 
