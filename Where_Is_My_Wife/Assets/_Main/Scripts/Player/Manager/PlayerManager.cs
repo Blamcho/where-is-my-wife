@@ -247,6 +247,7 @@ namespace WhereIsMyWife.Managers
         private void Jump()
         {
             ResetJumpTimers();
+            IsOnWallHang = false;
             JumpStart?.Invoke(_jumpingMethods.GetJumpForce());
         }
 
