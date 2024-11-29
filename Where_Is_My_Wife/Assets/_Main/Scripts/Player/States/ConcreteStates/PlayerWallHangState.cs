@@ -69,6 +69,8 @@ namespace WhereIsMyWife.Player.State
 
         public override void UpdateState()
         {
+            base.UpdateState();
+            
             WallHangVelocity?.Invoke(GetSlideSpeed());
         }
 
