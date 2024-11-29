@@ -530,6 +530,7 @@ namespace WhereIsMyWife.Managers
         public void TriggerDeath()
         {
             GameManager.Instance.SetTimeScale(1f);
+            AudioManager.Instance.PlaySFX("Death");
             DeathAction?.Invoke();  
         }
 
