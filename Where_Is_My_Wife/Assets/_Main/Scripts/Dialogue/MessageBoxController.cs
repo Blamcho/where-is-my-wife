@@ -1,20 +1,35 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using WhereIsMyWife.UI;
 
 namespace WhereIsMyWife.Controllers
 {
     public class MessageBoxController : Singleton<MessageBoxController>
     {
-        [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField] private TextMeshProUGUI _text;
-        [SerializeField] private GameObject _dashGameObject;
-        [SerializeField] private GameObject _jumpGameObject;
-        [SerializeField] private GameObject _punchGameObject;
-        [SerializeField] private GameObject _hookGameObject;
-        [SerializeField] private GameObject _player;
-        private float _fadeTime = 0.220f;
+        [SerializeField]
+        private CanvasGroup _canvasGroup;
+
+        [SerializeField]
+        private LocalizedText _localizedText;
+
+        [SerializeField]
+        private GameObject _dashGameObject;
+
+        [SerializeField]
+        private GameObject _jumpGameObject;
+
+        [SerializeField]
+        private GameObject _punchGameObject;
+
+        [SerializeField]
+        private GameObject _hookGameObject;
+
+        [SerializeField]
+        private GameObject _player;
+
         private Tween _bubbleTween;
+        private float _fadeTime = 0.220f;
 
         void Update()
         {
@@ -23,9 +38,9 @@ namespace WhereIsMyWife.Controllers
 
         public void AppearBubble(string text, MessageBoxButtonType messageBoxButtonTypeType)
         {
-            _text.text = text;
+            _localizedText.ChangeText(text);
             SetButtonType(messageBoxButtonTypeType);
-            
+
             _bubbleTween!.Kill();
             _bubbleTween = _canvasGroup.DOFade(1, _fadeTime);
         }
@@ -44,7 +59,7 @@ namespace WhereIsMyWife.Controllers
             _punchGameObject.SetActive(messageBoxButtonType == MessageBoxButtonType.PUNCH);
         }
     }
-        
+
     public enum MessageBoxButtonType
     {
         NONE,
@@ -54,5 +69,3 @@ namespace WhereIsMyWife.Controllers
         PUNCH,
     }
 }
-
-
