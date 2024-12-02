@@ -156,7 +156,9 @@ namespace WhereIsMyWife.Managers
         {
             if (!_canWallHang) return;
             
-            if (ShouldStartWallHang() && GetWallHangCheck())
+            bool canWallHang = GetWallHangCheck();
+            
+            if (ShouldStartWallHang() && canWallHang)
             {
                 _wallHangCancelBufferTimer = Properties.Movement.WallHangCancelBuffer;
                 IsOnWallHang = true;
@@ -167,7 +169,7 @@ namespace WhereIsMyWife.Managers
             {
                 _wallHangCancelBufferTimer -= Time.fixedDeltaTime;
 
-                if (_wallHangCancelBufferTimer <= 0)
+                if (_wallHangCancelBufferTimer <= 0 || !canWallHang)
                 {
                     IsOnWallHang = false;
                     WallHangEnd?.Invoke();
