@@ -41,6 +41,13 @@ namespace WhereIsMyWife.Managers
             SetTimeScale(1f);
         }
 
+        public void GoToMainMenu()
+        {
+            IsPaused = false;
+            _timeScaleBeforePause = 1f;
+            LevelManager.Instance.LoadScene(LevelManager.MainMenuSceneName);
+        }
+        
         public void Resume()
         {
             IsPaused = false;
