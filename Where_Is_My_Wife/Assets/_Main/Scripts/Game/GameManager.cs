@@ -29,6 +29,7 @@ namespace WhereIsMyWife.Managers
         private void Start()
         {
             SetFullscreen(DataSaveManager.Instance.GetData<bool>(DataSaveManager.FullscreenKey));
+            SetResolution();
         }
 
         public void Pause()
@@ -67,6 +68,11 @@ namespace WhereIsMyWife.Managers
         {
             Screen.fullScreen = isFullscreen;
             DataSaveManager.Instance.SetData(DataSaveManager.FullscreenKey, isFullscreen);
+        }
+
+        private void SetResolution()
+        {
+            Screen.SetResolution(1920, 1080, Screen.fullScreen);
         }
     }
 }
