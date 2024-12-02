@@ -59,6 +59,8 @@ namespace WhereIsMyWife.Controllers
         private Tween _dashColorTween;
         private Vector2 _velocityBeforePause;
         private float _gravityScaleBeforePause;
+        
+        private bool _isDead = false;
 
         private void Start()
         {
@@ -104,7 +106,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Pause()
         {
-            UnsubscribeFromStateEvents();
+            if (!_isDead) UnsubscribeFromStateEvents();
 
             _velocityBeforePause = _rigidbody2D.velocity;
             _gravityScaleBeforePause = _rigidbody2D.gravityScale;
@@ -113,7 +115,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Resume()
         {
-            SubscribeToStateEvents();
+            if (!_isDead) SubscribeToStateEvents();
 
             _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             _rigidbody2D.velocity = _velocityBeforePause;
@@ -247,6 +249,7 @@ namespace WhereIsMyWife.Controllers
 
         private void Die()
         {
+            _isDead = true;
             gameObject.SetActive(false);
             UnsubscribeFromStateEvents();
         }
@@ -259,6 +262,7 @@ namespace WhereIsMyWife.Controllers
 
         private void CompleteRespawn()
         {
+            _isDead = false;
             SubscribeToStateEvents();
         }
 
