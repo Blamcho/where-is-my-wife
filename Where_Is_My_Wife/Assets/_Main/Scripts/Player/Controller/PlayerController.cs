@@ -256,6 +256,7 @@ namespace WhereIsMyWife.Controllers
 
         private void StartRespawn(Vector3 respawnPosition)
         {
+            _spriteRenderer.color = Color.white;
             gameObject.SetActive(true);
             transform.position = respawnPosition;
         }
