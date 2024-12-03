@@ -18,6 +18,7 @@ namespace WhereIsMyWife.UI
         private Vector3 _playerLocalPosition = default;
         private Vector3 _arrowLocalPosition = default;
         private bool _playerInTriggerZone = false;
+        private bool _hasSubscribedToObservables = false;
         private bool _executingHookLaunch, _renderingLineRendererAfterLaunch = false;
         private float _hookTimeElapsed = 0f;
         private IHookStateEvents _hookStateEvents;
@@ -44,6 +45,8 @@ namespace WhereIsMyWife.UI
         {
             if (other.CompareTag("Player"))
             {
+                UnsubscribeToObservables();
+                FinishingHookInteraction();
                 FinishingGizmoInteraction();
                 ChangeCircleColor(new Color32(255, 255, 255, 50));
             }
@@ -185,6 +188,8 @@ namespace WhereIsMyWife.UI
 
         private void HookStart(Vector2 velocity)
         {
+            if (!_playerInTriggerZone) return; 
+            
             FinishingGizmoInteraction();
             UnsubscribeToObservables();
             StartHookInteraction();
@@ -192,12 +197,18 @@ namespace WhereIsMyWife.UI
 
         private void SubscribeToObservables()
         {
+            if (_hasSubscribedToObservables) return;
+            _hasSubscribedToObservables = true;
+            
             _hookStateEvents = PlayerManager.Instance.HookStateEvents;
             _hookStateEvents.HookStart += HookStart;
         }
 
         private void UnsubscribeToObservables()
         {
+            if (!_hasSubscribedToObservables) return;
+            _hasSubscribedToObservables = false;
+            
             _hookStateEvents.HookStart -= HookStart;
         }
     }
