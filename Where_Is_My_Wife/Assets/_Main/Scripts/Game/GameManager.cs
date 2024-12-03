@@ -29,6 +29,7 @@ namespace WhereIsMyWife.Managers
         private void Start()
         {
             SetFullscreen(DataSaveManager.Instance.GetData<bool>(DataSaveManager.FullscreenKey));
+            SetResolution();
         }
 
         public void Pause()
@@ -41,6 +42,13 @@ namespace WhereIsMyWife.Managers
             SetTimeScale(1f);
         }
 
+        public void GoToMainMenu()
+        {
+            IsPaused = false;
+            _timeScaleBeforePause = 1f;
+            LevelManager.Instance.LoadScene(LevelManager.MainMenuSceneName);
+        }
+        
         public void Resume()
         {
             IsPaused = false;
@@ -60,6 +68,11 @@ namespace WhereIsMyWife.Managers
         {
             Screen.fullScreen = isFullscreen;
             DataSaveManager.Instance.SetData(DataSaveManager.FullscreenKey, isFullscreen);
+        }
+
+        private void SetResolution()
+        {
+            Screen.SetResolution(1920, 1080, Screen.fullScreen);
         }
     }
 }

@@ -12,7 +12,8 @@ namespace WhereIsMyWife.Managers
         
         private MenuButton _resumeMenuButton;
         
-        private bool _isPaused;
+        private bool _isPaused = false;
+        private bool _isGoingToMainMenu = false;
         
         private void Start()
         {
@@ -29,6 +30,8 @@ namespace WhereIsMyWife.Managers
 
         private void DeterminedPaused()
         {
+            if (_isGoingToMainMenu) return;
+            
             if (_isPaused)
             {
                 ResumeGame();
@@ -51,6 +54,8 @@ namespace WhereIsMyWife.Managers
         
         private void ResumeGame()
         {
+            if (_isGoingToMainMenu) return;
+            
             _isPaused = false;
             _canvas.SetActive(false);
             GameManager.Instance.Resume();
@@ -59,9 +64,10 @@ namespace WhereIsMyWife.Managers
         
         private void GoToMainMenu()
         {
-            _isPaused = false;
+            _isGoingToMainMenu = true;
+            
             _mainmenuButton.interactable = false;
-            LevelManager.Instance.LoadScene(LevelManager.MainMenuSceneName);
+            GameManager.Instance.GoToMainMenu();
         }
     }
 }

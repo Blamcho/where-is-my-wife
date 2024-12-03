@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using UnityEngine;
 using WhereIsMyWife.Controllers;
 using WhereIsMyWife.Player.StateMachine;
 
@@ -54,11 +55,14 @@ namespace WhereIsMyWife.Player.State
         public override void ExitState()
         {
             base.ExitState();
+            
             _horizontalSpeedTween.Kill();
         }
 
         public override void UpdateState()
         {
+            base.UpdateState();
+            
             if (_playerStateIndicator.IsAccelerating && _minTimeHasPassed)
             {
                 EndWallJump();
@@ -67,6 +71,8 @@ namespace WhereIsMyWife.Player.State
 
         public override void FixedUpdateState()
         {
+            base.FixedUpdateState();
+            
             WallJumpVelocity?.Invoke(_horizontalSpeed);
         }
 
