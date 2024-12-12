@@ -37,7 +37,7 @@ namespace WhereIsMyWife.Lavacanon
             GameObject projectile = Instantiate(_lavaProyectilPrefab, _firePoint.position, _firePoint.rotation);
             Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
             float direction = _shootLeft ? -1f : 1f;
-            rb.velocity = _firePoint.right * direction * 5f;
+            rb.linearVelocity = _firePoint.right * direction * 5f;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace WhereIsMyWife.Controllers
     /// </summary>
     public class PlayerController : MonoBehaviour, IPlayerControllerData
     {
-        public Vector2 RigidbodyVelocity => _rigidbody2D.velocity;
+        public Vector2 RigidbodyVelocity => _rigidbody2D.linearVelocity;
         public Vector2 RigidbodyPosition => _rigidbody2D.position;
         public Vector2 GroundCheckPosition => _groundCheckTransform.position;
         public Vector2 WallHangCheckUpPosition => _wallHangCheckUpTransform.position;
@@ -108,7 +108,7 @@ namespace WhereIsMyWife.Controllers
         {
             if (!_isDead) UnsubscribeFromStateEvents();
 
-            _velocityBeforePause = _rigidbody2D.velocity;
+            _velocityBeforePause = _rigidbody2D.linearVelocity;
             _gravityScaleBeforePause = _rigidbody2D.gravityScale;
             _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
         }
@@ -118,7 +118,7 @@ namespace WhereIsMyWife.Controllers
             if (!_isDead) SubscribeToStateEvents();
 
             _rigidbody2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-            _rigidbody2D.velocity = _velocityBeforePause;
+            _rigidbody2D.linearVelocity = _velocityBeforePause;
             _rigidbody2D.gravityScale = _gravityScaleBeforePause;
         }
 
@@ -142,7 +142,7 @@ namespace WhereIsMyWife.Controllers
 
         private void JumpStart(float jumpForce)
         {
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, 0);
+            _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, 0);
             _rigidbody2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
@@ -171,7 +171,7 @@ namespace WhereIsMyWife.Controllers
 
         private void AddImpulse(Vector2 velocity)
         {
-            _rigidbody2D.velocity = Vector2.zero;
+            _rigidbody2D.linearVelocity = Vector2.zero;
             _rigidbody2D.AddForce(velocity, ForceMode2D.Impulse);
         }
 
@@ -182,15 +182,15 @@ namespace WhereIsMyWife.Controllers
 
         private void SetFallSpeedCap(float fallSpeedCap)
         {
-            _rigidbody2D.velocity = new Vector2(
-                _rigidbody2D.velocity.x,
-                Mathf.Max(_rigidbody2D.velocity.y, -fallSpeedCap)
+            _rigidbody2D.linearVelocity = new Vector2(
+                _rigidbody2D.linearVelocity.x,
+                Mathf.Max(_rigidbody2D.linearVelocity.y, -fallSpeedCap)
             );
         }
 
         private void SetFallSpeed(float fallSpeed)
         {
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, -fallSpeed);
+            _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, -fallSpeed);
         }
 
         private void Dash(float speed)
@@ -213,13 +213,13 @@ namespace WhereIsMyWife.Controllers
 
         private void SetHorizontalSpeed(float speed)
         {
-            _rigidbody2D.velocity = new Vector2(speed, _rigidbody2D.velocity.y);
+            _rigidbody2D.linearVelocity = new Vector2(speed, _rigidbody2D.linearVelocity.y);
         }
 
         private void WallHangVelocity(float fallVelocity)
         {
             SetGravityScale(0f);
-            _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, fallVelocity);
+            _rigidbody2D.linearVelocity = new Vector2(_rigidbody2D.linearVelocity.x, fallVelocity);
         }
 
         private void Turn()

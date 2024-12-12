@@ -58,12 +58,12 @@ namespace WhereIsMyWife.Horizontal_Projectile_Lava
 
         private void SetCorrectVelocity()
         {
-            _rb.velocity = transform.right * speed * _direction;
+            _rb.linearVelocity = transform.right * speed * _direction;
         }
         
         protected override void Pause()
         {
-            _rb.velocity = Vector3.zero;
+            _rb.linearVelocity = Vector3.zero;
         }
 
         protected override void Resume()
