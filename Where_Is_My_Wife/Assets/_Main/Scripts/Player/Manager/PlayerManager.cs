@@ -156,7 +156,9 @@ namespace WhereIsMyWife.Managers
         {
             if (!_canWallHang) return;
             
-            if (ShouldStartWallHang() && GetWallHangCheck())
+            bool canWallHang = GetWallHangCheck();
+            
+            if (ShouldStartWallHang() && canWallHang)
             {
                 _wallHangCancelBufferTimer = Properties.Movement.WallHangCancelBuffer;
                 IsOnWallHang = true;
@@ -167,7 +169,7 @@ namespace WhereIsMyWife.Managers
             {
                 _wallHangCancelBufferTimer -= Time.fixedDeltaTime;
 
-                if (_wallHangCancelBufferTimer <= 0)
+                if (_wallHangCancelBufferTimer <= 0 || !canWallHang)
                 {
                     IsOnWallHang = false;
                     WallHangEnd?.Invoke();
@@ -247,6 +249,7 @@ namespace WhereIsMyWife.Managers
         private void Jump()
         {
             ResetJumpTimers();
+            IsOnWallHang = false;
             JumpStart?.Invoke(_jumpingMethods.GetJumpForce());
         }
 
@@ -529,6 +532,7 @@ namespace WhereIsMyWife.Managers
         public void TriggerDeath()
         {
             GameManager.Instance.SetTimeScale(1f);
+            AudioManager.Instance.PlaySFX("Death");
             DeathAction?.Invoke();  
         }
 
