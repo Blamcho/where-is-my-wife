@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
+    "com.discord.game-sdk": "3.1.0",
     "com.neuecc.unirx": "https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts",
     "com.svermeulen.extenject": "https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject/Source#9.3.1",
     "com.unity.cinemachine": "2.10.1",
@@ -48,5 +49,15 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Hourai Teahouse",
+      "url": "https://upm.houraiteahouse.net",
+      "scopes": [
+        "com.discord"
+      ],
+      "overrideBuiltIns": false
+    }
+  ]
 }
